@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TableRow
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tableRow2"
+        android:layout_marginTop="4.5dp">
+        <TextView
+            android:text="Choose an operation:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="8.5dp"
+            android:textSize="8pt" />
+        <TextView
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_column="1"
+            android:id="@+id/CSpinnerLabel"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="17.5dp" />
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tableRow1"
+        android:layout_marginRight="0.0dp">
+        <Spinner
+            android:id="@+id/OperationSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="41.5dp"
+            android:prompt="@string/operation_type"
+            android:layout_marginLeft="10.0dp" />
+        <Spinner
+            android:id="@+id/CalculationSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="41.5dp"
+            android:prompt="@string/calc_type"
+            android:layout_marginLeft="20.0dp" />
+    </TableRow>
+    <TextView
+        android:text="Enter data:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/DataFlipper"
+        android:layout_marginTop="7.0dp" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/InputBox"
+        android:layout_marginTop="4.0dp" />
+    <Button
+        android:text="Calculate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/CalculationButton" />
+    <TextView
+        android:text="Result:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:layout_marginTop="6.5dp" />
+    <CheckedTextView
+        android:layout_width="match_parent"
+        android:layout_height="365.0dp"
+        android:id="@+id/ResultBox"
+        android:scrollbars="vertical"
+        android:scrollbarStyle="insideOverlay"
+        android:textAlignment="textStart"
+        android:textIsSelectable="true" />
+</LinearLayout>

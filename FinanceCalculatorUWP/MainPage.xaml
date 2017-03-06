@@ -1,0 +1,21 @@
+﻿<Page
+    x:Class="FinanceCalculatorUWP.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FinanceCalculatorUWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid x:Name="Layout" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RequestedTheme="Dark" Loaded="Layout_Loaded">
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Choose an operation:" VerticalAlignment="Top" Height="36" Width="154" FontSize="16"/>
+        <TextBlock x:Name="CSpinnerLabel" HorizontalAlignment="Left" Margin="196,11,0,0" TextWrapping="WrapWholeWords" Text="TextBlock" VerticalAlignment="Top" Height="36" Width="164" RenderTransformOrigin="0.082,0.856" FontSize="16"/>
+        <ComboBox x:Name="OperationSpinner" HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top" Width="154" SelectionChanged="OperationSpinner_SelectionChanged" SelectedIndex="-1"/>
+        <ComboBox x:Name="CalculationSpinner" HorizontalAlignment="Left" Margin="196,51,0,0" VerticalAlignment="Top" Width="154" SelectedIndex="-1" SelectionChanged="CalculationSpinner_SelectionChanged"/>
+        <TextBlock x:Name="DataFlipper" HorizontalAlignment="Left" Margin="0,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="36" Width="360" RenderTransformOrigin="0.082,0.856" FontSize="16" Text="Enter data:"/>
+        <TextBox x:Name="InputBox" HorizontalAlignment="Left" Margin="0,131,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="360" TextChanged="InputBox_TextChanged"/>
+        <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="0,216,0,0" TextWrapping="Wrap" Text="Result:" VerticalAlignment="Top" Height="36" Width="360" RenderTransformOrigin="0.082,0.856" FontSize="16"/>
+        <Button x:Name="CalculationButton" Content="Calculate" HorizontalAlignment="Left" Margin="0,168,0,0" VerticalAlignment="Top" Width="360" Click="CalculationButton_Click"/>
+        <TextBlock x:Name="ResultBox" HorizontalAlignment="Left" Margin="0,257,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="383" Width="360" FontSize="16" IsTextSelectionEnabled="True"/>
+    </Grid>
+</Page>
