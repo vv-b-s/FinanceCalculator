@@ -4,8 +4,11 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -13,6 +16,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.ViewManagement;
 
 using Finance;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -23,14 +27,14 @@ namespace FinanceCalculatorUWP
     {
         internal static int[] spinner = new int[2];
         internal static int spaces = 0;
+
+        #region UI Control
         public MainPage()
         {
             this.InitializeComponent();
-        }
 
-        #region UI Control
-        private void Layout_Loaded(object sender, RoutedEventArgs e)
-        {
+            ShowStatusBar();
+
             CSpinnerVisibility(false);
             InputBox.IsEnabled = false;
             CalculationButton.IsEnabled = false;
@@ -40,6 +44,20 @@ namespace FinanceCalculatorUWP
                 OperationSpinner.Items.Add(item);
             OperationSpinner.SelectedIndex = (int)Calculate.None;
             #endregion            
+        }
+
+        private async void ShowStatusBar()
+        {
+            // turn on SystemTray for mobile
+            // don't forget to add a Reference to Windows Mobile Extensions For The UWP
+            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                var statusbar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+                await statusbar.ShowAsync();
+                statusbar.BackgroundColor = Windows.UI.Colors.Black;
+                statusbar.BackgroundOpacity = 1;
+                statusbar.ForegroundColor = Windows.UI.Colors.White;
+            }
         }
 
         private void InputBox_TextChanged(object sender, TextChangedEventArgs e)

@@ -289,6 +289,8 @@ namespace Finance
 
             public string Calculate(decimal anticipatedR, decimal probability)
             {
+                anticipatedR = (anticipatedR > 1 && anticipatedR > -1) ? anticipatedR * 100 : anticipatedR;
+
                 try
                 {
                     probability = (probability > 1 || probability < -1) ? probability / 100 : probability;
@@ -323,6 +325,9 @@ namespace Finance
 
             public string Calculate(decimal ARevenues, decimal Probability, decimal ExpectedR)
             {
+                ExpectedR = (ExpectedR < 1 && ExpectedR > -1) ? ExpectedR * 100 : ExpectedR;            //To make input acurate
+                ARevenues = (ARevenues < 1 && ARevenues > -1) ? ARevenues * 100 : ARevenues;     
+
                 try
                 {
                     Probability = (Probability > 1 || Probability < -1) ? Probability / 100 : Probability;
@@ -347,6 +352,7 @@ namespace Finance
             public static readonly string[] attributes = { "Standard Devration", "Expected Returns" };
             public static string Calculate(decimal SD, decimal ER)
             {
+                ER = (ER < 1 && ER > -1) ? ER * 100 : ER;
                 try
                 {
                     decimal CV = Math.Round(SD / ER, 2);
@@ -378,12 +384,16 @@ namespace Finance
 
             public string Calculate(decimal AR1, decimal ER1, decimal AR2, decimal ER2, decimal Probability)
             {
+                AR1 = (AR1 < 1 && AR1 > -1) ? AR1 * 100 : AR1;
+                AR2 = (AR2 < 1 && AR2 > -1) ? AR2 * 100 : AR2;
+                ER1 = (ER1 < 1 && ER1 > -1) ? ER1 * 100 : ER1;
+                ER1 = (ER1 < 1 && ER1 > -1) ? ER1 * 100 : ER1;
                 try
                 {
                     Probability = (Probability > 1 || Probability < -1) ? Probability / 100 : Probability;
 
                     decimal Cov = ((AR1 - ER1) * (AR2 - ER2)) * Probability;
-                    Value = Cov = Math.Round(Cov*100, 3);
+                    Value = Cov = Math.Round(Cov, 3);
 
                     return $"Portfolio covariation: {Value}\nUsed formula: Cov = {(char)8721}[(R1i - ER1)(R2i - ER2)](Pi)\nCurrent covariation: {Cov}";
                 }
@@ -411,9 +421,22 @@ namespace Finance
 
             public string Calculate(decimal Cov, decimal SDA, decimal SDB)
             {
-                Value = Cov / (SDA * SDB);
-
-                return $"Corelation Coeficient: {Value}\nUsed formula: K = Cov/{(char)963}1{(char)963}2\nSolution: {Cov}/({SDA} × {SDB}) = {Value}";
+                Cov = (Cov < 1 && Cov > -1) ? Cov * 100 : Cov;
+                SDA = (SDA < 1 && SDA > -1) ? SDA * 100 : SDA;
+                SDB = (SDB < 1 && SDB > -1) ? SDB * 100 : SDB;
+                try
+                {
+                    Value = Cov / (SDA * SDB);
+                    return $"Corelation Coeficient: {Value}\nUsed formula: K = Cov/{(char)963}1{(char)963}2\nSolution: {Cov}/({SDA} × {SDB}) = {Value}";
+                }
+                catch (OverflowException)
+                {
+                    return "Impossible Calculation!";
+                }
+                catch (DivideByZeroException)
+                {
+                    return "Dividing by zero error!\nPlease check your input.\nIf your input is correct and you get this error, then your calculation is impossible.";
+                }
             }
 
             public void Clear() => Value = 0;
@@ -425,11 +448,16 @@ namespace Finance
 
             public static string Calculate(decimal PSA, decimal SDA, decimal PSB, decimal SDB, decimal CC)
             {
+                PSA = (PSA < 1 && PSA > -1) ? PSA : PSA / 100;
+                PSB = (PSB < 1 && PSB > -1) ? PSB : PSB / 100;
+                SDA = (SDA < 1 && SDA > -1) ? SDA : SDA / 100;
+                SDB = (SDB < 1 && SDB > -1) ? SDB : SDB / 100;
+                CC = (CC < 1 && CC > -1) ? CC : CC / 100;
                 try
                 {
-                    decimal PD = (decimal)(Math.Pow((double)PSA, 2) * Math.Pow((double)SDA / 100, 2));
-                    PD += (decimal)(Math.Pow((double)PSB, 2) * Math.Pow((double)SDB / 100, 2));
-                    PD += 2 * PSA * PSB * CC * (SDA / 100) * (SDB / 100);
+                    decimal PD = (decimal)(Math.Pow((double)PSA, 2) * Math.Pow((double)SDA, 2));
+                    PD += (decimal)(Math.Pow((double)PSB, 2) * Math.Pow((double)SDB, 2));
+                    PD += 2 * PSA * PSB * CC * (SDA) * (SDB);
 
                     return $"Portfolio Deviation: {Math.Round(Math.Sqrt((double)PD) * 100, 2)}\nUsed formula: {(char)963} = {(char)8730}(w1{(char)178}{(char)963}1{(char)178} + w2{(char)178}{(char)963}2{(char)178} + 2 × w1 × w2 × K × {(char)963}1 × {(char)963})\nSoluton: {(char)8730}({PSA}{(char)178} × ({SDA}%){(char)178} + {PSB}{(char)178} × ({SDB}%){(char)178} + 2 × {PSA} × {PSB} × {CC} × {SDA}% × {SDB}%) = {Math.Round(Math.Sqrt((double)PD) * 100, 2)}";
                 }
@@ -446,6 +474,7 @@ namespace Finance
 
             public static string Calculate(decimal Cov, decimal Dispersion)
             {
+                Cov = (Cov < 1 && Cov > -1) ? Cov * 100 : Cov;
                 try
                 {
                     decimal BC = Cov / Dispersion;

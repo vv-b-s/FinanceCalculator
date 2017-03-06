@@ -7,9 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid x:Name="Layout" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RequestedTheme="Dark" Loaded="Layout_Loaded">
+    <Grid x:Name="Layout" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RequestedTheme="Dark">
         <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Choose an operation:" VerticalAlignment="Top" Height="36" Width="154" FontSize="16"/>
-        <TextBlock x:Name="CSpinnerLabel" HorizontalAlignment="Left" Margin="196,11,0,0" TextWrapping="WrapWholeWords" Text="TextBlock" VerticalAlignment="Top" Height="36" Width="164" RenderTransformOrigin="0.082,0.856" FontSize="16"/>
+        <TextBlock x:Name="CSpinnerLabel" HorizontalAlignment="Left" Margin="196,11,0,0" Text="TextBlock" VerticalAlignment="Top" Height="Auto" Width="{Binding ElementName=*ParentElement*, Path=ActualWidth}" RenderTransformOrigin="0.082,0.856" FontSize="16" TextWrapping="Wrap"/>
         <ComboBox x:Name="OperationSpinner" HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top" Width="154" SelectionChanged="OperationSpinner_SelectionChanged" SelectedIndex="-1"/>
         <ComboBox x:Name="CalculationSpinner" HorizontalAlignment="Left" Margin="196,51,0,0" VerticalAlignment="Top" Width="154" SelectedIndex="-1" SelectionChanged="CalculationSpinner_SelectionChanged"/>
         <TextBlock x:Name="DataFlipper" HorizontalAlignment="Left" Margin="0,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="36" Width="360" RenderTransformOrigin="0.082,0.856" FontSize="16" Text="Enter data:"/>
