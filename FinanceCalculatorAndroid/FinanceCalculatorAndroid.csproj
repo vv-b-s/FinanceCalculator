@@ -61,7 +61,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Calculation.cs" />
-    <Compile Include="Finance.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,6 +86,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Steps to do when adding new formula.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FormulaLib\FormulaLib.csproj">
+      <Project>{7de7f0c2-9610-4592-a01e-6684a6a821db}</Project>
+      <Name>FormulaLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
