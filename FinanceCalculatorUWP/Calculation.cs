@@ -127,6 +127,22 @@ namespace FinanceCalculatorUWP
             }
             #endregion
 
+            #region Deprication
+            if (spinner[0] == (int)Calculate.Deprication)
+            {
+                spaces = 0;
+                CountSpaces(InputBox);
+
+                switch (spinner[1])
+                {
+                    case (int)Deprication.DepricationType.Linear:
+                        if (spaces == 1 || spaces == 2) CalculationButton.IsEnabled = true;
+                        else CalculationButton.IsEnabled = false;
+                        return FlipperFeeder(Deprication.LinearDeprication.attributes);
+                }
+            }
+            #endregion
+
 
             return "";
         }
@@ -141,20 +157,20 @@ namespace FinanceCalculatorUWP
                 switch (spinner[1])
                 {
                     case (int)Interest.IntrestType.Simple:
-                        return Interest.FutureValue.SimpleInterest(ExtractValue(attribute[0]), ExtractValue(attribute[1]), (double)ExtractValue(attribute[2]));
+                        return Interest.FutureValue.SimpleInterest(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]));
 
                     case (int)Interest.IntrestType.Discursive:
                         if (spaces == 2)
-                            return Interest.FutureValue.CDiscursiveInterest(ExtractValue(attribute[0]), ExtractValue(attribute[1]), (double)ExtractValue(attribute[2]));
+                            return Interest.FutureValue.CDiscursiveInterest(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]));
                         else if (spaces == 4)
-                            return Interest.FutureValue.CDiscursiveInterest(ExtractValue(attribute[0]), ExtractValue(attribute[1]), (double)ExtractValue(attribute[2]), (double)ExtractValue(attribute[3]), (Interest.InterestPeriods)(int)ExtractValue(attribute[4]));
+                            return Interest.FutureValue.CDiscursiveInterest(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]), ExtractValue<double>(attribute[3]), (Interest.InterestPeriods)ExtractValue<int>(attribute[4]));
                         break;
 
                     case (int)Interest.IntrestType.Anticipative:
                         if (spaces == 2)
-                            return Interest.FutureValue.CAnticipativeInterest(ExtractValue(attribute[0]), ExtractValue(attribute[1]), (double)ExtractValue(attribute[2]));
+                            return Interest.FutureValue.CAnticipativeInterest(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]));
                         else if (spaces == 4)
-                            return Interest.FutureValue.CAnticipativeInterest(ExtractValue(attribute[0]), ExtractValue(attribute[1]), (double)ExtractValue(attribute[2]), (double)ExtractValue(attribute[3]), (Interest.InterestPeriods)(int)ExtractValue(attribute[4]));
+                            return Interest.FutureValue.CAnticipativeInterest(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]), ExtractValue<double>(attribute[3]), (Interest.InterestPeriods)ExtractValue<int>(attribute[4]));
                         break;
                 }
             }
@@ -166,20 +182,20 @@ namespace FinanceCalculatorUWP
                 switch (spinner[1])
                 {
                     case (int)Interest.IntrestType.Simple:
-                        return Interest.PresentValue.SimpleInterest(ExtractValue(attribute[0]), ExtractValue(attribute[1]), (double)ExtractValue(attribute[2]));
+                        return Interest.PresentValue.SimpleInterest(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]));
 
                     case (int)Interest.IntrestType.Discursive:
                         if (spaces == 2)
-                            return Interest.PresentValue.CDiscursiveInterest(ExtractValue(attribute[0]), ExtractValue(attribute[1]), (double)ExtractValue(attribute[2]));
+                            return Interest.PresentValue.CDiscursiveInterest(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]));
                         else if (spaces == 4)
-                            return Interest.PresentValue.CDiscursiveInterest(ExtractValue(attribute[0]), ExtractValue(attribute[1]), (double)ExtractValue(attribute[2]), (double)ExtractValue(attribute[3]), (Interest.InterestPeriods)(int)ExtractValue(attribute[4]));
+                            return Interest.PresentValue.CDiscursiveInterest(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]), ExtractValue<double>(attribute[3]), (Interest.InterestPeriods)ExtractValue<int>(attribute[4]));
                         break;
 
                     case (int)Interest.IntrestType.Anticipative:
                         if (spaces == 2)
-                            return Interest.PresentValue.CAnticipativeInterest(ExtractValue(attribute[0]), ExtractValue(attribute[1]), (double)ExtractValue(attribute[2]));
+                            return Interest.PresentValue.CAnticipativeInterest(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]));
                         else if (spaces == 4)
-                            return Interest.PresentValue.CAnticipativeInterest(ExtractValue(attribute[0]), ExtractValue(attribute[1]), (double)ExtractValue(attribute[2]), (double)ExtractValue(attribute[3]), (Interest.InterestPeriods)(int)ExtractValue(attribute[4]));
+                            return Interest.PresentValue.CAnticipativeInterest(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]), ExtractValue<double>(attribute[3]), (Interest.InterestPeriods)ExtractValue<int>(attribute[4]));
                         break;
                 }
             }
@@ -187,12 +203,12 @@ namespace FinanceCalculatorUWP
 
             #region Effective Interest Rate
             else if (spinner[0] == (int)Calculate.EffectiveIR)
-                return Interest.EffectiveIR.Calculate(ExtractValue(attribute[0]), (double)ExtractValue(attribute[1]), (Interest.InterestPeriods)((int)ExtractValue(attribute[2])));
+                return Interest.EffectiveIR.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<double>(attribute[1]), (Interest.InterestPeriods)(ExtractValue<int>(attribute[2])));
             #endregion
 
             #region Rate of Return
             else if (spinner[0] == (int)Calculate.RateOfReturn)
-                return RateOfReturn.Calculate(ExtractValue(attribute[0]), ExtractValue(attribute[1]));
+                return RateOfReturn.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]));
             #endregion
 
             #region Risk
@@ -201,27 +217,40 @@ namespace FinanceCalculatorUWP
                 switch (spinner[1])
                 {
                     case (int)Risk.CalcType.ExpectedReturns:
-                        return Risk.ExpectedReturns.eR.Calculate(ExtractValue(attribute[0]), ExtractValue(attribute[1]));
+                        return Risk.ExpectedReturns.eR.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]));
 
                     case (int)Risk.CalcType.StandardDeviation:
-                        return Risk.StandardDeviation.sD.Calculate(ExtractValue(attribute[0]), ExtractValue(attribute[1]), (attribute[2] == "0") ? Risk.ExpectedReturns.eR.Value : ExtractValue(attribute[2]));           // if Expected Returns is equal to 0, the app will use Risk.ExpectedReturns.eR's data
+                        return Risk.StandardDeviation.sD.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), (attribute[2] == "0") ? Risk.ExpectedReturns.eR.Value : ExtractValue<decimal>(attribute[2]));           // if Expected Returns is equal to 0, the app will use Risk.ExpectedReturns.eR's data
 
                     case (int)Risk.CalcType.VariationCoefficient:
-                        return Risk.VariationCoefficient.Calculate((attribute[0] == "0") ? Risk.StandardDeviation.sD.Value : ExtractValue(attribute[0]), (attribute[1] == "0") ? Risk.ExpectedReturns.eR.Value : ExtractValue(attribute[1]));
+                        return Risk.VariationCoefficient.Calculate((attribute[0] == "0") ? Risk.StandardDeviation.sD.Value : ExtractValue<decimal>(attribute[0]), (attribute[1] == "0") ? Risk.ExpectedReturns.eR.Value : ExtractValue<decimal>(attribute[1]));
 
                     case (int)Risk.CalcType.PortfolioCovariation:
-                        return Risk.PortfolioCovariation.PC.Calculate(ExtractValue(attribute[0]), ExtractValue(attribute[1]), ExtractValue(attribute[2]), ExtractValue(attribute[3]), ExtractValue(attribute[4]));
+                        return Risk.PortfolioCovariation.PC.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<decimal>(attribute[3]), ExtractValue<decimal>(attribute[4]));
 
                     case (int)Risk.CalcType.CorelationCoeficient:
-                        return Risk.CorelationCoeficient.CC.Calculate((attribute[0] == "0") ? Risk.PortfolioCovariation.PC.Value : ExtractValue(attribute[0]), ExtractValue(attribute[1]), ExtractValue(attribute[2]));
+                        return Risk.CorelationCoeficient.CC.Calculate((attribute[0] == "0") ? Risk.PortfolioCovariation.PC.Value : ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]));
 
                     case (int)Risk.CalcType.PortfolioDeviation:
-                        return Risk.PortfolioDeviation.Calculate(ExtractValue(attribute[0]), ExtractValue(attribute[1]), ExtractValue(attribute[2]), ExtractValue(attribute[3]), (attribute[4] == "0") ? Risk.CorelationCoeficient.CC.Value : ExtractValue(attribute[4]));
+                        return Risk.PortfolioDeviation.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<decimal>(attribute[3]), (attribute[4] == "0") ? Risk.CorelationCoeficient.CC.Value : ExtractValue<decimal>(attribute[4]));
 
                     case (int)Risk.CalcType.BetaCoeficient:
-                        return Risk.BetaCoeficient.Calculate((attribute[0] == "0") ? Risk.PortfolioCovariation.PC.Value : ExtractValue(attribute[0]), (attribute[1] == "0") ? (decimal)Math.Pow((double)Risk.StandardDeviation.sD.Value, 2) : ExtractValue(attribute[1]));
+                        return Risk.BetaCoeficient.Calculate((attribute[0] == "0") ? Risk.PortfolioCovariation.PC.Value : ExtractValue<decimal>(attribute[0]), (attribute[1] == "0") ? (decimal)Math.Pow((double)Risk.StandardDeviation.sD.Value, 2) : ExtractValue<decimal>(attribute[1]));
                 }
             }
+            #endregion
+
+            #region Deprication
+            else if (spinner[0] == (int)Calculate.Deprication)
+                switch (spinner[1])
+                {
+                    case (int)Deprication.DepricationType.Linear:
+                        if (spaces == 1)
+                            return Deprication.LinearDeprication.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<int>(attribute[1]));
+                        else if (spaces == 2)
+                            return Deprication.LinearDeprication.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<int>(attribute[1]), ExtractValue<decimal>(attribute[2]));
+                        break;
+                }
             #endregion
 
             return "";
@@ -232,6 +261,5 @@ namespace FinanceCalculatorUWP
                 if (a == ' ')
                     spaces++;
         }
-
     }
 }

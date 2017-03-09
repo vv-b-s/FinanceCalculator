@@ -7,15 +7,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid x:Name="Layout" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RequestedTheme="Dark">
+    <Grid x:Name="Layout" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RequestedTheme="Dark" ScrollViewer.HorizontalScrollBarVisibility="Auto">
         <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Choose an operation:" VerticalAlignment="Top" Height="36" Width="154" FontSize="16"/>
         <TextBlock x:Name="CSpinnerLabel" HorizontalAlignment="Left" Margin="196,11,0,0" Text="TextBlock" VerticalAlignment="Top" Height="Auto" Width="{Binding ElementName=*ParentElement*, Path=ActualWidth}" RenderTransformOrigin="0.082,0.856" FontSize="16" TextWrapping="Wrap"/>
-        <ComboBox x:Name="OperationSpinner" HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top" Width="154" SelectionChanged="OperationSpinner_SelectionChanged" SelectedIndex="-1"/>
-        <ComboBox x:Name="CalculationSpinner" HorizontalAlignment="Left" Margin="196,51,0,0" VerticalAlignment="Top" Width="154" SelectedIndex="-1" SelectionChanged="CalculationSpinner_SelectionChanged"/>
-        <TextBlock x:Name="DataFlipper" HorizontalAlignment="Left" Margin="0,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="36" Width="360" RenderTransformOrigin="0.082,0.856" FontSize="16" Text="Enter data:"/>
-        <TextBox x:Name="InputBox" HorizontalAlignment="Left" Margin="0,131,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="360" TextChanged="InputBox_TextChanged"/>
-        <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="0,216,0,0" TextWrapping="Wrap" Text="Result:" VerticalAlignment="Top" Height="36" Width="360" RenderTransformOrigin="0.082,0.856" FontSize="16"/>
-        <Button x:Name="CalculationButton" Content="Calculate" HorizontalAlignment="Left" Margin="0,168,0,0" VerticalAlignment="Top" Width="360" Click="CalculationButton_Click"/>
-        <TextBlock x:Name="ResultBox" HorizontalAlignment="Left" Margin="0,257,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="383" Width="360" FontSize="16" IsTextSelectionEnabled="True"/>
+        <ComboBox x:Name="OperationSpinner" HorizontalAlignment="Left" Margin="10,56,0,0" VerticalAlignment="Top" Width="154" SelectionChanged="OperationSpinner_SelectionChanged" SelectedIndex="-1"/>
+        <ComboBox x:Name="CalculationSpinner" HorizontalAlignment="Left" Margin="196,56,0,0" VerticalAlignment="Top" Width="154" SelectedIndex="-1" SelectionChanged="CalculationSpinner_SelectionChanged"/>
+        <TextBlock x:Name="DataFlipper" HorizontalAlignment="Left" Margin="0,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="Auto" Width="{Binding ElementName=*ParentElement*, Path=ActualWidth}" RenderTransformOrigin="0.082,0.856" FontSize="16" Text="Enter data:"/>
+        <TextBox x:Name="InputBox" HorizontalAlignment="Left" Margin="0,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="360" TextChanged="InputBox_TextChanged"/>
+        <Button x:Name="CalculationButton" Content="Calculate" HorizontalAlignment="Left" Margin="0,180,0,0" VerticalAlignment="Top" Width="360" Click="CalculationButton_Click"/>
+        <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="0,216,0,0" TextWrapping="Wrap" Text="Result:" VerticalAlignment="Top" Height="25" Width="360" RenderTransformOrigin="0.082,0.856" FontSize="16"/>
+        <ScrollViewer HorizontalAlignment="Left" Margin="0,245,0,0" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <TextBlock x:Name="ResultBox" HorizontalAlignment="Left" Margin="0,0,0,0" Text="" VerticalAlignment="Top" FontSize="16" IsTextSelectionEnabled="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+        </ScrollViewer>
+
     </Grid>
 </Page>

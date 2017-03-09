@@ -43,6 +43,7 @@ namespace FinanceCalculator
             InputBox.Enabled = false;
             CalculationButton.Enabled = false;
 
+
             #region SpinnerConnection
 
             OperationSpinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(OperationSpinner_ItemSelected);
@@ -125,7 +126,13 @@ namespace FinanceCalculator
                         Risk.CorelationCoeficient.CC.Clear();
 
                         break;
-                        #endregion
+                    #endregion
+
+                    #region Deprication
+                    case (int)Calculate.Deprication:
+                        CSpinnerVisibility<Deprication.DepricationType>("Choose deprication type:");
+                        break;
+                    #endregion
                 }
                 #endregion Second Spinner Condition
             }
@@ -211,12 +218,26 @@ namespace FinanceCalculator
             return true;
         }
 
-        private decimal ExtractValue(string input)
+        private T ExtractValue<T>(string input)
         {
             var culture = new CultureInfo("bg-BG");
-            decimal output;
-            decimal.TryParse(input, NumberStyles.Any, culture, out output);    //http://stackoverflow.com/questions/11560465/parse-strings-to-double-with-comma-and-point
-            return output;
+
+            if (typeof(T) == typeof(decimal))
+            {
+                decimal.TryParse(input, NumberStyles.Any, culture, out decimal output);    //http://stackoverflow.com/questions/11560465/parse-strings-to-double-with-comma-and-point
+                return (T)(object)output;
+            }
+            else if (typeof(T) == typeof(int))
+            {
+                int.TryParse(input, NumberStyles.Any, culture, out int output);
+                return (T)(object)output;
+            }
+            else if (typeof(T) == typeof(double))
+            {
+                double.TryParse(input, NumberStyles.Any, culture, out double output);
+                return (T)(object)output;
+            }
+            return default(T);
         }
 
         #endregion

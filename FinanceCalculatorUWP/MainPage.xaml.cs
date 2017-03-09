@@ -50,9 +50,9 @@ namespace FinanceCalculatorUWP
         {
             // turn on SystemTray for mobile
             // don't forget to add a Reference to Windows Mobile Extensions For The UWP
-            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
-                var statusbar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+                var statusbar = StatusBar.GetForCurrentView();
                 await statusbar.ShowAsync();
                 statusbar.BackgroundColor = Windows.UI.Colors.Black;
                 statusbar.BackgroundOpacity = 1;
@@ -69,7 +69,7 @@ namespace FinanceCalculatorUWP
         {
             string[] attribute = InputBox.Text.Split();
 
-            if (CheckInput(ref attribute, (Calculate)spinner[0]))
+            if (CheckInput(ref attribute))
                 ResultBox.Text = DoCalculation(attribute);
             else ResultBox.Text = "Wrong input.";
         }
@@ -124,7 +124,13 @@ namespace FinanceCalculatorUWP
                         Risk.CorelationCoeficient.CC.Clear();
 
                         break;
-                        #endregion
+                    #endregion
+
+                    #region Deprication
+                    case (int)Calculate.Deprication:
+                        CSpinnerVisibility<Deprication.DepricationType>("Choose deprication type:");
+                        break;
+                    #endregion
                 }
                 #endregion Second Spinner Condition
             }
@@ -183,7 +189,7 @@ namespace FinanceCalculatorUWP
             spaces = 0;
         }
 
-        private bool CheckInput(ref string[] input, Calculate type)
+        private bool CheckInput(ref string[] input)
         {
             for (int i = 0; i < input.Length; i++)
             {
@@ -199,13 +205,28 @@ namespace FinanceCalculatorUWP
             return true;
         }
 
-        private decimal ExtractValue(string input)
+        private T ExtractValue<T>(string input)
         {
             var culture = new CultureInfo("bg-BG");
-            decimal output;
-            decimal.TryParse(input, NumberStyles.Any,culture,out output);    //http://stackoverflow.com/questions/11560465/parse-strings-to-double-with-comma-and-point
-            return output;
+
+            if(typeof(T)==typeof(decimal))
+            {
+                decimal.TryParse(input, NumberStyles.Any, culture, out decimal output);    //http://stackoverflow.com/questions/11560465/parse-strings-to-double-with-comma-and-point
+                return (T)(object)output;
+            }
+            else if(typeof(T)==typeof(int))
+            {
+                int.TryParse(input, NumberStyles.Any, culture, out int output);
+                return (T)(object)output;
+            }
+            else if(typeof(T)==typeof(double))
+            {
+                double.TryParse(input, NumberStyles.Any, culture, out double output);
+                return (T)(object)output;
+            }
+            return default(T);
         }
+
         #endregion
 
 
