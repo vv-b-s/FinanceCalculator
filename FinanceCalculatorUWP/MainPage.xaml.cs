@@ -121,7 +121,7 @@ namespace FinanceCalculatorUWP
                         Risk.ExpectedReturns.eR.Clear();
                         Risk.StandardDeviation.sD.Clear();
                         Risk.PortfolioCovariation.PC.Clear();
-                        Risk.CorelationCoeficient.CC.Clear();
+                        Risk.CorelationCoefficient.CC.Clear();
 
                         break;
                     #endregion
@@ -130,7 +130,7 @@ namespace FinanceCalculatorUWP
                     case (int)Calculate.Deprication:
                         CSpinnerVisibility<Deprication.DepricationType>("Choose deprication type:");
                         break;
-                    #endregion
+                        #endregion
                 }
                 #endregion Second Spinner Condition
             }
@@ -205,21 +205,21 @@ namespace FinanceCalculatorUWP
             return true;
         }
 
-        private T ExtractValue<T>(string input)
+        private T ExtractValue<T>(string input) where T : struct
         {
             var culture = new CultureInfo("bg-BG");
 
-            if(typeof(T)==typeof(decimal))
+            if (typeof(T) == typeof(decimal))
             {
                 decimal.TryParse(input, NumberStyles.Any, culture, out decimal output);    //http://stackoverflow.com/questions/11560465/parse-strings-to-double-with-comma-and-point
                 return (T)(object)output;
             }
-            else if(typeof(T)==typeof(int))
+            else if (typeof(T) == typeof(int))
             {
                 int.TryParse(input, NumberStyles.Any, culture, out int output);
                 return (T)(object)output;
             }
-            else if(typeof(T)==typeof(double))
+            else if (typeof(T) == typeof(double))
             {
                 double.TryParse(input, NumberStyles.Any, culture, out double output);
                 return (T)(object)output;

@@ -114,11 +114,11 @@ namespace FinanceCalculator
                         else CalculationButton.Enabled = false;
                         return FlipperFeeder(Risk.PortfolioCovariation.attributes);
 
-                    case (int)Risk.CalcType.CorelationCoeficient:
+                    case (int)Risk.CalcType.CorelationCoefficient:
                         if (spaces == 2)
                             CalculationButton.Enabled = true;
                         else CalculationButton.Enabled = false;
-                        return FlipperFeeder(Risk.CorelationCoeficient.attributes);
+                        return FlipperFeeder(Risk.CorelationCoefficient.attributes);
 
                     case (int)Risk.CalcType.PortfolioDeviation:
                         if (spaces == 4)
@@ -126,11 +126,11 @@ namespace FinanceCalculator
                         else CalculationButton.Enabled = false;
                         return FlipperFeeder(Risk.PortfolioDeviation.attributes);
 
-                    case (int)Risk.CalcType.BetaCoeficient:
+                    case (int)Risk.CalcType.BetaCoefficient:
                         if (spaces == 1)
                             CalculationButton.Enabled = true;
                         else CalculationButton.Enabled = false;
-                        return FlipperFeeder(Risk.BetaCoeficient.attributes);
+                        return FlipperFeeder(Risk.BetaCoefficient.attributes);
                 }
             }
             #endregion
@@ -147,6 +147,11 @@ namespace FinanceCalculator
                         if (spaces == 1 || spaces == 2) CalculationButton.Enabled = true;
                         else CalculationButton.Enabled = false;
                         return FlipperFeeder(Deprication.LinearDeprication.attributes);
+
+                    case (int)Deprication.DepricationType.DecreasingDecuction:
+                        if (spaces == 2) CalculationButton.IsEnabled = true;
+                        else CalculationButton.IsEnabled = false;
+                        return FlipperFeeder(Deprication.DecreasingDecuction.attributes);
                 }
             }
             #endregion
@@ -234,14 +239,14 @@ namespace FinanceCalculator
                     case (int)Risk.CalcType.PortfolioCovariation:
                         return Risk.PortfolioCovariation.PC.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<decimal>(attribute[3]), ExtractValue<decimal>(attribute[4]));
 
-                    case (int)Risk.CalcType.CorelationCoeficient:
-                        return Risk.CorelationCoeficient.CC.Calculate((attribute[0] == "0") ? Risk.PortfolioCovariation.PC.Value : ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]));
+                    case (int)Risk.CalcType.CorelationCoefficient:
+                        return Risk.CorelationCoefficient.CC.Calculate((attribute[0] == "0") ? Risk.PortfolioCovariation.PC.Value : ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]));
 
                     case (int)Risk.CalcType.PortfolioDeviation:
-                        return Risk.PortfolioDeviation.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<decimal>(attribute[3]), (attribute[4] == "0") ? Risk.CorelationCoeficient.CC.Value : ExtractValue<decimal>(attribute[4]));
+                        return Risk.PortfolioDeviation.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<decimal>(attribute[3]), (attribute[4] == "0") ? Risk.CorelationCoefficient.CC.Value : ExtractValue<decimal>(attribute[4]));
 
-                    case (int)Risk.CalcType.BetaCoeficient:
-                        return Risk.BetaCoeficient.Calculate((attribute[0] == "0") ? Risk.PortfolioCovariation.PC.Value : ExtractValue<decimal>(attribute[0]), (attribute[1] == "0") ? (decimal)Math.Pow((double)Risk.StandardDeviation.sD.Value, 2) : ExtractValue<decimal>(attribute[1]));
+                    case (int)Risk.CalcType.BetaCoefficient:
+                        return Risk.BetaCoefficient.Calculate((attribute[0] == "0") ? Risk.PortfolioCovariation.PC.Value : ExtractValue<decimal>(attribute[0]), (attribute[1] == "0") ? (decimal)Math.Pow((double)Risk.StandardDeviation.sD.Value, 2) : ExtractValue<decimal>(attribute[1]));
                 }
             }
             #endregion
@@ -256,6 +261,9 @@ namespace FinanceCalculator
                         else if (spaces == 2)
                             return Deprication.LinearDeprication.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<int>(attribute[1]), ExtractValue<decimal>(attribute[2]));
                         break;
+
+                    case (int)Deprication.DepricationType.DecreasingDecuction:
+                        return Deprication.DecreasingDecuction.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<int>(attribute[1]), ExtractValue<decimal>(attribute[2]));
                 }
             #endregion
 

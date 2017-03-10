@@ -275,7 +275,7 @@ namespace Finance
     }
     public class Risk
     {
-        public enum CalcType { ExpectedReturns, StandardDeviation, VariationCoefficient, PortfolioCovariation, CorelationCoeficient, PortfolioDeviation, BetaCoeficient }
+        public enum CalcType { ExpectedReturns, StandardDeviation, VariationCoefficient, PortfolioCovariation, CorelationCoefficient, PortfolioDeviation, BetaCoefficient }
 
         public class ExpectedReturns
         {
@@ -408,7 +408,7 @@ namespace Finance
             public void Clear() => _PC = 0;
         }
 
-        public class CorelationCoeficient
+        public class CorelationCoefficient
         {
             public static readonly string[] attributes = { "Covariation", "Standard Deviation A", "Standard Deviation B" };
 
@@ -419,7 +419,7 @@ namespace Finance
                 get { return Round(_CC, 2); }
             }
 
-            public static CorelationCoeficient CC = new CorelationCoeficient();
+            public static CorelationCoefficient CC = new CorelationCoefficient();
 
             public string Calculate(decimal Cov, decimal SDA, decimal SDB)
             {
@@ -429,7 +429,7 @@ namespace Finance
                 try
                 {
                     Value = Cov / (SDA * SDB);
-                    return $"Corelation Coeficient: {Value}\nUsed formula: K = Cov/{(char)963}1{(char)963}2\nSolution: {Cov}/({SDA} × {SDB}) = {Value}";
+                    return $"Corelation Coefficient: {Value}\nUsed formula: K = Cov/{(char)963}1{(char)963}2\nSolution: {Cov}/({SDA} × {SDB}) = {Value}";
                 }
                 catch (OverflowException)
                 {
@@ -446,7 +446,7 @@ namespace Finance
 
         public static class PortfolioDeviation
         {
-            public static readonly string[] attributes = { "Portfolio Share A", "Standard Deviation A", "Portfolio Share B", "Standard Deviation B", "Corelation Coeficient" };
+            public static readonly string[] attributes = { "Portfolio Share A", "Standard Deviation A", "Portfolio Share B", "Standard Deviation B", "Corelation Coefficient" };
 
             public static string Calculate(decimal PSA, decimal SDA, decimal PSB, decimal SDB, decimal CC)
             {
@@ -470,7 +470,7 @@ namespace Finance
             }
         }
 
-        public static class BetaCoeficient
+        public static class BetaCoefficient
         {
             public static string[] attributes = { "Portfolio Covariation", "Portfolio Dispersion" };
 
@@ -482,7 +482,7 @@ namespace Finance
                     decimal BC = Cov / Dispersion;
                     BC = Round(BC, 3);
 
-                    return $"Beta Coeficient: {BC}\nUsed formula: {(char)946} = Cov/{(char)963}{(char)178}\nSolution: {Cov}/{Dispersion:0.00} = {BC}";
+                    return $"Beta Coefficient: {BC}\nUsed formula: {(char)946} = Cov/{(char)963}{(char)178}\nSolution: {Cov}/{Dispersion:0.00} = {BC}";
                 }
                 catch (OverflowException)
                 {
@@ -498,7 +498,7 @@ namespace Finance
 
     public static class Deprication
     {
-        public enum DepricationType { Linear }
+        public enum DepricationType { Linear, DecreasingDecuction}
 
         public static class LinearDeprication
         {
@@ -527,7 +527,6 @@ namespace Finance
                 try
                 {
                     decimal LD = Round(((AC-LV)/(AC*Years))*100, 2);
-
                     return $"Linear Deprication Norm: {LD}%\nUsed fromula: [(AC-LV)/(AC × Years)] × 100\nSolution: [({AC} - {LV}) /({AC} × {Years}] × 100 = {LD}%\n\n" + CreateTable(LD, AC, Years);
                 }
                 catch (OverflowException)
@@ -558,6 +557,64 @@ namespace Finance
                         output.AppendLine($"\n{"Total",-18}{"100",-20}{AC,-24}{"-",-32}{DepricationDecuction}");
                 }     
 
+                return output.ToString();
+            }
+        }
+
+        public static class DecreasingDecuction
+        {
+            public static readonly string[] attributes = { "Аcquisition cost", "Years", "Increase coefficient" };
+
+            public static string Calculate(decimal AC, int Years, decimal IC)
+            {
+                try
+                {
+                    decimal LinearDepricationNorm = Round(100m / Years, 2);
+                    decimal DepricationNorm = LinearDepricationNorm * IC;
+
+                    return $"Deprication Norm: {DepricationNorm}\nUsed formula: (100 / Years) × K\nSolution: (100 / {Years}) = {LinearDepricationNorm} × {IC} = {DepricationNorm}\n\n"+CreateTable(DepricationNorm,AC,Years);
+                }
+                catch (OverflowException)
+                {
+                    return "Impossible calculation";
+                }
+                catch (DivideByZeroException)
+                {
+                    return "Dividing by zero error!\nPlease check your input.\nIf your input is correct and you get this error, then your calculation is impossible.";
+                }
+            }
+
+            private static string CreateTable(decimal DDecuction, decimal AC, int Years)
+            {
+                DDecuction /= 100;
+                decimal DepricationDecuction = AC * DDecuction;
+
+                var output = new StringBuilder();
+                decimal comulSum = DepricationDecuction;
+                output.AppendLine($"{"Year",-15}{"Depr. Norm",-17}{(char)8721}{"Depr. Deduct.",-17}{"Comulative Sum",-20}{"Tax Savings"}");
+
+                for (int i = 1; i <= Years; i++)
+                {
+                    if (i > 0 && i <= Years-2)
+                    {
+                        output.AppendLine($"{i,-20}{DDecuction * 100,-20:0.00}{DepricationDecuction,-24:0.00}{comulSum,-28:0.00}{DepricationDecuction * 0.2m:0.00}");
+                        AC -= DepricationDecuction;
+
+                        if (i<Years-2)
+                        {
+                            DepricationDecuction = AC * DDecuction;
+                            comulSum += DepricationDecuction; 
+                        }
+                    }
+                    else if(i==Years-1||i==Years)
+                    {                        
+                        DepricationDecuction = AC * 1 /((i==Years-1)?2:1);
+                        comulSum += DepricationDecuction;
+                        AC -= DepricationDecuction;
+                        output.AppendLine($"{i,-20}{ 50.0,-20:0.00}{DepricationDecuction,-24:0.00}{comulSum,-28:0.00}{DepricationDecuction* 0.2m:0.00}");
+                    }
+                }
+                output.AppendLine($"\n{"Total",-18}{"-",-20}{comulSum,-24:0.00}{"-",-32}{comulSum * (100 / Years)/100:0.00}");
                 return output.ToString();
             }
         }

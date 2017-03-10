@@ -123,7 +123,7 @@ namespace FinanceCalculator
                         Risk.ExpectedReturns.eR.Clear();
                         Risk.StandardDeviation.sD.Clear();
                         Risk.PortfolioCovariation.PC.Clear();
-                        Risk.CorelationCoeficient.CC.Clear();
+                        Risk.CorelationCoefficient.CC.Clear();
 
                         break;
                     #endregion
@@ -218,7 +218,7 @@ namespace FinanceCalculator
             return true;
         }
 
-        private T ExtractValue<T>(string input)
+        private T ExtractValue<T>(string input) where T : struct
         {
             var culture = new CultureInfo("bg-BG");
 
