@@ -149,8 +149,8 @@ namespace FinanceCalculator
                         return FlipperFeeder(Deprication.LinearDeprication.attributes);
 
                     case (int)Deprication.DepricationType.DecreasingDecuction:
-                        if (spaces == 2) CalculationButton.IsEnabled = true;
-                        else CalculationButton.IsEnabled = false;
+                        if (spaces == 2) CalculationButton.Enabled = true;
+                        else CalculationButton.Enabled = false;
                         return FlipperFeeder(Deprication.DecreasingDecuction.attributes);
                 }
             }
