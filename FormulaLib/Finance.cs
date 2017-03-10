@@ -572,7 +572,7 @@ namespace Finance
                     decimal LinearDepricationNorm = Round(100m / Years, 2);
                     decimal DepricationNorm = LinearDepricationNorm * IC;
 
-                    return $"Deprication Norm: {DepricationNorm}\nUsed formula: (100 / Years) × K\nSolution: (100 / {Years}) = {LinearDepricationNorm} × {IC} = {DepricationNorm}\n\n"+CreateTable(DepricationNorm,AC,Years);
+                    return $"Deprication Norm: {DepricationNorm}%\nUsed formula: (100 / Years) × K\nSolution: (100 / {Years}) = {LinearDepricationNorm} × {IC} = {DepricationNorm}%\n\n"+CreateTable(DepricationNorm,AC,Years);
                 }
                 catch (OverflowException)
                 {
