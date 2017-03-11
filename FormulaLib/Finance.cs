@@ -11,7 +11,7 @@ namespace Finance
         public enum IntrestType { Simple, Discursive, Anticipative }
         public enum InterestPeriods { Daily, Weekly, Monthly }
 
-        static double IntTimesPeriod(double intTimes, InterestPeriods iPeriods) // if interest is not accounted Annually.
+        private static double IntTimesPeriod(double intTimes, InterestPeriods iPeriods) // if interest is not accounted Annually.
         {
             switch (iPeriods)
             {
@@ -37,7 +37,9 @@ namespace Finance
                 {
                     decimal futureValue = presentValue * (1 + (interestRate / 100) * (decimal)period);
                     futureValue = Round(futureValue, 2);
-                    return $"Future Value: {futureValue:0.00}\nUsed formula: FV = PV × (1 + n × r%)\nSolution: {presentValue} × (1 + {period} × {interestRate / 100}) = {futureValue:0.00}";
+                    return $"Future Value: {futureValue:0.00}\n" +
+                           "Used formula: FV = PV × (1 + n × r%)\n" +
+                           $"Solution: {presentValue} × (1 + {period} × {interestRate / 100}) = {futureValue:0.00}";
                 }
                 catch (OverflowException)
                 {
@@ -45,7 +47,9 @@ namespace Finance
                 }
                 catch (DivideByZeroException)
                 {
-                    return "Dividing by zero error!\nPlease check your input.\nIf your input is correct and you get this error, then your calculation is impossible.";
+                    return "Dividing by zero error!\n" +
+                           "Please check your input.\n" +
+                           "If your input is correct and you get this error, then your calculation is impossible.";
                 }
             }
 
@@ -56,7 +60,9 @@ namespace Finance
                     decimal futureValue = presentValue * (decimal)Pow((double)(1 + interestRate / 100), period);
                     futureValue = Round(futureValue, 2);
 
-                    return $"Future Value: {futureValue:0.00}\nUsed formula: FV = PV × (1 + r%)^n\nSolution: {presentValue} × (1 + {interestRate / 100})^{period} = {futureValue:0.00}";
+                    return $"Future Value: {futureValue:0.00}\n" +
+                           "Used formula: FV = PV × (1 + r%)^n\n" +
+                           $"Solution: {presentValue} × (1 + {interestRate / 100})^{period} = {futureValue:0.00}";
                 }
                 catch (OverflowException)
                 {
@@ -64,7 +70,9 @@ namespace Finance
                 }
                 catch (DivideByZeroException)
                 {
-                    return "Dividing by zero error!\nPlease check your input.\nIf your input is correct and you get this error, then your calculation is impossible.";
+                    return "Dividing by zero error!\n" +
+                           "Please check your input.\n" +
+                           "If your input is correct and you get this error, then your calculation is impossible.";
                 }
             }
 
@@ -75,7 +83,9 @@ namespace Finance
                     decimal futureValue = presentValue * (decimal)Pow((double)(1 + ((interestRate / 100) / (decimal)IntTimesPeriod(intTimes, iPeriods))), period * IntTimesPeriod(intTimes, iPeriods));
                     futureValue = Round(futureValue, 2);
 
-                    return $"Future Value: {futureValue:0.00}\nUsed formula: FV = PV × (1 + r%/m)^(m × n)\nSolution: {presentValue} × (1 + {interestRate / 100}/{IntTimesPeriod(intTimes, iPeriods)})^({period} × {IntTimesPeriod(intTimes, iPeriods)}) = {futureValue:0.00}";
+                    return $"Future Value: {futureValue:0.00}\n" +
+                           "Used formula: FV = PV × (1 + r%/m)^(m × n)\n" +
+                           $"Solution: {presentValue} × (1 + {interestRate / 100}/{IntTimesPeriod(intTimes, iPeriods)})^({period} × {IntTimesPeriod(intTimes, iPeriods)}) = {futureValue:0.00}";
                 }
                 catch (OverflowException)
                 {
@@ -83,7 +93,9 @@ namespace Finance
                 }
                 catch (DivideByZeroException)
                 {
-                    return "Dividing by zero error!\nPlease check your input.\nIf your input is correct and you get this error, then your calculation is impossible.";
+                    return "Dividing by zero error!\n" +
+                           "Please check your input.\n" +
+                           "If your input is correct and you get this error, then your calculation is impossible.";
                 }
             }
 
@@ -94,7 +106,9 @@ namespace Finance
                     decimal futureValue = presentValue / (decimal)Pow((double)(1 - interestRate / 100), period);
                     futureValue = Round(futureValue, 2);
 
-                    return $"Future Value: {futureValue:0.00}\nUsed formula: FV = PV/(1-r%)^n\nSolution: {presentValue}/(1 + {interestRate / 100})^{period} = {futureValue:0.00}";
+                    return $"Future Value: {futureValue:0.00}\n" +
+                           "Used formula: FV = PV/(1-r%)^n\n" +
+                           $"Solution: {presentValue}/(1 + {interestRate / 100})^{period} = {futureValue:0.00}";
                 }
                 catch (OverflowException)
                 {
@@ -102,7 +116,9 @@ namespace Finance
                 }
                 catch (DivideByZeroException)
                 {
-                    return "Dividing by zero error!\nPlease check your input.\nIf your input is correct and you get this error, then your calculation is impossible.";
+                    return "Dividing by zero error!\n" +
+                           "Please check your input.\n" +
+                           "If your input is correct and you get this error, then your calculation is impossible.";
                 }
             }
 
@@ -113,7 +129,9 @@ namespace Finance
                     decimal futureValue = presentValue / (decimal)Pow((double)(1 - ((interestRate / 100) / (decimal)(IntTimesPeriod(intTimes, iPeriods)))), period * IntTimesPeriod(intTimes, iPeriods));
                     futureValue = Round(futureValue, 2);
 
-                    return $"Future Value: {futureValue:0.00}\nUsed formula: FV = PV / (1 - r%/m)^(m × n)\nSolution: {presentValue} / (1 - {interestRate / 100}/{IntTimesPeriod(intTimes, iPeriods)})^({period} × {IntTimesPeriod(intTimes, iPeriods)}) = {futureValue:0.00}";
+                    return $"Future Value: {futureValue:0.00}\n" +
+                           "Used formula: FV = PV / (1 - r%/m)^(m × n)\n" +
+                           $"Solution: {presentValue} / (1 - {interestRate / 100}/{IntTimesPeriod(intTimes, iPeriods)})^({period} × {IntTimesPeriod(intTimes, iPeriods)}) = {futureValue:0.00}";
                 }
                 catch (OverflowException)
                 {
@@ -121,7 +139,9 @@ namespace Finance
                 }
                 catch (DivideByZeroException)
                 {
-                    return "Dividing by zero error!\nPlease check your input.\nIf your input is correct and you get this error, then your calculation is impossible.";
+                    return "Dividing by zero error!\n" +
+                           "Please check your input.\n" +
+                           "If your input is correct and you get this error, then your calculation is impossible.";
                 }
             }
         }
@@ -136,7 +156,9 @@ namespace Finance
                 {
                     decimal presentValue = futureValue / (1 + (interestRate / 100) * (decimal)period);
                     presentValue = Round(presentValue, 2);
-                    return $"Present Value: {presentValue:0.00}\nUsed formula: PV = FV / (1 + n × r%)\nSolution: {futureValue} / (1 + {period} × {interestRate / 100}) = {presentValue:0.00}";
+                    return $"Present Value: {presentValue:0.00}\n" +
+                           $"Used formula: PV = FV / (1 + n × r%)\n" +
+                           $"Solution: {futureValue} / (1 + {period} × {interestRate / 100}) = {presentValue:0.00}";
                 }
                 catch (OverflowException)
                 {
@@ -144,7 +166,9 @@ namespace Finance
                 }
                 catch (DivideByZeroException)
                 {
-                    return "Dividing by zero error!\nPlease check your input.\nIf your input is correct and you get this error, then your calculation is impossible.";
+                    return "Dividing by zero error!\n" +
+                           "Please check your input.\n" +
+                           "If your input is correct and you get this error, then your calculation is impossible.";
                 }
             }
 
@@ -155,7 +179,9 @@ namespace Finance
                     decimal presentValue = futureValue / (decimal)Pow((double)(1 + interestRate / 100), period);
                     presentValue = Round(presentValue, 2);
 
-                    return $"Present Value: {presentValue:0.00}\nUsed formula: PV = FV / (1 + r%)^n\nSolution: {futureValue} / (1 + {interestRate / 100})^{period} = {presentValue:0.00}";
+                    return $"Present Value: {presentValue:0.00}\n" +
+                           "Used formula: PV = FV / (1 + r%)^n\n" +
+                           $"Solution: {futureValue} / (1 + {interestRate / 100})^{period} = {presentValue:0.00}";
                 }
                 catch (OverflowException)
                 {
@@ -163,7 +189,9 @@ namespace Finance
                 }
                 catch (DivideByZeroException)
                 {
-                    return "Dividing by zero error!\nPlease check your input.\nIf your input is correct and you get this error, then your calculation is impossible.";
+                    return "Dividing by zero error!\n" +
+                           "Please check your input.\n" +
+                           "If your input is correct and you get this error, then your calculation is impossible.";
                 }
             }
 
@@ -174,7 +202,9 @@ namespace Finance
                     decimal presentValue = futureValue / (decimal)Pow((double)(1 + ((interestRate / 100) / (decimal)IntTimesPeriod(intTimes, iPeriods))), period * IntTimesPeriod(intTimes, iPeriods));
                     presentValue = Round(presentValue, 2);
 
-                    return $"Present Value: {presentValue:0.00}\nUsed formula: PV = FV / (1 + r%/m)^(m × n)\nSolution: {futureValue} / (1 + {interestRate / 100}/{IntTimesPeriod(intTimes, iPeriods)})^({period} × {IntTimesPeriod(intTimes, iPeriods)}) = {presentValue:0.00}";
+                    return $"Present Value: {presentValue:0.00}\n" +
+                           $"Used formula: PV = FV / (1 + r%/m)^(m × n)\n" +
+                           $"Solution: {futureValue} / (1 + {interestRate / 100}/{IntTimesPeriod(intTimes, iPeriods)})^({period} × {IntTimesPeriod(intTimes, iPeriods)}) = {presentValue:0.00}";
                 }
                 catch (OverflowException)
                 {
@@ -182,7 +212,9 @@ namespace Finance
                 }
                 catch (DivideByZeroException)
                 {
-                    return "Dividing by zero error!\nPlease check your input.\nIf your input is correct and you get this error, then your calculation is impossible.";
+                    return "Dividing by zero error!\n" +
+                           "Please check your input.\n" +
+                           "If your input is correct and you get this error, then your calculation is impossible.";
                 }
             }
 
@@ -193,7 +225,9 @@ namespace Finance
                     decimal presentValue = futureValue * (decimal)Pow((double)(1 - interestRate / 100), period);
                     presentValue = Round(presentValue, 2);
 
-                    return $"Present Value: {presentValue:0.00}\nUsed formula: FV = PV × (1-r%)^n\nSolution: {futureValue} × (1 + {interestRate / 100})^{period} = {presentValue:0.00}";
+                    return $"Present Value: {presentValue:0.00}\n" +
+                           "Used formula: FV = PV × (1-r%)^n\n" +
+                           $"Solution: {futureValue} × (1 + {interestRate / 100})^{period} = {presentValue:0.00}";
                 }
                 catch (OverflowException)
                 {
@@ -201,7 +235,9 @@ namespace Finance
                 }
                 catch (DivideByZeroException)
                 {
-                    return "Dividing by zero error!\nPlease check your input.\nIf your input is correct and you get this error, then your calculation is impossible.";
+                    return "Dividing by zero error!\n" +
+                           "Please check your input.\n" +
+                           "If your input is correct and you get this error, then your calculation is impossible.";
                 }
             }
 
@@ -212,7 +248,9 @@ namespace Finance
                     decimal presentValue = futureValue * (decimal)Pow((double)(1 - ((interestRate / 100) / (decimal)IntTimesPeriod(intTimes, iPeriods))), period * IntTimesPeriod(intTimes, iPeriods));
                     presentValue = Round(presentValue, 2);
 
-                    return $"Present Value: {presentValue:0.00}\nUsed formula: PV = FV × (1 - r%/m)^(m × n)\nSolution: {futureValue} × (1 - {interestRate / 100}/{IntTimesPeriod(intTimes, iPeriods)})^({period} × {IntTimesPeriod(intTimes, iPeriods)}) = {presentValue:0.00}";
+                    return $"Present Value: {presentValue:0.00}\n" +
+                           $"Used formula: PV = FV × (1 - r%/m)^(m × n)\n" +
+                           $"Solution: {futureValue} × (1 - {interestRate / 100}/{IntTimesPeriod(intTimes, iPeriods)})^({period} × {IntTimesPeriod(intTimes, iPeriods)}) = {presentValue:0.00}";
                 }
                 catch (OverflowException)
                 {
@@ -220,7 +258,9 @@ namespace Finance
                 }
                 catch (DivideByZeroException)
                 {
-                    return "Dividing by zero error!\nPlease check your input.\nIf your input is correct and you get this error, then your calculation is impossible.";
+                    return "Dividing by zero error!\n" +
+                           "Please check your input.\n" +
+                           "If your input is correct and you get this error, then your calculation is impossible.";
                 }
             }
         }
@@ -236,7 +276,9 @@ namespace Finance
                     decimal eir = (((decimal)Pow((double)(1 + (interestRate / 100) / (decimal)IntTimesPeriod(intTimes, iPeriods)), IntTimesPeriod(intTimes, iPeriods))) - 1) * 100;
                     eir = Round(eir, 2);
 
-                    return $"Effective Interest Rate: {eir}%\nUsed formula: [(1 + r%/m)^m-1] × 100\nSolution: [(1 + {interestRate / 100}/{IntTimesPeriod(intTimes, iPeriods)})^{IntTimesPeriod(intTimes, iPeriods)}-1] × 100 = {eir}%";
+                    return $"Effective Interest Rate: {eir}%\n" +
+                           "Used formula: [(1 + r%/m)^m-1] × 100\n" +
+                           $"Solution: [(1 + {interestRate / 100}/{IntTimesPeriod(intTimes, iPeriods)})^{IntTimesPeriod(intTimes, iPeriods)}-1] × 100 = {eir}%";
                 }
                 catch (OverflowException)
                 {
@@ -244,7 +286,9 @@ namespace Finance
                 }
                 catch (DivideByZeroException)
                 {
-                    return "Dividing by zero error!\nPlease check your input.\nIf your input is correct and you get this error, then your calculation is impossible.";
+                    return "Dividing by zero error!\n" +
+                           "Please check your input.\n" +
+                           "If your input is correct and you get this error, then your calculation is impossible.";
                 }
             }
         }
@@ -301,7 +345,9 @@ namespace Finance
                     Value = currentER = anticipatedR * (probability / 100);
                     _ER = Round(_ER, 3);
 
-                    return $"Expected Returns: {Value}\nUsed formula: ER = {(char)8721}Ri × Pi\nCurrent Expected Returns: {Round(currentER, 3)}";
+                    return $"Expected Returns: {Value}\n" +
+                           $"Used formula: ER = {(char)8721}Ri × Pi\n" +
+                           $"Current Expected Returns: {Round(currentER, 3)}";
                 }
                 catch (OverflowException)
                 {
@@ -337,7 +383,9 @@ namespace Finance
                     decimal Dispersion = (decimal)Pow((double)(ARevenues - ExpectedR), 2) * (Probability);
                     Value = Dispersion = Round(Dispersion, 2);
 
-                    return $"Standard deviation: {Value}\nUsed formula: {(char)963}{(char)178} = {(char)8721}(Ri - ER){(char)178} × Pi%\nCurrent disperison: {Dispersion}\nTotal dispersion: {_SD}";
+                    return $"Standard deviation: {Value}\n" +
+                           $"Used formula: {(char)963}{(char)178} = {(char)8721}(Ri - ER){(char)178} × Pi%\n" +
+                           $"Current disperison: {Dispersion}\nTotal dispersion: {_SD}";
                 }
                 catch (OverflowException)
                 {
@@ -358,7 +406,9 @@ namespace Finance
                 try
                 {
                     decimal CV = Round(SD / ER, 2);
-                    return $"Variation Coefficient: {CV}\nUsed formula: CV = {(char)963} / ER\nSolution: {SD} / {ER} = {CV}";
+                    return $"Variation Coefficient: {CV}\n" +
+                           $"Used formula: CV = {(char)963} / ER\n" +
+                           $"Solution: {SD} / {ER} = {CV}";
                 }
                 catch (OverflowException)
                 {
@@ -366,7 +416,9 @@ namespace Finance
                 }
                 catch (DivideByZeroException)
                 {
-                    return "Dividing by zero error!\nPlease check your input.\nIf your input is correct and you get this error, then your calculation is impossible.";
+                    return "Dividing by zero error!\n" +
+                           "Please check your input.\n" +
+                           "If your input is correct and you get this error, then your calculation is impossible.";
                 }
             }
         }
@@ -397,7 +449,9 @@ namespace Finance
                     decimal Cov = ((AR1 - ER1) * (AR2 - ER2)) * Probability;
                     Value = Cov = Round(Cov, 3);
 
-                    return $"Portfolio covariation: {Value}\nUsed formula: Cov = {(char)8721}[(R1i - ER1)(R2i - ER2)](Pi)\nCurrent covariation: {Cov}";
+                    return $"Portfolio covariation: {Value}\n" +
+                           $"Used formula: Cov = {(char)8721}[(R1i - ER1)(R2i - ER2)](Pi)\n" +
+                           $"Current covariation: {Cov}";
                 }
                 catch (OverflowException)
                 {
@@ -429,7 +483,9 @@ namespace Finance
                 try
                 {
                     Value = Cov / (SDA * SDB);
-                    return $"Corelation Coefficient: {Value}\nUsed formula: K = Cov/{(char)963}1{(char)963}2\nSolution: {Cov}/({SDA} × {SDB}) = {Value}";
+                    return $"Corelation Coefficient: {Value}\n" +
+                           $"Used formula: K = Cov/{(char)963}1{(char)963}2\n" +
+                           $"Solution: {Cov}/({SDA} × {SDB}) = {Value}";
                 }
                 catch (OverflowException)
                 {
@@ -461,7 +517,9 @@ namespace Finance
                     PD += (decimal)(Pow((double)PSB, 2) * Pow((double)SDB, 2));
                     PD += 2 * PSA * PSB * CC * (SDA) * (SDB);
 
-                    return $"Portfolio Deviation: {Round(Sqrt((double)PD) * 100, 2)}\nUsed formula: {(char)963} = {(char)8730}(w1{(char)178}{(char)963}1{(char)178} + w2{(char)178}{(char)963}2{(char)178} + 2 × w1 × w2 × K × {(char)963}1 × {(char)963})\nSoluton: {(char)8730}({PSA}{(char)178} × ({SDA}%){(char)178} + {PSB}{(char)178} × ({SDB}%){(char)178} + 2 × {PSA} × {PSB} × {CC} × {SDA}% × {SDB}%) = {Round(Sqrt((double)PD) * 100, 2)}";
+                    return $"Portfolio Deviation: {Round(Sqrt((double)PD) * 100, 2)}\n" +
+                           $"Used formula: {(char)963} = {(char)8730}(w1{(char)178}{(char)963}1{(char)178} + w2{(char)178}{(char)963}2{(char)178} + 2 × w1 × w2 × K × {(char)963}1 × {(char)963})\n" +
+                           $"Soluton: {(char)8730}({PSA}{(char)178} × ({SDA}%){(char)178} + {PSB}{(char)178} × ({SDB}%){(char)178} + 2 × {PSA} × {PSB} × {CC} × {SDA}% × {SDB}%) = {Round(Sqrt((double)PD) * 100, 2)}";
                 }
                 catch (OverflowException)
                 {
@@ -482,7 +540,9 @@ namespace Finance
                     decimal BC = Cov / Dispersion;
                     BC = Round(BC, 3);
 
-                    return $"Beta Coefficient: {BC}\nUsed formula: {(char)946} = Cov/{(char)963}{(char)178}\nSolution: {Cov}/{Dispersion:0.00} = {BC}";
+                    return $"Beta Coefficient: {BC}\n" +
+                           $"Used formula: {(char)946} = Cov/{(char)963}{(char)178}\n" +
+                           $"Solution: {Cov}/{Dispersion:0.00} = {BC}";
                 }
                 catch (OverflowException)
                 {
@@ -490,7 +550,9 @@ namespace Finance
                 }
                 catch (DivideByZeroException)
                 {
-                    return "Dividing by zero error!\nPlease check your input.\nIf your input is correct and you get this error, then your calculation is impossible.";
+                    return "Dividing by zero error!\n" +
+                           "Please check your input.\n" +
+                           "If your input is correct and you get this error, then your calculation is impossible.";
                 }
             }
         }
@@ -510,7 +572,9 @@ namespace Finance
                 {
                     decimal LD = Round(100m/Years,2);
 
-                    return $"Linear Deprication Norm: {LD}%\nUsed fromula: 100/Years\nSolution: 100 / {Years} = {LD}%\n\n" + CreateTable(LD,AC,Years);
+                    return $"Linear Deprication Norm: {LD}%\n" +
+                           "Used fromula: 100/Years\n" +
+                           $"Solution: 100 / {Years} = {LD}%\n\n" + CreateTable(LD,AC,Years);
                 }
                 catch (OverflowException)
                 {
@@ -518,7 +582,9 @@ namespace Finance
                 }
                 catch (DivideByZeroException)
                 {
-                    return "Dividing by zero error!\nPlease check your input.\nIf your input is correct and you get this error, then your calculation is impossible.";
+                    return "Dividing by zero error!\n" +
+                           "Please check your input.\n" +
+                           "If your input is correct and you get this error, then your calculation is impossible.";
                 }
             }
 
@@ -527,7 +593,9 @@ namespace Finance
                 try
                 {
                     decimal LD = Round(((AC-LV)/(AC*Years))*100, 2);
-                    return $"Linear Deprication Norm: {LD}%\nUsed fromula: [(AC-LV)/(AC × Years)] × 100\nSolution: [({AC} - {LV}) /({AC} × {Years}] × 100 = {LD}%\n\n" + CreateTable(LD, AC, Years);
+                    return $"Linear Deprication Norm: {LD}%\n" +
+                           "Used fromula: [(AC-LV)/(AC × Years)] × 100\n" +
+                           $"Solution: [({AC} - {LV}) /({AC} × {Years}] × 100 = {LD}%\n\n" + CreateTable(LD, AC, Years);
                 }
                 catch (OverflowException)
                 {
@@ -535,7 +603,9 @@ namespace Finance
                 }
                 catch (DivideByZeroException)
                 {
-                    return "Dividing by zero error!\nPlease check your input.\nIf your input is correct and you get this error, then your calculation is impossible.";
+                    return "Dividing by zero error!\n" +
+                           "Please check your input.\n" +
+                           "If your input is correct and you get this error, then your calculation is impossible.";
                 }
             }
 
@@ -545,16 +615,28 @@ namespace Finance
                 decimal DepricationDecuction = AC * LD;
 
                 var output = new StringBuilder();
-                
 
                 for (int i = 0; i <= Years+1; i++)
                 {
                     if(i==0)
-                        output.AppendLine($"{"Year",-15}{"Depr. Norm",-17}{(char)8721}{"Depr. Deduct.",-17}{"Comulative Sum",-20}{"Tax Savings"}");
+                        output.AppendLine($"{"Year",-15}" +
+                                          $"{"Depr. Norm",-17}" +
+                                          $"{(char)8721}{"Depr. Deduct.",-17}" +
+                                          $"{"Comulative Sum",-20}" +
+                                          "Tax Savings");
+
                     else if(i>0&&i<=Years)
-                        output.AppendLine($"{i,-20}{LD * 100,-20}{DepricationDecuction,-24}{DepricationDecuction * i,-28}{LD * 10000}");
+                        output.AppendLine($"{i,-20}" +
+                                          $"{LD * 100,-20:0.00}" +
+                                          $"{DepricationDecuction,-24:0.00}" +
+                                          $"{DepricationDecuction * i,-28:0.00}" +
+                                          $"{LD * 10000:0.00}");
                     else if(i==Years+1)
-                        output.AppendLine($"\n{"Total",-18}{"100",-20}{AC,-24}{"-",-32}{DepricationDecuction}");
+                        output.AppendLine($"\n{"Total",-18}" +
+                                          $"{"100",-20}" +
+                                          $"{AC,-24:0.00}" +
+                                          $"{"-",-32}" +
+                                          $"{DepricationDecuction:0.00}");
                 }     
 
                 return output.ToString();
@@ -593,13 +675,21 @@ namespace Finance
 
                 var output = new StringBuilder();
                 decimal comulSum = DepricationDecuction;
-                output.AppendLine($"{"Year",-15}{"Depr. Norm",-17}{(char)8721}{"Depr. Deduct.",-17}{"Comulative Sum",-20}{"Tax Savings"}");
+                output.AppendLine($"{"Year",-15}" +
+                                  $"{"Depr. Norm",-17}" +
+                                  $"{"Deprication",-17}" +
+                                  $"{"Comulative Sum",-20}" +
+                                  "Tax Savings");
 
                 for (int i = 1; i <= Years; i++)
                 {
                     if (i > 0 && i <= Years-2)
                     {
-                        output.AppendLine($"{i,-20}{DDecuction * 100,-20:0.00}{DepricationDecuction,-24:0.00}{comulSum,-28:0.00}{DepricationDecuction * 0.2m:0.00}");
+                        output.AppendLine($"{i,-20}" +
+                                          $"{DDecuction * 100,-20:0.00}" +
+                                          $"{DepricationDecuction,-18:0.00}" +
+                                          $"{comulSum,-28:0.00}" +
+                                          $"{DepricationDecuction * 0.2m:0.00}");
                         AC -= DepricationDecuction;
 
                         if (i<Years-2)
@@ -613,10 +703,18 @@ namespace Finance
                         DepricationDecuction = AC * 1 /((i==Years-1)?2:1);
                         comulSum += DepricationDecuction;
                         AC -= DepricationDecuction;
-                        output.AppendLine($"{i,-20}{ 50.0,-20:0.00}{DepricationDecuction,-24:0.00}{comulSum,-28:0.00}{DepricationDecuction* 0.2m:0.00}");
+                        output.AppendLine($"{i,-20}" +
+                                          $"{ 50.0,-19:0.00}" +
+                                          $"{DepricationDecuction,-18:0.00}" +
+                                          $"{comulSum,-28:0.00}" +
+                                          $"{DepricationDecuction* 0.2m:0.00}");
                     }
                 }
-                output.AppendLine($"\n{"Total",-18}{"-",-20}{comulSum,-24:0.00}{"-",-32}{comulSum * (100 / Years)/100:0.00}");
+                output.AppendLine($"\n{"Total",-18}" +
+                                  $"{"-",-20}" +
+                                  $"{comulSum,-24:0.00}" +
+                                  $"{"-",-32}" +
+                                  $"{comulSum * (100 / Years)/100:0.00}");
                 return output.ToString();
             }
         }

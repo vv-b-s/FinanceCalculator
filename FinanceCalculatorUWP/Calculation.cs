@@ -17,12 +17,7 @@ namespace FinanceCalculatorUWP
             {
                 spaces = 0;
                 CountSpaces(InputBox);
-
-                if (spaces != 2 && spaces != 4)
-                    CalculationButton.IsEnabled = false;
-                else
-                    CalculationButton.IsEnabled = true;
-
+                CalculationButton.IsEnabled = spaces == 2 || spaces == 4;
                 return FlipperFeeder(Interest.FutureValue.Attributes);
             }
             #endregion
@@ -32,12 +27,7 @@ namespace FinanceCalculatorUWP
             {
                 spaces = 0;
                 CountSpaces(InputBox);
-
-                if (spaces != 2 && spaces != 4)
-                    CalculationButton.IsEnabled = false;
-                else
-                    CalculationButton.IsEnabled = true;
-
+                CalculationButton.IsEnabled = spaces == 2 || spaces == 4;
                 return FlipperFeeder(Interest.PresentValue.Attributes);
             }
             #endregion
@@ -47,12 +37,7 @@ namespace FinanceCalculatorUWP
             {
                 spaces = 0;
                 CountSpaces(InputBox);
-
-                if (spaces == 2)
-                    CalculationButton.IsEnabled = true;
-                else
-                    CalculationButton.IsEnabled = false;
-
+                CalculationButton.IsEnabled = spaces == 2;
                 return FlipperFeeder(Interest.EffectiveIR.Attributes);
             }
 
@@ -61,14 +46,9 @@ namespace FinanceCalculatorUWP
             #region Rate of Return
             if (spinner[0] == (int)Calculate.RateOfReturn)
             {
-
                 spaces = 0;
                 CountSpaces(InputBox);
-
-                if (spaces == 1)
-                    CalculationButton.IsEnabled = true;
-                else CalculationButton.IsEnabled = false;
-
+                CalculationButton.IsEnabled = spaces == 1;
                 return FlipperFeeder(RateOfReturn.Attributes);
             }
 
@@ -83,45 +63,31 @@ namespace FinanceCalculatorUWP
                 switch (spinner[1])
                 {
                     case (int)Risk.CalcType.ExpectedReturns:
-                        if (spaces == 1)
-                            CalculationButton.IsEnabled = true;
-                        else CalculationButton.IsEnabled = false;
+                        CalculationButton.IsEnabled = spaces == 1;
                         return FlipperFeeder(Risk.ExpectedReturns.Attributes);
 
                     case (int)Risk.CalcType.StandardDeviation:
-                        if (spaces == 2)
-                            CalculationButton.IsEnabled = true;
-                        else CalculationButton.IsEnabled = false;
+                        CalculationButton.IsEnabled = spaces == 2;
                         return FlipperFeeder(Risk.StandardDeviation.Attributes);
 
                     case (int)Risk.CalcType.VariationCoefficient:
-                        if (spaces == 1)
-                            CalculationButton.IsEnabled = true;
-                        else CalculationButton.IsEnabled = false;
+                        CalculationButton.IsEnabled = spaces == 1;
                         return FlipperFeeder(Risk.VariationCoefficient.Attributes);
 
                     case (int)Risk.CalcType.PortfolioCovariation:
-                        if (spaces == 4)
-                            CalculationButton.IsEnabled = true;
-                        else CalculationButton.IsEnabled = false;
+                        CalculationButton.IsEnabled = spaces == 4;
                         return FlipperFeeder(Risk.PortfolioCovariation.Attributes);
 
                     case (int)Risk.CalcType.CorelationCoefficient:
-                        if (spaces == 2)
-                            CalculationButton.IsEnabled = true;
-                        else CalculationButton.IsEnabled = false;
+                        CalculationButton.IsEnabled = spaces == 2;
                         return FlipperFeeder(Risk.CorelationCoefficient.Attributes);
 
                     case (int)Risk.CalcType.PortfolioDeviation:
-                        if (spaces == 4)
-                            CalculationButton.IsEnabled = true;
-                        else CalculationButton.IsEnabled = false;
+                        CalculationButton.IsEnabled = spaces == 4;
                         return FlipperFeeder(Risk.PortfolioDeviation.Attributes);
 
                     case (int)Risk.CalcType.BetaCoefficient:
-                        if (spaces == 1)
-                            CalculationButton.IsEnabled = true;
-                        else CalculationButton.IsEnabled = false;
+                        CalculationButton.IsEnabled = spaces == 1;
                         return FlipperFeeder(Risk.BetaCoefficient.Attributes);
                 }
             }
@@ -136,13 +102,11 @@ namespace FinanceCalculatorUWP
                 switch (spinner[1])
                 {
                     case (int)Deprication.DepricationType.Linear:
-                        if (spaces == 1 || spaces == 2) CalculationButton.IsEnabled = true;
-                        else CalculationButton.IsEnabled = false;
+                        CalculationButton.IsEnabled = spaces == 1 || spaces == 2;
                         return FlipperFeeder(Deprication.LinearDeprication.Attributes);
 
                     case (int)Deprication.DepricationType.DecreasingDecuction:
-                        if (spaces == 2) CalculationButton.IsEnabled = true;
-                        else CalculationButton.IsEnabled = false;
+                        CalculationButton.IsEnabled = spaces == 2;
                         return FlipperFeeder(Deprication.DecreasingDecuction.Attributes);
                 }
             }
@@ -152,9 +116,9 @@ namespace FinanceCalculatorUWP
             return "";
         }
 
-        private string FlipperFeeder(string[] Attributes) => (spaces <= Attributes.Length - 1) ? $"Enter: {Attributes[spaces]}" : "There is no more data to be filled.";
+        private static string FlipperFeeder(string[] Attributes) => (spaces <= Attributes.Length - 1) ? $"Enter: {Attributes[spaces]}" : "There is no more data to be filled.";
 
-        private string DoCalculation(string[] attribute)
+        private static string DoCalculation(string[] attribute)
         {
             #region Future Value
             if (spinner[0] == (int)Calculate.FutureValue)
@@ -263,7 +227,7 @@ namespace FinanceCalculatorUWP
 
             return "";
         }
-        private void CountSpaces(string text)
+        private static void CountSpaces(string text)
         {
             foreach (char a in text)               // measuring spaces in order to define which attribute to display
                 if (a == ' ')

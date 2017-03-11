@@ -25,12 +25,7 @@ namespace FinanceCalculator
             {
                 spaces = 0;
                 CountSpaces(InputBox);
-
-                if (spaces != 2 && spaces != 4)
-                    CalculationButton.Enabled = false;
-                else
-                    CalculationButton.Enabled = true;
-
+                CalculationButton.Enabled = spaces == 2 || spaces == 4;
                 return FlipperFeeder(Interest.FutureValue.Attributes);
             }
             #endregion
@@ -40,12 +35,7 @@ namespace FinanceCalculator
             {
                 spaces = 0;
                 CountSpaces(InputBox);
-
-                if (spaces != 2 && spaces != 4)
-                    CalculationButton.Enabled = false;
-                else
-                    CalculationButton.Enabled = true;
-
+                CalculationButton.Enabled = spaces == 2 || spaces == 4;
                 return FlipperFeeder(Interest.PresentValue.Attributes);
             }
             #endregion
@@ -55,12 +45,7 @@ namespace FinanceCalculator
             {
                 spaces = 0;
                 CountSpaces(InputBox);
-
-                if (spaces == 2)
-                    CalculationButton.Enabled = true;
-                else
-                    CalculationButton.Enabled = false;
-
+                CalculationButton.Enabled = spaces == 2;
                 return FlipperFeeder(Interest.EffectiveIR.Attributes);
             }
 
@@ -69,14 +54,9 @@ namespace FinanceCalculator
             #region Rate of Return
             if (spinner[0] == (int)Calculate.RateOfReturn)
             {
-
                 spaces = 0;
                 CountSpaces(InputBox);
-
-                if (spaces == 1)
-                    CalculationButton.Enabled = true;
-                else CalculationButton.Enabled = false;
-
+                CalculationButton.Enabled = spaces == 1;
                 return FlipperFeeder(RateOfReturn.Attributes);
             }
 
@@ -91,45 +71,31 @@ namespace FinanceCalculator
                 switch (spinner[1])
                 {
                     case (int)Risk.CalcType.ExpectedReturns:
-                        if (spaces == 1)
-                            CalculationButton.Enabled = true;
-                        else CalculationButton.Enabled = false;
+                        CalculationButton.Enabled = spaces == 1;
                         return FlipperFeeder(Risk.ExpectedReturns.Attributes);
 
                     case (int)Risk.CalcType.StandardDeviation:
-                        if (spaces == 2)
-                            CalculationButton.Enabled = true;
-                        else CalculationButton.Enabled = false;
+                        CalculationButton.Enabled = spaces == 2;
                         return FlipperFeeder(Risk.StandardDeviation.Attributes);
 
                     case (int)Risk.CalcType.VariationCoefficient:
-                        if (spaces == 1)
-                            CalculationButton.Enabled = true;
-                        else CalculationButton.Enabled = false;
+                        CalculationButton.Enabled = spaces == 1;
                         return FlipperFeeder(Risk.VariationCoefficient.Attributes);
 
                     case (int)Risk.CalcType.PortfolioCovariation:
-                        if (spaces == 4)
-                            CalculationButton.Enabled = true;
-                        else CalculationButton.Enabled = false;
+                        CalculationButton.Enabled = spaces == 4;
                         return FlipperFeeder(Risk.PortfolioCovariation.Attributes);
 
                     case (int)Risk.CalcType.CorelationCoefficient:
-                        if (spaces == 2)
-                            CalculationButton.Enabled = true;
-                        else CalculationButton.Enabled = false;
+                        CalculationButton.Enabled = spaces == 2;
                         return FlipperFeeder(Risk.CorelationCoefficient.Attributes);
 
                     case (int)Risk.CalcType.PortfolioDeviation:
-                        if (spaces == 4)
-                            CalculationButton.Enabled = true;
-                        else CalculationButton.Enabled = false;
+                        CalculationButton.Enabled = spaces == 4;
                         return FlipperFeeder(Risk.PortfolioDeviation.Attributes);
 
                     case (int)Risk.CalcType.BetaCoefficient:
-                        if (spaces == 1)
-                            CalculationButton.Enabled = true;
-                        else CalculationButton.Enabled = false;
+                        CalculationButton.Enabled = spaces == 1;
                         return FlipperFeeder(Risk.BetaCoefficient.Attributes);
                 }
             }
@@ -144,17 +110,16 @@ namespace FinanceCalculator
                 switch (spinner[1])
                 {
                     case (int)Deprication.DepricationType.Linear:
-                        if (spaces == 1 || spaces == 2) CalculationButton.Enabled = true;
-                        else CalculationButton.Enabled = false;
+                        CalculationButton.Enabled = spaces == 1 || spaces == 2;
                         return FlipperFeeder(Deprication.LinearDeprication.Attributes);
 
                     case (int)Deprication.DepricationType.DecreasingDecuction:
-                        if (spaces == 2) CalculationButton.Enabled = true;
-                        else CalculationButton.Enabled = false;
+                        CalculationButton.Enabled = spaces == 2;
                         return FlipperFeeder(Deprication.DecreasingDecuction.Attributes);
                 }
             }
             #endregion
+
             return "";
         }
 
