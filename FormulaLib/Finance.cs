@@ -567,6 +567,8 @@ namespace Finance
 
             public static string Calculate(decimal AC, int Years, decimal IC)
             {
+                if (IC < 1.5m || IC > 2.2m)
+                    return $"Increase coefficient can be between {1.5} and {2.2}.";
                 try
                 {
                     decimal LinearDepricationNorm = Round(100m / Years, 2);
