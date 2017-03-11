@@ -120,7 +120,7 @@ namespace FinanceCalculator
                         CSpinnerVisibility<Risk.CalcType>("Choose a risk operation:");
                         ZeroAlert();
 
-                        Risk.ExpectedReturns.eR.Clear();
+                        Risk.ExpectedReturns.ER.Clear();
                         Risk.StandardDeviation.sD.Clear();
                         Risk.PortfolioCovariation.PC.Clear();
                         Risk.CorelationCoefficient.CC.Clear();
@@ -171,14 +171,14 @@ namespace FinanceCalculator
             }
         }
 
-        private void CSpinnerVisibility<FormulaTypesEnum>(string labelText)                                   // Easily creates the data for the secons spinner
+        private void CSpinnerVisibility<TFormulaTypesEnum>(string labelText)                                   // Easily creates the data for the secons spinner
         {
             var CSpinnerLabel = FindViewById<TextView>(Resource.Id.CSpinnerLabel);
             var CalculationSpinner = FindViewById<Spinner>(Resource.Id.CalculationSpinner);
             CSpinnerVisibility(true);
 
-            var enumValuesCS = Enum.GetValues(typeof(FormulaTypesEnum));
-            var arrayForAdapterCS = enumValuesCS.Cast<FormulaTypesEnum>().Select(f => f.ToString()).ToArray();
+            var enumValuesCS = Enum.GetValues(typeof(TFormulaTypesEnum));
+            var arrayForAdapterCS = enumValuesCS.Cast<TFormulaTypesEnum>().Select(f => f.ToString()).ToArray();
 
             CalculationSpinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(CalculationSpinner_ItemSelected);
             var adapterCS = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, arrayForAdapterCS);

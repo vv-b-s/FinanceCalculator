@@ -11,16 +11,16 @@ namespace Finance
         public enum IntrestType { Simple, Discursive, Anticipative }
         public enum InterestPeriods { Daily, Weekly, Monthly }
 
-        static double iTimesPeriod(double iTimes, InterestPeriods iPeriods) // if interest is not accounted Annually.
+        static double IntTimesPeriod(double intTimes, InterestPeriods iPeriods) // if interest is not accounted Annually.
         {
             switch (iPeriods)
             {
                 case InterestPeriods.Daily:
-                    return 365 / iTimes;
+                    return 365 / intTimes;
                 case InterestPeriods.Weekly:
-                    return 52 / iTimes;
+                    return 52 / intTimes;
                 case InterestPeriods.Monthly:
-                    return 12 / iTimes;
+                    return 12 / intTimes;
                 default:
                     return 1;
 
@@ -29,7 +29,7 @@ namespace Finance
 
         public static class FutureValue
         {
-            public static readonly string[] attributes = { "Present Value", "Interest Rate", "Period", "Interest periods", "Type of periods (Daily - 0, Weekly - 1, Monthly - 2)" };
+            public static readonly string[] Attributes = { "Present Value", "Interest Rate", "Period", "Interest periods", "Type of periods (Daily - 0, Weekly - 1, Monthly - 2)" };
 
             public static string SimpleInterest(decimal presentValue, decimal interestRate, double period)
             {
@@ -68,14 +68,14 @@ namespace Finance
                 }
             }
 
-            public static string CDiscursiveInterest(decimal presentValue, decimal interestRate, double period, double iTimes, InterestPeriods iPeriods)     // if interest is not accounted Annually
+            public static string CDiscursiveInterest(decimal presentValue, decimal interestRate, double period, double intTimes, InterestPeriods iPeriods)     // if interest is not accounted Annually
             {
                 try
                 {
-                    decimal futureValue = presentValue * (decimal)Pow((double)(1 + ((interestRate / 100) / (decimal)iTimesPeriod(iTimes, iPeriods))), period * iTimesPeriod(iTimes, iPeriods));
+                    decimal futureValue = presentValue * (decimal)Pow((double)(1 + ((interestRate / 100) / (decimal)IntTimesPeriod(intTimes, iPeriods))), period * IntTimesPeriod(intTimes, iPeriods));
                     futureValue = Round(futureValue, 2);
 
-                    return $"Future Value: {futureValue:0.00}\nUsed formula: FV = PV × (1 + r%/m)^(m × n)\nSolution: {presentValue} × (1 + {interestRate / 100}/{iTimesPeriod(iTimes, iPeriods)})^({period} × {iTimesPeriod(iTimes, iPeriods)}) = {futureValue:0.00}";
+                    return $"Future Value: {futureValue:0.00}\nUsed formula: FV = PV × (1 + r%/m)^(m × n)\nSolution: {presentValue} × (1 + {interestRate / 100}/{IntTimesPeriod(intTimes, iPeriods)})^({period} × {IntTimesPeriod(intTimes, iPeriods)}) = {futureValue:0.00}";
                 }
                 catch (OverflowException)
                 {
@@ -106,14 +106,14 @@ namespace Finance
                 }
             }
 
-            public static string CAnticipativeInterest(decimal presentValue, decimal interestRate, double period, double iTimes, InterestPeriods iPeriods)     // if interest is not accounted Annually
+            public static string CAnticipativeInterest(decimal presentValue, decimal interestRate, double period, double intTimes, InterestPeriods iPeriods)     // if interest is not accounted Annually
             {
                 try
                 {
-                    decimal futureValue = presentValue / (decimal)Pow((double)(1 - ((interestRate / 100) / (decimal)(iTimesPeriod(iTimes, iPeriods)))), period * iTimesPeriod(iTimes, iPeriods));
+                    decimal futureValue = presentValue / (decimal)Pow((double)(1 - ((interestRate / 100) / (decimal)(IntTimesPeriod(intTimes, iPeriods)))), period * IntTimesPeriod(intTimes, iPeriods));
                     futureValue = Round(futureValue, 2);
 
-                    return $"Future Value: {futureValue:0.00}\nUsed formula: FV = PV / (1 - r%/m)^(m × n)\nSolution: {presentValue} / (1 - {interestRate / 100}/{iTimesPeriod(iTimes, iPeriods)})^({period} × {iTimesPeriod(iTimes, iPeriods)}) = {futureValue:0.00}";
+                    return $"Future Value: {futureValue:0.00}\nUsed formula: FV = PV / (1 - r%/m)^(m × n)\nSolution: {presentValue} / (1 - {interestRate / 100}/{IntTimesPeriod(intTimes, iPeriods)})^({period} × {IntTimesPeriod(intTimes, iPeriods)}) = {futureValue:0.00}";
                 }
                 catch (OverflowException)
                 {
@@ -128,7 +128,7 @@ namespace Finance
 
         public static class PresentValue
         {
-            public static readonly string[] attributes = { "Future Value", "Interest Rate", "Period", "Interest periods", "Type of periods (Daily - 0, Weekly - 1, Monthly - 2)" };
+            public static readonly string[] Attributes = { "Future Value", "Interest Rate", "Period", "Interest periods", "Type of periods (Daily - 0, Weekly - 1, Monthly - 2)" };
 
             public static string SimpleInterest(decimal futureValue, decimal interestRate, double period)
             {
@@ -167,14 +167,14 @@ namespace Finance
                 }
             }
 
-            public static string CDiscursiveInterest(decimal futureValue, decimal interestRate, double period, double iTimes, InterestPeriods iPeriods)     // if interest is not accounted Annually
+            public static string CDiscursiveInterest(decimal futureValue, decimal interestRate, double period, double intTimes, InterestPeriods iPeriods)     // if interest is not accounted Annually
             {
                 try
                 {
-                    decimal presentValue = futureValue / (decimal)Pow((double)(1 + ((interestRate / 100) / (decimal)iTimesPeriod(iTimes, iPeriods))), period * iTimesPeriod(iTimes, iPeriods));
+                    decimal presentValue = futureValue / (decimal)Pow((double)(1 + ((interestRate / 100) / (decimal)IntTimesPeriod(intTimes, iPeriods))), period * IntTimesPeriod(intTimes, iPeriods));
                     presentValue = Round(presentValue, 2);
 
-                    return $"Present Value: {presentValue:0.00}\nUsed formula: PV = FV / (1 + r%/m)^(m × n)\nSolution: {futureValue} / (1 + {interestRate / 100}/{iTimesPeriod(iTimes, iPeriods)})^({period} × {iTimesPeriod(iTimes, iPeriods)}) = {presentValue:0.00}";
+                    return $"Present Value: {presentValue:0.00}\nUsed formula: PV = FV / (1 + r%/m)^(m × n)\nSolution: {futureValue} / (1 + {interestRate / 100}/{IntTimesPeriod(intTimes, iPeriods)})^({period} × {IntTimesPeriod(intTimes, iPeriods)}) = {presentValue:0.00}";
                 }
                 catch (OverflowException)
                 {
@@ -205,14 +205,14 @@ namespace Finance
                 }
             }
 
-            public static string CAnticipativeInterest(decimal futureValue, decimal interestRate, double period, double iTimes, InterestPeriods iPeriods)     // if interest is not accounted Annually
+            public static string CAnticipativeInterest(decimal futureValue, decimal interestRate, double period, double intTimes, InterestPeriods iPeriods)     // if interest is not accounted Annually
             {
                 try
                 {
-                    decimal presentValue = futureValue * (decimal)Pow((double)(1 - ((interestRate / 100) / (decimal)iTimesPeriod(iTimes, iPeriods))), period * iTimesPeriod(iTimes, iPeriods));
+                    decimal presentValue = futureValue * (decimal)Pow((double)(1 - ((interestRate / 100) / (decimal)IntTimesPeriod(intTimes, iPeriods))), period * IntTimesPeriod(intTimes, iPeriods));
                     presentValue = Round(presentValue, 2);
 
-                    return $"Present Value: {presentValue:0.00}\nUsed formula: PV = FV × (1 - r%/m)^(m × n)\nSolution: {futureValue} × (1 - {interestRate / 100}/{iTimesPeriod(iTimes, iPeriods)})^({period} × {iTimesPeriod(iTimes, iPeriods)}) = {presentValue:0.00}";
+                    return $"Present Value: {presentValue:0.00}\nUsed formula: PV = FV × (1 - r%/m)^(m × n)\nSolution: {futureValue} × (1 - {interestRate / 100}/{IntTimesPeriod(intTimes, iPeriods)})^({period} × {IntTimesPeriod(intTimes, iPeriods)}) = {presentValue:0.00}";
                 }
                 catch (OverflowException)
                 {
@@ -227,16 +227,16 @@ namespace Finance
 
         public static class EffectiveIR
         {
-            public static readonly string[] attributes = { "Interest rate", "Interest period times", "Type of periods (Daily - 0, Weekly - 1, Monthly - 2)" };
+            public static readonly string[] Attributes = { "Interest rate", "Interest period times", "Type of periods (Daily - 0, Weekly - 1, Monthly - 2)" };
 
-            public static string Calculate(decimal interestRate, double iTimes, InterestPeriods iPeriods)
+            public static string Calculate(decimal interestRate, double intTimes, InterestPeriods iPeriods)
             {
                 try
                 {
-                    decimal eir = (((decimal)Pow((double)(1 + (interestRate / 100) / (decimal)iTimesPeriod(iTimes, iPeriods)), iTimesPeriod(iTimes, iPeriods))) - 1) * 100;
+                    decimal eir = (((decimal)Pow((double)(1 + (interestRate / 100) / (decimal)IntTimesPeriod(intTimes, iPeriods)), IntTimesPeriod(intTimes, iPeriods))) - 1) * 100;
                     eir = Round(eir, 2);
 
-                    return $"Effective Interest Rate: {eir}%\nUsed formula: [(1 + r%/m)^m-1] × 100\nSolution: [(1 + {interestRate / 100}/{iTimesPeriod(iTimes, iPeriods)})^{iTimesPeriod(iTimes, iPeriods)}-1] × 100 = {eir}%";
+                    return $"Effective Interest Rate: {eir}%\nUsed formula: [(1 + r%/m)^m-1] × 100\nSolution: [(1 + {interestRate / 100}/{IntTimesPeriod(intTimes, iPeriods)})^{IntTimesPeriod(intTimes, iPeriods)}-1] × 100 = {eir}%";
                 }
                 catch (OverflowException)
                 {
@@ -252,16 +252,16 @@ namespace Finance
 
     public static class RateOfReturn
     {
-        public static readonly string[] attributes = { "Value of investment", "Future Value" };
+        public static readonly string[] Attributes = { "Value of investment", "Future Value" };
 
-        public static string Calculate(decimal ValueOfInvestment, decimal FutureValue)
+        public static string Calculate(decimal valueOfInvestment, decimal futureValue)
         {
             try
             {
-                decimal result = ((FutureValue - ValueOfInvestment) / ValueOfInvestment) * 100;
+                decimal result = ((futureValue - valueOfInvestment) / valueOfInvestment) * 100;
                 result = Round(result, 2);
 
-                return $"Rate of return: {result}%\nUsed formula: ((FV-I)/I) × 100 = r%\nSolution: (({FutureValue} - {ValueOfInvestment}) / {ValueOfInvestment}) × 100 = {result}%";
+                return $"Rate of return: {result}%\nUsed formula: ((FV-I)/I) × 100 = r%\nSolution: (({futureValue} - {valueOfInvestment}) / {valueOfInvestment}) × 100 = {result}%";
             }
             catch (OverflowException)
             {
@@ -279,7 +279,7 @@ namespace Finance
 
         public class ExpectedReturns
         {
-            public static readonly string[] attributes = { "Anticipated Revenues", "Probability" };
+            public static readonly string[] Attributes = { "Anticipated Revenues", "Probability" };
             private decimal _ER = 0;
             public decimal Value
             {
@@ -287,7 +287,7 @@ namespace Finance
                 get { return _ER; }
             }
 
-            public static ExpectedReturns eR = new ExpectedReturns();
+            public static ExpectedReturns ER = new ExpectedReturns();
 
             public string Calculate(decimal anticipatedR, decimal probability)
             {
@@ -314,7 +314,7 @@ namespace Finance
 
         public class StandardDeviation
         {
-            public static readonly string[] attributes = { "Anticipated Revenues", "Probability", "Expected Returns" };
+            public static readonly string[] Attributes = { "Anticipated Revenues", "Probability", "Expected Returns" };
             private decimal _SD = 0;
 
             public decimal Value
@@ -351,7 +351,7 @@ namespace Finance
 
         public static class VariationCoefficient
         {
-            public static readonly string[] attributes = { "Standard Devration", "Expected Returns" };
+            public static readonly string[] Attributes = { "Standard Devration", "Expected Returns" };
             public static string Calculate(decimal SD, decimal ER)
             {
                 ER = (ER < 1 && ER > -1) ? ER * 100 : ER;
@@ -373,7 +373,7 @@ namespace Finance
 
         public class PortfolioCovariation
         {
-            public static readonly string[] attributes = { "Anticipated Revenues A", "Expected Returns A", "Anticipated Revenues B", "Expected Returns B", "Probability" };
+            public static readonly string[] Attributes = { "Anticipated Revenues A", "Expected Returns A", "Anticipated Revenues B", "Expected Returns B", "Probability" };
 
             private decimal _PC = 0;
             public decimal Value
@@ -410,7 +410,7 @@ namespace Finance
 
         public class CorelationCoefficient
         {
-            public static readonly string[] attributes = { "Covariation", "Standard Deviation A", "Standard Deviation B" };
+            public static readonly string[] Attributes = { "Covariation", "Standard Deviation A", "Standard Deviation B" };
 
             private decimal _CC;
             public decimal Value
@@ -446,7 +446,7 @@ namespace Finance
 
         public static class PortfolioDeviation
         {
-            public static readonly string[] attributes = { "Portfolio Share A", "Standard Deviation A", "Portfolio Share B", "Standard Deviation B", "Corelation Coefficient" };
+            public static readonly string[] Attributes = { "Portfolio Share A", "Standard Deviation A", "Portfolio Share B", "Standard Deviation B", "Corelation Coefficient" };
 
             public static string Calculate(decimal PSA, decimal SDA, decimal PSB, decimal SDB, decimal CC)
             {
@@ -472,7 +472,7 @@ namespace Finance
 
         public static class BetaCoefficient
         {
-            public static string[] attributes = { "Portfolio Covariation", "Portfolio Dispersion" };
+            public static string[] Attributes = { "Portfolio Covariation", "Portfolio Dispersion" };
 
             public static string Calculate(decimal Cov, decimal Dispersion)
             {
@@ -502,7 +502,7 @@ namespace Finance
 
         public static class LinearDeprication
         {
-            public static readonly string[] attributes = {"Аcquisition cost", "Years", "Liquidation value" };
+            public static readonly string[] Attributes = {"Аcquisition cost", "Years", "Liquidation value" };
 
             public static string Calculate(decimal AC, int Years)
             {
@@ -563,7 +563,7 @@ namespace Finance
 
         public static class DecreasingDecuction
         {
-            public static readonly string[] attributes = { "Аcquisition cost", "Years", "Increase coefficient" };
+            public static readonly string[] Attributes = { "Аcquisition cost", "Years", "Increase coefficient" };
 
             public static string Calculate(decimal AC, int Years, decimal IC)
             {

@@ -23,7 +23,7 @@ namespace FinanceCalculatorUWP
                 else
                     CalculationButton.IsEnabled = true;
 
-                return FlipperFeeder(Interest.FutureValue.attributes);
+                return FlipperFeeder(Interest.FutureValue.Attributes);
             }
             #endregion
 
@@ -38,7 +38,7 @@ namespace FinanceCalculatorUWP
                 else
                     CalculationButton.IsEnabled = true;
 
-                return FlipperFeeder(Interest.PresentValue.attributes);
+                return FlipperFeeder(Interest.PresentValue.Attributes);
             }
             #endregion
 
@@ -53,7 +53,7 @@ namespace FinanceCalculatorUWP
                 else
                     CalculationButton.IsEnabled = false;
 
-                return FlipperFeeder(Interest.EffectiveIR.attributes);
+                return FlipperFeeder(Interest.EffectiveIR.Attributes);
             }
 
             #endregion
@@ -69,7 +69,7 @@ namespace FinanceCalculatorUWP
                     CalculationButton.IsEnabled = true;
                 else CalculationButton.IsEnabled = false;
 
-                return FlipperFeeder(RateOfReturn.attributes);
+                return FlipperFeeder(RateOfReturn.Attributes);
             }
 
             #endregion
@@ -86,43 +86,43 @@ namespace FinanceCalculatorUWP
                         if (spaces == 1)
                             CalculationButton.IsEnabled = true;
                         else CalculationButton.IsEnabled = false;
-                        return FlipperFeeder(Risk.ExpectedReturns.attributes);
+                        return FlipperFeeder(Risk.ExpectedReturns.Attributes);
 
                     case (int)Risk.CalcType.StandardDeviation:
                         if (spaces == 2)
                             CalculationButton.IsEnabled = true;
                         else CalculationButton.IsEnabled = false;
-                        return FlipperFeeder(Risk.StandardDeviation.attributes);
+                        return FlipperFeeder(Risk.StandardDeviation.Attributes);
 
                     case (int)Risk.CalcType.VariationCoefficient:
                         if (spaces == 1)
                             CalculationButton.IsEnabled = true;
                         else CalculationButton.IsEnabled = false;
-                        return FlipperFeeder(Risk.VariationCoefficient.attributes);
+                        return FlipperFeeder(Risk.VariationCoefficient.Attributes);
 
                     case (int)Risk.CalcType.PortfolioCovariation:
                         if (spaces == 4)
                             CalculationButton.IsEnabled = true;
                         else CalculationButton.IsEnabled = false;
-                        return FlipperFeeder(Risk.PortfolioCovariation.attributes);
+                        return FlipperFeeder(Risk.PortfolioCovariation.Attributes);
 
                     case (int)Risk.CalcType.CorelationCoefficient:
                         if (spaces == 2)
                             CalculationButton.IsEnabled = true;
                         else CalculationButton.IsEnabled = false;
-                        return FlipperFeeder(Risk.CorelationCoefficient.attributes);
+                        return FlipperFeeder(Risk.CorelationCoefficient.Attributes);
 
                     case (int)Risk.CalcType.PortfolioDeviation:
                         if (spaces == 4)
                             CalculationButton.IsEnabled = true;
                         else CalculationButton.IsEnabled = false;
-                        return FlipperFeeder(Risk.PortfolioDeviation.attributes);
+                        return FlipperFeeder(Risk.PortfolioDeviation.Attributes);
 
                     case (int)Risk.CalcType.BetaCoefficient:
                         if (spaces == 1)
                             CalculationButton.IsEnabled = true;
                         else CalculationButton.IsEnabled = false;
-                        return FlipperFeeder(Risk.BetaCoefficient.attributes);
+                        return FlipperFeeder(Risk.BetaCoefficient.Attributes);
                 }
             }
             #endregion
@@ -138,12 +138,12 @@ namespace FinanceCalculatorUWP
                     case (int)Deprication.DepricationType.Linear:
                         if (spaces == 1 || spaces == 2) CalculationButton.IsEnabled = true;
                         else CalculationButton.IsEnabled = false;
-                        return FlipperFeeder(Deprication.LinearDeprication.attributes);
+                        return FlipperFeeder(Deprication.LinearDeprication.Attributes);
 
                     case (int)Deprication.DepricationType.DecreasingDecuction:
                         if (spaces == 2) CalculationButton.IsEnabled = true;
                         else CalculationButton.IsEnabled = false;
-                        return FlipperFeeder(Deprication.DecreasingDecuction.attributes);
+                        return FlipperFeeder(Deprication.DecreasingDecuction.Attributes);
                 }
             }
             #endregion
@@ -152,7 +152,7 @@ namespace FinanceCalculatorUWP
             return "";
         }
 
-        private string FlipperFeeder(string[] attributes) => (spaces <= attributes.Length - 1) ? $"Enter: {attributes[spaces]}" : "There is no more data to be filled.";
+        private string FlipperFeeder(string[] Attributes) => (spaces <= Attributes.Length - 1) ? $"Enter: {Attributes[spaces]}" : "There is no more data to be filled.";
 
         private string DoCalculation(string[] attribute)
         {
@@ -222,13 +222,13 @@ namespace FinanceCalculatorUWP
                 switch (spinner[1])
                 {
                     case (int)Risk.CalcType.ExpectedReturns:
-                        return Risk.ExpectedReturns.eR.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]));
+                        return Risk.ExpectedReturns.ER.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]));
 
                     case (int)Risk.CalcType.StandardDeviation:
-                        return Risk.StandardDeviation.sD.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), (attribute[2] == "0") ? Risk.ExpectedReturns.eR.Value : ExtractValue<decimal>(attribute[2]));           // if Expected Returns is equal to 0, the app will use Risk.ExpectedReturns.eR's data
+                        return Risk.StandardDeviation.sD.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), (attribute[2] == "0") ? Risk.ExpectedReturns.ER.Value : ExtractValue<decimal>(attribute[2]));           // if Expected Returns is equal to 0, the app will use Risk.ExpectedReturns.ER's data
 
                     case (int)Risk.CalcType.VariationCoefficient:
-                        return Risk.VariationCoefficient.Calculate((attribute[0] == "0") ? Risk.StandardDeviation.sD.Value : ExtractValue<decimal>(attribute[0]), (attribute[1] == "0") ? Risk.ExpectedReturns.eR.Value : ExtractValue<decimal>(attribute[1]));
+                        return Risk.VariationCoefficient.Calculate((attribute[0] == "0") ? Risk.StandardDeviation.sD.Value : ExtractValue<decimal>(attribute[0]), (attribute[1] == "0") ? Risk.ExpectedReturns.ER.Value : ExtractValue<decimal>(attribute[1]));
 
                     case (int)Risk.CalcType.PortfolioCovariation:
                         return Risk.PortfolioCovariation.PC.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<decimal>(attribute[3]), ExtractValue<decimal>(attribute[4]));

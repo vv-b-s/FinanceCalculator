@@ -46,7 +46,7 @@ namespace FinanceCalculatorUWP
             #endregion            
         }
 
-        private async void ShowStatusBar()
+        private static async void ShowStatusBar()
         {
             // turn on SystemTray for mobile
             // don't forget to add a Reference to Windows Mobile Extensions For The UWP
@@ -118,7 +118,7 @@ namespace FinanceCalculatorUWP
                     case (int)Calculate.Risk:
                         CSpinnerVisibility<Risk.CalcType>("Choose a risk operation:");
 
-                        Risk.ExpectedReturns.eR.Clear();
+                        Risk.ExpectedReturns.ER.Clear();
                         Risk.StandardDeviation.sD.Clear();
                         Risk.PortfolioCovariation.PC.Clear();
                         Risk.CorelationCoefficient.CC.Clear();
@@ -166,12 +166,12 @@ namespace FinanceCalculatorUWP
             }
         }
 
-        private void CSpinnerVisibility<FormulaTypesEnum>(string labelText)                                   // Easily creates the data for the secons spinner
+        private void CSpinnerVisibility<TFormulaTypesEnum>(string labelText)                                   // Easily creates the data for the secons spinner
         {
             CalculationSpinner.Items.Clear();
             CSpinnerVisibility(true);
 
-            foreach (var item in Enum.GetValues(typeof(FormulaTypesEnum)))             // http://stackoverflow.com/questions/15040872/adding-enum-values-to-a-simple-combobox
+            foreach (var item in Enum.GetValues(typeof(TFormulaTypesEnum)))             // http://stackoverflow.com/questions/15040872/adding-enum-values-to-a-simple-combobox
                 CalculationSpinner.Items.Add(item);
             CalculationSpinner.SelectedIndex = 0;
 
@@ -189,7 +189,7 @@ namespace FinanceCalculatorUWP
             spaces = 0;
         }
 
-        private bool CheckInput(ref string[] input)
+        private static bool CheckInput(ref string[] input)
         {
             for (int i = 0; i < input.Length; i++)
             {
@@ -205,7 +205,7 @@ namespace FinanceCalculatorUWP
             return true;
         }
 
-        private T ExtractValue<T>(string input) where T : struct
+        private static T ExtractValue<T>(string input) where T : struct
         {
             var culture = new CultureInfo("bg-BG");
 
