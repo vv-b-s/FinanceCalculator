@@ -1,0 +1,14 @@
+1. Add public readonly string[] Attributes (string array of the required arguments for the Calculate() method) to the new class.
+
+2. The class which will do the calcualtions must be named Calculate and it must take only the arguments declared in Attributes[].
+
+3. Every new class, must be added as an enum into Finance.Calculate and must have its own enums if it has more than one formulas.
+
+4. Extend ModifyFlipper() method. The Attributes[] string is used to display to the user which argument should he enter at the given time. This is defined by the number of spaces the user enters. Therefore the CalculationButton must not be enabled if the user hasn't enter all the spaces needed. (After he button is pressed, the data is splitted into separate strings and it's sent to DoCalculation())
+5. Extend DoCalculation() method. The structure of this method should be similar to the ModifyFlipper() for the sake of convenience. In this method all the Calculate() methods are called. Input data must be numeric, but depending on future extensions this rule might change. To safely give the required value to the argument, use ExtractValue<T>(). In T the type of the value should be specified. Currently the method supports Int32, Double and Decimal.
+
+4. Define properties for the second spinner (combo box). If the new class is not under a class allready defined in the second spinner, it must be defined by using its enum name in order to be accessible to the user. The whole program works based on this data.
+
+5. Clear any singleton type. If the class uses singleton type, it must contain a Clear method, to delete the old data so it can be reusable.
+
+6. Copy out all the modifications between the two platforms. Though the Android and UWP app use the same formula library, the contents in their Main classes differs, because it is platform specific. A copy-paste and some littele modifications will get the job done.
