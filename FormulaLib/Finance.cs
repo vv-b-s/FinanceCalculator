@@ -656,7 +656,9 @@ namespace Finance
                     decimal LinearDepricationNorm = Round(100m / Years, 2);
                     decimal DepricationNorm = LinearDepricationNorm * IC;
 
-                    return $"Deprication Norm: {DepricationNorm}%\nUsed formula: (100 / Years) × K\nSolution: (100 / {Years}) = {LinearDepricationNorm} × {IC} = {DepricationNorm}%\n\n"+CreateTable(DepricationNorm,AC,Years);
+                    return $"Deprication Norm: {DepricationNorm}%\n" +
+                           "Used formula: (100 / Years) × K\n" +
+                           $"Solution: (100 / {Years}) = {LinearDepricationNorm} × {IC} = {DepricationNorm}%\n\n"+CreateTable(DepricationNorm,AC,Years);
                 }
                 catch (OverflowException)
                 {
@@ -664,7 +666,9 @@ namespace Finance
                 }
                 catch (DivideByZeroException)
                 {
-                    return "Dividing by zero error!\nPlease check your input.\nIf your input is correct and you get this error, then your calculation is impossible.";
+                    return "Dividing by zero error!\n" +
+                           "Please check your input.\n" +
+                           "If your input is correct and you get this error, then your calculation is impossible.";
                 }
             }
 
