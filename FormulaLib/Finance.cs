@@ -742,7 +742,7 @@ namespace Finance
 
                     output.AppendLine($"{"Year",-15}" +
                                       $"{"Years left",-17}" +
-                                      $"{"Depr. Norm",-25}" +
+                                      $"{"Depr. Norm",-30}" +
                                       $"{"Deprication",-17}" +
                                       $"{"Comulative Sum",-20}" +
                                       "Tax Savings");
@@ -754,17 +754,17 @@ namespace Finance
                         comulativeSum += DepricationDeduction;
 
                         output.AppendLine($"{i,-20}" +
-                                          $"{j,-15}" +
-                                          $"{j}/{yearSum} × 100 = {depricationRate,-30:0.00}" +
+                                          $"{j,-17}" +
+                                          $"{j}/{yearSum} × 100 = {depricationRate,-15:0.00}" +
                                           $"{DepricationDeduction,-18:0.00}" +
                                           $"{comulativeSum,-28:0.00}" +
                                           $"{DepricationDeduction * 0.2m:0.00}");
                     }
                     output.AppendLine($"\n{"Total",-18}" +
                                       $"{yearSum,-18}" +
-                                      $"{"-",-20}" +
+                                      $"{"-",-35}" +
                                       $"{comulativeSum,-24:0.00}" +
-                                      $"{"-",-32}" +
+                                      $"{"-",-30}" +
                                       $"{AC * (100m / Years) / 100:0.00}\n\n"+
                                       "Notice that the Аcquisition cost remains constant.");
 
