@@ -85,9 +85,6 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Steps to do when adding new formula.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\FormulaLib\FormulaLib.csproj">
       <Project>{7de7f0c2-9610-4592-a01e-6684a6a821db}</Project>
       <Name>FormulaLib</Name>

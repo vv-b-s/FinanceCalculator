@@ -560,21 +560,21 @@ namespace Finance
 
     public static class Deprication
     {
-        public enum DepricationType { Linear, DecreasingDecuction}
+        public enum DepricationType { Linear, DecreasingDeduction, ComulativeMethod }
 
         public static class LinearDeprication
         {
-            public static readonly string[] Attributes = {"Аcquisition cost", "Years", "Liquidation value" };
+            public static readonly string[] Attributes = { "Аcquisition cost", "Years", "Liquidation value" };
 
             public static string Calculate(decimal AC, int Years)
             {
                 try
                 {
-                    decimal LD = Round(100m/Years,2);
+                    decimal LD = Round(100m / Years, 2);
 
                     return $"Linear Deprication Norm: {LD}%\n" +
                            "Used fromula: 100/Years\n" +
-                           $"Solution: 100 / {Years} = {LD}%\n\n" + CreateTable(LD,AC,Years);
+                           $"Solution: 100 / {Years} = {LD}%\n\n" + CreateTable(LD, AC, Years);
                 }
                 catch (OverflowException)
                 {
@@ -592,7 +592,7 @@ namespace Finance
             {
                 try
                 {
-                    decimal LD = Round(((AC-LV)/(AC*Years))*100, 2);
+                    decimal LD = Round(((AC - LV) / (AC * Years)) * 100, 2);
                     return $"Linear Deprication Norm: {LD}%\n" +
                            "Used fromula: [(AC-LV)/(AC × Years)] × 100\n" +
                            $"Solution: [({AC} - {LV}) /({AC} × {Years}] × 100 = {LD}%\n\n" + CreateTable(LD, AC, Years);
@@ -609,41 +609,41 @@ namespace Finance
                 }
             }
 
-            private static string CreateTable(decimal LD,decimal AC, int Years)
+            private static string CreateTable(decimal LD, decimal AC, int Years)
             {
                 LD = LD / 100;
-                decimal DepricationDecuction = AC * LD;
+                decimal DepricationDeduction = AC * LD;
 
                 var output = new StringBuilder();
 
-                for (int i = 0; i <= Years+1; i++)
+                for (int i = 0; i <= Years + 1; i++)
                 {
-                    if(i==0)
+                    if (i == 0)
                         output.AppendLine($"{"Year",-15}" +
                                           $"{"Depr. Norm",-17}" +
                                           $"{(char)8721}{"Depr. Deduct.",-17}" +
                                           $"{"Comulative Sum",-20}" +
                                           "Tax Savings");
 
-                    else if(i>0&&i<=Years)
+                    else if (i > 0 && i <= Years)
                         output.AppendLine($"{i,-20}" +
                                           $"{LD * 100,-20:0.00}" +
-                                          $"{DepricationDecuction,-24:0.00}" +
-                                          $"{DepricationDecuction * i,-28:0.00}" +
+                                          $"{DepricationDeduction,-24:0.00}" +
+                                          $"{DepricationDeduction * i,-28:0.00}" +
                                           $"{LD * 10000:0.00}");
-                    else if(i==Years+1)
+                    else if (i == Years + 1)
                         output.AppendLine($"\n{"Total",-18}" +
                                           $"{"100",-20}" +
                                           $"{AC,-24:0.00}" +
                                           $"{"-",-32}" +
-                                          $"{DepricationDecuction:0.00}");
-                }     
+                                          $"{DepricationDeduction:0.00}");
+                }
 
                 return output.ToString();
             }
         }
 
-        public static class DecreasingDecuction
+        public static class DecreasingDeduction
         {
             public static readonly string[] Attributes = { "Аcquisition cost", "Years", "Increase coefficient" };
 
@@ -658,7 +658,7 @@ namespace Finance
 
                     return $"Deprication Norm: {DepricationNorm}%\n" +
                            "Used formula: (100 / Years) × K\n" +
-                           $"Solution: (100 / {Years}) = {LinearDepricationNorm} × {IC} = {DepricationNorm}%\n\n"+CreateTable(DepricationNorm,AC,Years);
+                           $"Solution: (100 / {Years}) = {LinearDepricationNorm} × {IC} = {DepricationNorm}%\n\n" + CreateTable(DepricationNorm, AC, Years);
                 }
                 catch (OverflowException)
                 {
@@ -672,13 +672,13 @@ namespace Finance
                 }
             }
 
-            private static string CreateTable(decimal DDecuction, decimal AC, int Years)
+            private static string CreateTable(decimal DDeduction, decimal AC, int Years)
             {
-                DDecuction /= 100;
-                decimal DepricationDecuction = AC * DDecuction;
+                DDeduction /= 100;
+                decimal DepricationDeduction = AC * DDeduction;
 
                 var output = new StringBuilder();
-                decimal comulSum = DepricationDecuction;
+                decimal comulSum = DepricationDeduction;
                 output.AppendLine($"{"Year",-15}" +
                                   $"{"Depr. Norm",-17}" +
                                   $"{"Deprication",-17}" +
@@ -687,41 +687,100 @@ namespace Finance
 
                 for (int i = 1; i <= Years; i++)
                 {
-                    if (i > 0 && i <= Years-2)
+                    if (i > 0 && i <= Years - 2)
                     {
                         output.AppendLine($"{i,-20}" +
-                                          $"{DDecuction * 100,-20:0.00}" +
-                                          $"{DepricationDecuction,-18:0.00}" +
+                                          $"{DDeduction * 100,-20:0.00}" +
+                                          $"{DepricationDeduction,-18:0.00}" +
                                           $"{comulSum,-28:0.00}" +
-                                          $"{DepricationDecuction * 0.2m:0.00}");
-                        AC -= DepricationDecuction;
+                                          $"{DepricationDeduction * 0.2m:0.00}");
+                        AC -= DepricationDeduction;
 
-                        if (i<Years-2)
+                        if (i < Years - 2)
                         {
-                            DepricationDecuction = AC * DDecuction;
-                            comulSum += DepricationDecuction; 
+                            DepricationDeduction = AC * DDeduction;
+                            comulSum += DepricationDeduction;
                         }
                     }
-                    else if(i==Years-1||i==Years)
-                    {                        
-                        DepricationDecuction = AC * 1 /((i==Years-1)?2:1);
-                        comulSum += DepricationDecuction;
-                        AC -= DepricationDecuction;
+                    else if (i == Years - 1 || i == Years)
+                    {
+                        DepricationDeduction = AC * 1 / ((i == Years - 1) ? 2 : 1);
+                        comulSum += DepricationDeduction;
+                        AC -= DepricationDeduction;
                         output.AppendLine($"{i,-20}" +
                                           $"{ 50.0,-19:0.00}" +
-                                          $"{DepricationDecuction,-18:0.00}" +
+                                          $"{DepricationDeduction,-18:0.00}" +
                                           $"{comulSum,-28:0.00}" +
-                                          $"{DepricationDecuction* 0.2m:0.00}");
+                                          $"{DepricationDeduction * 0.2m:0.00}");
                     }
                 }
                 output.AppendLine($"\n{"Total",-18}" +
                                   $"{"-",-20}" +
                                   $"{comulSum,-24:0.00}" +
                                   $"{"-",-32}" +
-                                  $"{comulSum * (100 / Years)/100:0.00}");
+                                  $"{comulSum * (100 / Years) / 100:0.00}");
                 return output.ToString();
             }
         }
 
+        public static class ComulativeMethod
+        {
+            public static readonly string[] Attributes = { "Аcquisition cost", "Years" };
+
+            public static string Calculate(decimal AC, int Years) => CreateTable(AC, Years);
+
+            private static string CreateTable(decimal AC, int Years)
+            {
+                try
+                {
+                    var output = new StringBuilder();
+                    decimal comulativeSum = 0;
+
+                    int yearSum = 0;
+                    for (int i = Years; i >0; i--)
+                        yearSum+=i;
+
+                    output.AppendLine($"{"Year",-15}" +
+                                      $"{"Years left",-17}" +
+                                      $"{"Depr. Norm",-25}" +
+                                      $"{"Deprication",-17}" +
+                                      $"{"Comulative Sum",-20}" +
+                                      "Tax Savings");
+
+                    for (int i = 0, j = Years; i < Years; i++, j--)
+                    {
+                        decimal depricationRate = Round(j / (decimal)yearSum * 100m, 2);
+                        decimal DepricationDeduction = AC * (depricationRate/100m);
+                        comulativeSum += DepricationDeduction;
+
+                        output.AppendLine($"{i,-20}" +
+                                          $"{j,-15}" +
+                                          $"{j}/{yearSum} × 100 = {depricationRate,-30:0.00}" +
+                                          $"{DepricationDeduction,-18:0.00}" +
+                                          $"{comulativeSum,-28:0.00}" +
+                                          $"{DepricationDeduction * 0.2m:0.00}");
+                    }
+                    output.AppendLine($"\n{"Total",-18}" +
+                                      $"{yearSum,-18}" +
+                                      $"{"-",-20}" +
+                                      $"{comulativeSum,-24:0.00}" +
+                                      $"{"-",-32}" +
+                                      $"{AC * (100m / Years) / 100:0.00}\n\n"+
+                                      "Notice that the Аcquisition cost remains constant.");
+
+                    return output.ToString();
+                }
+                catch (OverflowException)
+                {
+                    return "Impossible calculation";
+                }
+                catch (DivideByZeroException)
+                {
+                    return "Dividing by zero error!\n" +
+                           "Please check your input.\n" +
+                           "If your input is correct and you get this error, then your calculation is impossible.";
+                }
+            }
+        }
     }
 }

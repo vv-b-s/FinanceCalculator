@@ -113,9 +113,13 @@ namespace FinanceCalculator
                         CalculationButton.Enabled = spaces == 1 || spaces == 2;
                         return FlipperFeeder(Deprication.LinearDeprication.Attributes);
 
-                    case (int)Deprication.DepricationType.DecreasingDecuction:
+                    case (int)Deprication.DepricationType.DecreasingDeduction:
                         CalculationButton.Enabled = spaces == 2;
-                        return FlipperFeeder(Deprication.DecreasingDecuction.Attributes);
+                        return FlipperFeeder(Deprication.DecreasingDeduction.Attributes);
+
+                    case (int)Deprication.DepricationType.ComulativeMethod:
+                        CalculationButton.Enabled = spaces == 1;
+                        return FlipperFeeder(Deprication.ComulativeMethod.Attributes);
                 }
             }
             #endregion
@@ -138,14 +142,14 @@ namespace FinanceCalculator
                     case (int)Interest.IntrestType.Discursive:
                         if (spaces == 2)
                             return Interest.FutureValue.CDiscursiveInterest(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]));
-                        else if (spaces == 4)
+                        if (spaces == 4)
                             return Interest.FutureValue.CDiscursiveInterest(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]), ExtractValue<double>(attribute[3]), (Interest.InterestPeriods)ExtractValue<int>(attribute[4]));
                         break;
 
                     case (int)Interest.IntrestType.Anticipative:
                         if (spaces == 2)
                             return Interest.FutureValue.CAnticipativeInterest(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]));
-                        else if (spaces == 4)
+                        if (spaces == 4)
                             return Interest.FutureValue.CAnticipativeInterest(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]), ExtractValue<double>(attribute[3]), (Interest.InterestPeriods)ExtractValue<int>(attribute[4]));
                         break;
                 }
@@ -227,8 +231,11 @@ namespace FinanceCalculator
                             return Deprication.LinearDeprication.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<int>(attribute[1]), ExtractValue<decimal>(attribute[2]));
                         break;
 
-                    case (int)Deprication.DepricationType.DecreasingDecuction:
-                        return Deprication.DecreasingDecuction.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<int>(attribute[1]), ExtractValue<decimal>(attribute[2]));
+                    case (int)Deprication.DepricationType.DecreasingDeduction:
+                        return Deprication.DecreasingDeduction.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<int>(attribute[1]), ExtractValue<decimal>(attribute[2]));
+
+                    case (int)Deprication.DepricationType.ComulativeMethod:
+                        return Deprication.ComulativeMethod.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<int>(attribute[1]));
                 }
             #endregion
 

@@ -105,9 +105,13 @@ namespace FinanceCalculatorUWP
                         CalculationButton.IsEnabled = spaces == 1 || spaces == 2;
                         return FlipperFeeder(Deprication.LinearDeprication.Attributes);
 
-                    case (int)Deprication.DepricationType.DecreasingDecuction:
+                    case (int)Deprication.DepricationType.DecreasingDeduction:
                         CalculationButton.IsEnabled = spaces == 2;
-                        return FlipperFeeder(Deprication.DecreasingDecuction.Attributes);
+                        return FlipperFeeder(Deprication.DecreasingDeduction.Attributes);
+
+                    case (int)Deprication.DepricationType.ComulativeMethod:
+                        CalculationButton.IsEnabled = spaces == 1;
+                        return FlipperFeeder(Deprication.ComulativeMethod.Attributes);
                 }
             }
             #endregion
@@ -216,12 +220,15 @@ namespace FinanceCalculatorUWP
                     case (int)Deprication.DepricationType.Linear:
                         if (spaces == 1)
                             return Deprication.LinearDeprication.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<int>(attribute[1]));
-                        else if (spaces == 2)
+                        if (spaces == 2)
                             return Deprication.LinearDeprication.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<int>(attribute[1]), ExtractValue<decimal>(attribute[2]));
                         break;
 
-                    case (int)Deprication.DepricationType.DecreasingDecuction:
-                        return Deprication.DecreasingDecuction.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<int>(attribute[1]), ExtractValue<decimal>(attribute[2]));
+                    case (int)Deprication.DepricationType.DecreasingDeduction:
+                        return Deprication.DecreasingDeduction.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<int>(attribute[1]), ExtractValue<decimal>(attribute[2]));
+
+                    case (int)Deprication.DepricationType.ComulativeMethod:
+                        return Deprication.ComulativeMethod.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<int>(attribute[1]));
                 }
             #endregion
 
