@@ -10,6 +10,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Android.Hardware;
+using Android.Graphics;
 
 using Finance;
 
@@ -21,6 +22,7 @@ namespace FinanceCalculator
         internal static int[] spinner = new int[2];                             // Getting the position of the spinners.
         internal static int spaces = 0;                                        // Used to measure words in the InputBox
 
+        Typeface courierNew = Typeface.CreateFromAsset(Application.Context.Assets, "fonts/courier-new.ttf");            // Used in the ResultBox to make the font suitable for the table  https://forums.xamarin.com/discussion/3875/typeface-in-monodroid
 
         #region UI Control
         protected override void OnCreate(Bundle bundle)
@@ -42,6 +44,7 @@ namespace FinanceCalculator
             CSpinnerVisibility(false);
             InputBox.Enabled = false;
             CalculationButton.Enabled = false;
+            ResultBox.SetTypeface(courierNew, TypefaceStyle.Normal);
 
 
             #region SpinnerConnection

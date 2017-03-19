@@ -620,30 +620,43 @@ namespace Finance
                 LD = LD / 100;
                 decimal DepricationDeduction = AC * LD;
 
-                var output = new StringBuilder();
+                var output = Table.Create(Years+2,5,true,true);
 
-                for (int i = 0; i <= Years + 1; i++)
-                {
-                    if (i == 0)
-                        output.AppendLine($"{"Year",-15}" +
-                                          $"{"Depr. Norm",-17}" +
-                                          $"{(char)8721}{"Depr. Deduct.",-17}" +
-                                          $"{"Comulative Sum",-20}" +
-                                          "Tax Savings");
+                #region Head
+                output.Modify(0, 0) = $"Year";
+                output.Modify(0, 1) = $"Depr. Norm";
+                output.Modify(0, 2) = $"{(char)8721}{"Depr. Deduct."}";
+                output.Modify(0, 3) = $"{"Comulative Sum"}";
+                output.Modify(0, 4) = "Tax Savings";
+                #endregion
 
-                    else if (i > 0 && i <= Years)
-                        output.AppendLine($"{i,-20}" +
-                                          $"{LD * 100,-20:0.00}" +
-                                          $"{DepricationDeduction,-24:0.00}" +
-                                          $"{DepricationDeduction * i,-28:0.00}" +
-                                          $"{LD * 10000:0.00}");
-                    else if (i == Years + 1)
-                        output.AppendLine($"\n{"Total",-18}" +
-                                          $"{"100",-20}" +
-                                          $"{AC,-24:0.00}" +
-                                          $"{"-",-32}" +
-                                          $"{DepricationDeduction:0.00}");
-                }
+                #region Body
+                for (int i = 1; i <= Years; i++)
+                    for(int k=0;k<5;k++)
+                    {
+                        switch (k)
+                        {
+                            case 0:
+                                output.Modify(i, k) = $"{i}"; break;
+                            case 1:
+                                output.Modify(i, k) = $"{LD * 100:0.00}"; break;
+                            case 2:
+                                output.Modify(i, k) = $"{DepricationDeduction:0.00}"; break;
+                            case 3:
+                                output.Modify(i, k) = $"{DepricationDeduction * i:0.00}"; break;
+                            case 4:
+                                output.Modify(i, k) = $"{LD * 10000:0.00}"; break;
+                        }
+                    }
+                #endregion
+
+                #region Legs
+                output.Modify(Years + 1, 0) = $"Total";
+                output.Modify(Years + 1, 1) = $"100";
+                output.Modify(Years + 1, 2) = $"{AC:0.00}";
+                output.Modify(Years + 1, 3) = $"-";
+                output.Modify(Years + 1, 4) = $"{DepricationDeduction:0.00}";
+                #endregion
 
                 return output.ToString();
             }
@@ -683,48 +696,74 @@ namespace Finance
                 DDeduction /= 100;
                 decimal DepricationDeduction = AC * DDeduction;
 
-                var output = new StringBuilder();
+                var output = Table.Create(Years + 2, 5, true, true);
                 decimal comulSum = DepricationDeduction;
-                output.AppendLine($"{"Year",-15}" +
-                                  $"{"Depr. Norm",-17}" +
-                                  $"{"Deprication",-17}" +
-                                  $"{"Comulative Sum",-20}" +
-                                  "Tax Savings");
 
+                #region Head
+                output.Modify(0, 0) = $"{"Year"}";
+                output.Modify(0, 1) = $"{"Depr. Norm"}";
+                output.Modify(0, 2) = $"{"Deprication"}";
+                output.Modify(0, 3) = $"{"Comulative Sum"}";
+                output.Modify(0, 4) = "Tax Savings";
+                #endregion
+
+                #region Body
                 for (int i = 1; i <= Years; i++)
-                {
-                    if (i > 0 && i <= Years - 2)
+                    for (int k = 0; k < 5; k++)
                     {
-                        output.AppendLine($"{i,-20}" +
-                                          $"{DDeduction * 100,-20:0.00}" +
-                                          $"{DepricationDeduction,-18:0.00}" +
-                                          $"{comulSum,-28:0.00}" +
-                                          $"{DepricationDeduction * 0.2m:0.00}");
-                        AC -= DepricationDeduction;
-
-                        if (i < Years - 2)
+                        if (i > 0 && i <= Years - 2)
                         {
-                            DepricationDeduction = AC * DDeduction;
+                            switch (k)
+                            {
+                                case 0:
+                                    output.Modify(i, k) = $"{i}"; break;
+                                case 1:
+                                    output.Modify(i, k) = $"{DDeduction * 100:0.00}"; break;
+                                case 2:
+                                    output.Modify(i, k) = $"{DepricationDeduction:0.00}"; break;
+                                case 3:
+                                    output.Modify(i, k) = $"{comulSum:0.00}"; break;
+                                case 4:
+                                    output.Modify(i, k) = $"{DepricationDeduction * 0.2m:0.00}"; break;
+                            }
+                            AC -= DepricationDeduction;
+                            if (i < Years - 2)
+                            {
+                                DepricationDeduction = AC * DDeduction;
+                                comulSum += DepricationDeduction;
+                            }
+                        }
+                        else if (i == Years - 1 || i == Years)
+                        {
+                            DepricationDeduction = AC * 1 / ((i == Years - 1) ? 2 : 1);
                             comulSum += DepricationDeduction;
+                            AC -= DepricationDeduction;
+
+                            switch (k)
+                            {
+                                case 0:
+                                    output.Modify(i, k) = $"{i}"; break;
+                                case 1:
+                                    output.Modify(i, k) = $"{ 50.0:0.00}"; break;
+                                case 2:
+                                    output.Modify(i, k) = $"{DepricationDeduction:0.00}"; break;
+                                case 3:
+                                    output.Modify(i, k) = $"{comulSum:0.00}"; break;
+                                case 4:
+                                    output.Modify(i, k) = $"{DepricationDeduction * 0.2m:0.00}"; break;
+                            }
                         }
                     }
-                    else if (i == Years - 1 || i == Years)
-                    {
-                        DepricationDeduction = AC * 1 / ((i == Years - 1) ? 2 : 1);
-                        comulSum += DepricationDeduction;
-                        AC -= DepricationDeduction;
-                        output.AppendLine($"{i,-20}" +
-                                          $"{ 50.0,-19:0.00}" +
-                                          $"{DepricationDeduction,-18:0.00}" +
-                                          $"{comulSum,-28:0.00}" +
-                                          $"{DepricationDeduction * 0.2m:0.00}");
-                    }
-                }
-                output.AppendLine($"\n{"Total",-18}" +
-                                  $"{"-",-20}" +
-                                  $"{comulSum,-24:0.00}" +
-                                  $"{"-",-32}" +
-                                  $"{comulSum * (100 / Years) / 100:0.00}");
+                #endregion
+
+                #region Legs
+                output.Modify(Years + 1, 0) = $"Total";
+                output.Modify(Years + 1, 1) = $"{"-"}";
+                output.Modify(Years + 1, 2) = $"{comulSum:0.00}";
+                output.Modify(Years + 1, 3) = $"{"-"}";
+                output.Modify(Years + 1, 4) = $"{comulSum * (100 / Years) / 100:0.00}";
+                #endregion
+
                 return output.ToString();
             }
         }
