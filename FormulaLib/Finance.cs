@@ -1,6 +1,12 @@
+/*Notice: if there are any problems with the table,
+ *use Font: Courier New (as it simply works)
+ * or visit http://stackoverflow.com/questions/763257/string-padding-problem
+ */
 using System;
 using System.Text;
 using static System.Math;
+
+using TextTable;
 
 namespace Finance
 {
@@ -733,42 +739,65 @@ namespace Finance
             {
                 try
                 {
-                    var output = new StringBuilder();
+                    var output = Table.Create(Years + 2, 6, true, true);
                     decimal comulativeSum = 0;
 
                     int yearSum = 0;
-                    for (int i = Years; i >0; i--)
-                        yearSum+=i;
+                    for (int i = Years; i > 0; i--)
+                        yearSum += i;
 
-                    output.AppendLine($"{"Year",-15}" +
-                                      $"{"Years left",-17}" +
-                                      $"{"Depr. Norm",-30}" +
-                                      $"{"Deprication",-17}" +
-                                      $"{"Comulative Sum",-20}" +
-                                      "Tax Savings");
+                    #region Head
+                    output.Modify(0, 0) = $"Year";
+                    output.Modify(0, 1) = $"Years left";
+                    output.Modify(0, 2) = $"Depr. Norm";
+                    output.Modify(0, 3) = $"Deprication";
+                    output.Modify(0, 4) = $"Comulative Sum";
+                    output.Modify(0, 5) = "Tax Savings";
+                    #endregion
 
-                    for (int i = 0, j = Years; i < Years; i++, j--)
+                    #region Body
+                    for (int i = 1, j = Years; i <= Years; i++, j--)
                     {
                         decimal depricationRate = Round(j / (decimal)yearSum * 100m, 2);
-                        decimal DepricationDeduction = AC * (depricationRate/100m);
+                        decimal DepricationDeduction = AC * (depricationRate / 100m);
                         comulativeSum += DepricationDeduction;
 
-                        output.AppendLine($"{i,-20}" +
-                                          $"{j,-17}" +
-                                          $"{j}/{yearSum} × 100 = {depricationRate,-15:0.00}" +
-                                          $"{DepricationDeduction,-18:0.00}" +
-                                          $"{comulativeSum,-28:0.00}" +
-                                          $"{DepricationDeduction * 0.2m:0.00}");
-                    }
-                    output.AppendLine($"\n{"Total",-18}" +
-                                      $"{yearSum,-18}" +
-                                      $"{"-",-35}" +
-                                      $"{comulativeSum,-24:0.00}" +
-                                      $"{"-",-30}" +
-                                      $"{AC * (100m / Years) / 100:0.00}\n\n"+
-                                      "Notice that the Аcquisition cost remains constant.");
+                        for (int k = 0; k < 6; k++)
+                        {
+                            switch (k)                      // To define what each cell should contain.
+                            {
+                                case 0:
+                                    output.Modify(i, k) = i.ToString(); break;
+                                case 1:
+                                    output.Modify(i, k) = j.ToString(); break;
+                                case 2:
+                                    output.Modify(i, k) = $"{j}/{yearSum} × 100 = {depricationRate:0.00}"; break;
+                                case 3:
+                                    output.Modify(i, k) = $"{DepricationDeduction:0.00}"; break;
+                                case 4:
+                                    output.Modify(i, k) = $"{comulativeSum:0.00}"; break;
+                                case 5:
+                                    output.Modify(i, k) = $"{DepricationDeduction * 0.2m:0.00}"; break;
 
-                    return output.ToString();
+                            }
+                        }
+                    }
+
+                    #endregion
+
+                    #region Legs
+                    output.Modify(Years + 1, 0) = $"Total";
+                    output.Modify(Years + 1, 1) = $"{yearSum}";
+                    output.Modify(Years + 1, 2) = $"{"-"}";
+                    output.Modify(Years + 1, 3) = $"{comulativeSum:0.00}";
+                    output.Modify(Years + 1, 4) = $"{"-"}";
+                    output.Modify(Years + 1, 5) = $"{AC * (100m / Years) / 100:0.00}";
+
+                    #endregion
+
+                    string additionalInfo = "\n\nNotice that the Аcquisition cost remains constant.";
+
+                    return string.Concat(output.ToString(), additionalInfo);
                 }
                 catch (OverflowException)
                 {

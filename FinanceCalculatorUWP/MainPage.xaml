@@ -17,7 +17,7 @@
         <Button x:Name="CalculationButton" Content="Calculate" HorizontalAlignment="Left" Margin="0,180,0,0" VerticalAlignment="Top" Width="360" Click="CalculationButton_Click"/>
         <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="0,216,0,0" TextWrapping="Wrap" Text="Result:" VerticalAlignment="Top" Height="25" Width="360" RenderTransformOrigin="0.082,0.856" FontSize="16"/>
         <ScrollViewer HorizontalAlignment="Left" Margin="0,245,0,0" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <TextBlock x:Name="ResultBox" HorizontalAlignment="Left" Margin="0,0,0,0" Text="" VerticalAlignment="Top" FontSize="16" IsTextSelectionEnabled="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+            <TextBlock x:Name="ResultBox" HorizontalAlignment="Left" Margin="0,0,0,0" Text="" VerticalAlignment="Top" FontSize="16" IsTextSelectionEnabled="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" FontFamily="Courier New"/>
         </ScrollViewer>
 
     </Grid>
