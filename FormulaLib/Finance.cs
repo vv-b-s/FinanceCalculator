@@ -323,6 +323,7 @@ namespace Finance
             }
         }
     }
+
     public class Risk
     {
         public enum CalcType { ExpectedReturns, StandardDeviation, VariationCoefficient, PortfolioCovariation, CorelationCoefficient, PortfolioDeviation, BetaCoefficient }
@@ -341,11 +342,11 @@ namespace Finance
 
             public string Calculate(decimal anticipatedR, decimal probability)
             {
-                anticipatedR = (anticipatedR > 1 && anticipatedR > -1) ? anticipatedR * 100 : anticipatedR;
+                anticipatedR = (anticipatedR > 1 && anticipatedR > -0.99m) ? anticipatedR * 100 : anticipatedR;
 
                 try
                 {
-                    probability = (probability > 1 || probability < -1) ? probability / 100 : probability;
+                    probability = (probability > 0.99m || probability > -0.99m) ? probability / 100 : probability;
 
                     decimal currentER;
                     Value = currentER = anticipatedR * (probability / 100);
@@ -379,12 +380,12 @@ namespace Finance
 
             public string Calculate(decimal ARevenues, decimal Probability, decimal ExpectedR)
             {
-                ExpectedR = (ExpectedR < 1 && ExpectedR > -1) ? ExpectedR * 100 : ExpectedR;            //To make input acurate
-                ARevenues = (ARevenues < 1 && ARevenues > -1) ? ARevenues * 100 : ARevenues;
+                ExpectedR = (ExpectedR < 0.99m && ExpectedR > -0.99m) ? ExpectedR * 100 : ExpectedR;            //To make input acurate
+                ARevenues = (ARevenues < 0.99m && ARevenues > -0.99m) ? ARevenues * 100 : ARevenues;
 
                 try
                 {
-                    Probability = (Probability > 1 || Probability < -1) ? Probability / 100 : Probability;
+                    Probability = (Probability > 0.99m || Probability > -0.99m) ? Probability / 100 : Probability;
 
                     decimal Dispersion = (decimal)Pow((double)(ARevenues - ExpectedR), 2) * (Probability);
                     Value = Dispersion = Round(Dispersion, 2);
@@ -408,7 +409,7 @@ namespace Finance
             public static readonly string[] Attributes = { "Standard Devration", "Expected Returns" };
             public static string Calculate(decimal SD, decimal ER)
             {
-                ER = (ER < 1 && ER > -1) ? ER * 100 : ER;
+                ER = (ER < 0.99m && ER > -0.99m) ? ER * 100 : ER;
                 try
                 {
                     decimal CV = Round(SD / ER, 2);
@@ -444,13 +445,13 @@ namespace Finance
 
             public string Calculate(decimal AR1, decimal ER1, decimal AR2, decimal ER2, decimal Probability)
             {
-                AR1 = (AR1 < 1 && AR1 > -1) ? AR1 * 100 : AR1;
-                AR2 = (AR2 < 1 && AR2 > -1) ? AR2 * 100 : AR2;
-                ER1 = (ER1 < 1 && ER1 > -1) ? ER1 * 100 : ER1;
-                ER1 = (ER1 < 1 && ER1 > -1) ? ER1 * 100 : ER1;
+                AR1 = (AR1 < 0.99m && AR1 > -0.99m) ? AR1 * 100 : AR1;
+                AR2 = (AR2 < 0.99m && AR2 > -0.99m) ? AR2 * 100 : AR2;
+                ER1 = (ER1 < 0.99m && ER1 > -0.99m) ? ER1 * 100 : ER1;
+                ER1 = (ER1 < 0.99m && ER1 > -0.99m) ? ER1 * 100 : ER1;
                 try
                 {
-                    Probability = (Probability > 1 || Probability < -1) ? Probability / 100 : Probability;
+                    Probability = (Probability > 0.99m || Probability > -0.99m) ? Probability / 100 : Probability;
 
                     decimal Cov = ((AR1 - ER1) * (AR2 - ER2)) * Probability;
                     Value = Cov = Round(Cov, 3);
@@ -483,9 +484,9 @@ namespace Finance
 
             public string Calculate(decimal Cov, decimal SDA, decimal SDB)
             {
-                Cov = (Cov < 1 && Cov > -1) ? Cov * 100 : Cov;
-                SDA = (SDA < 1 && SDA > -1) ? SDA * 100 : SDA;
-                SDB = (SDB < 1 && SDB > -1) ? SDB * 100 : SDB;
+                Cov = (Cov < 0.99m && Cov > -0.99m) ? Cov * 100 : Cov;
+                SDA = (SDA < 0.99m && SDA > -0.99m) ? SDA * 100 : SDA;
+                SDB = (SDB < 0.99m && SDB > -0.99m) ? SDB * 100 : SDB;
                 try
                 {
                     Value = Cov / (SDA * SDB);
@@ -512,11 +513,11 @@ namespace Finance
 
             public static string Calculate(decimal PSA, decimal SDA, decimal PSB, decimal SDB, decimal CC)
             {
-                PSA = (PSA < 1 && PSA > -1) ? PSA : PSA / 100;
-                PSB = (PSB < 1 && PSB > -1) ? PSB : PSB / 100;
-                SDA = (SDA < 1 && SDA > -1) ? SDA : SDA / 100;
-                SDB = (SDB < 1 && SDB > -1) ? SDB : SDB / 100;
-                CC = (CC < 1 && CC > -1) ? CC : CC / 100;
+                PSA = (PSA < 0.99m && PSA > -0.99m) ? PSA : PSA / 100;
+                PSB = (PSB < 0.99m && PSB > -0.99m) ? PSB : PSB / 100;
+                SDA = (SDA < 0.99m && SDA > -0.99m) ? SDA : SDA / 100;
+                SDB = (SDB < 0.99m && SDB > -0.99m) ? SDB : SDB / 100;
+                CC = (CC < 0.99m && CC > -0.99m) ? CC : CC / 100;
                 try
                 {
                     decimal PD = (decimal)(Pow((double)PSA, 2) * Pow((double)SDA, 2));
@@ -540,7 +541,7 @@ namespace Finance
 
             public static string Calculate(decimal Cov, decimal Dispersion)
             {
-                Cov = (Cov < 1 && Cov > -1) ? Cov * 100 : Cov;
+                Cov = (Cov < 0.99m && Cov > -0.99m) ? Cov * 100 : Cov;
                 try
                 {
                     decimal BC = Cov / Dispersion;
@@ -566,13 +567,13 @@ namespace Finance
 
     public static class Deprication
     {
-        public enum DepricationType { Linear, DecreasingDeduction, ComulativeMethod }
+        public enum DepricationType { Linear, DecreasingDeduction, ComulativeMethod, EqualDegression }
 
         public static class LinearDeprication
         {
-            public static readonly string[] Attributes = { "Аcquisition cost", "Years", "Liquidation value" };
+            public static readonly string[] Attributes = { "Аcquisition cost", "Tax Rate", "Years", "Liquidation value" };
 
-            public static string Calculate(decimal AC, int Years)
+            public static string Calculate(decimal AC, decimal TaxRate, int Years)
             {
                 try
                 {
@@ -580,7 +581,7 @@ namespace Finance
 
                     return $"Linear Deprication Norm: {LD}%\n" +
                            "Used fromula: 100/Years\n" +
-                           $"Solution: 100 / {Years} = {LD}%\n\n" + CreateTable(LD, AC, Years);
+                           $"Solution: 100 / {Years} = {LD}%\n\n" + CreateTable(LD, AC, Years, TaxRate);
                 }
                 catch (OverflowException)
                 {
@@ -594,14 +595,14 @@ namespace Finance
                 }
             }
 
-            public static string Calculate(decimal AC, int Years, decimal LV)
+            public static string Calculate(decimal AC, decimal TaxRate, int Years, decimal LV)
             {
                 try
                 {
                     decimal LD = Round(((AC - LV) / (AC * Years)) * 100, 2);
                     return $"Linear Deprication Norm: {LD}%\n" +
                            "Used fromula: [(AC-LV)/(AC × Years)] × 100\n" +
-                           $"Solution: [({AC} - {LV}) /({AC} × {Years}] × 100 = {LD}%\n\n" + CreateTable(LD, AC, Years);
+                           $"Solution: [({AC} - {LV}) /({AC} × {Years}] × 100 = {LD}%\n\n" + CreateTable(LD, AC, Years, TaxRate);
                 }
                 catch (OverflowException)
                 {
@@ -615,12 +616,13 @@ namespace Finance
                 }
             }
 
-            private static string CreateTable(decimal LD, decimal AC, int Years)
+            private static string CreateTable(decimal LD, decimal AC, int Years, decimal TaxRate)
             {
+                TaxRate = TaxRate > 0.99m || TaxRate < -0.99m ? TaxRate / 100 : TaxRate;
                 LD = LD / 100;
                 decimal DepricationDeduction = AC * LD;
 
-                var output = Table.Create(Years+2,5,true,true);
+                var output = Table.Create(Years + 2, 5, true, true);
 
                 #region Head
                 output.Modify(0, 0) = $"Year";
@@ -632,7 +634,7 @@ namespace Finance
 
                 #region Body
                 for (int i = 1; i <= Years; i++)
-                    for(int k=0;k<5;k++)
+                    for (int k = 0; k < 5; k++)
                     {
                         switch (k)
                         {
@@ -645,7 +647,7 @@ namespace Finance
                             case 3:
                                 output.Modify(i, k) = $"{DepricationDeduction * i:0.00}"; break;
                             case 4:
-                                output.Modify(i, k) = $"{LD * 10000:0.00}"; break;
+                                output.Modify(i, k) = $"{DepricationDeduction * TaxRate:0.00}"; break;
                         }
                     }
                 #endregion
@@ -664,9 +666,9 @@ namespace Finance
 
         public static class DecreasingDeduction
         {
-            public static readonly string[] Attributes = { "Аcquisition cost", "Years", "Increase coefficient" };
+            public static readonly string[] Attributes = { "Аcquisition cost", "Tax Rate", "Years", "Increase coefficient" };
 
-            public static string Calculate(decimal AC, int Years, decimal IC)
+            public static string Calculate(decimal AC, decimal TaxRate, int Years, decimal IC)
             {
                 if (IC < 1.5m || IC > 2.2m)
                     return $"Increase coefficient can be between {1.5} and {2.2}.";
@@ -677,7 +679,7 @@ namespace Finance
 
                     return $"Deprication Norm: {DepricationNorm}%\n" +
                            "Used formula: (100 / Years) × K\n" +
-                           $"Solution: (100 / {Years}) = {LinearDepricationNorm} × {IC} = {DepricationNorm}%\n\n" + CreateTable(DepricationNorm, AC, Years);
+                           $"Solution: (100 / {Years}) = {LinearDepricationNorm} × {IC} = {DepricationNorm}%\n\n" + CreateTable(DepricationNorm, AC, Years, TaxRate);
                 }
                 catch (OverflowException)
                 {
@@ -691,13 +693,14 @@ namespace Finance
                 }
             }
 
-            private static string CreateTable(decimal DDeduction, decimal AC, int Years)
+            private static string CreateTable(decimal DDeduction, decimal AC, int Years, decimal TaxRate)
             {
+                TaxRate = TaxRate > 0.99m || TaxRate < -0.99m ? TaxRate / 100 : TaxRate;
                 DDeduction /= 100;
-                decimal DepricationDeduction = AC * DDeduction;
+                decimal DepricationDeduction = 0;
+                decimal comulSum = DepricationDeduction;
 
                 var output = Table.Create(Years + 2, 5, true, true);
-                decimal comulSum = DepricationDeduction;
 
                 #region Head
                 output.Modify(0, 0) = $"{"Year"}";
@@ -709,51 +712,26 @@ namespace Finance
 
                 #region Body
                 for (int i = 1; i <= Years; i++)
-                    for (int k = 0; k < 5; k++)
-                    {
-                        if (i > 0 && i <= Years - 2)
-                        {
-                            switch (k)
-                            {
-                                case 0:
-                                    output.Modify(i, k) = $"{i}"; break;
-                                case 1:
-                                    output.Modify(i, k) = $"{DDeduction * 100:0.00}"; break;
-                                case 2:
-                                    output.Modify(i, k) = $"{DepricationDeduction:0.00}"; break;
-                                case 3:
-                                    output.Modify(i, k) = $"{comulSum:0.00}"; break;
-                                case 4:
-                                    output.Modify(i, k) = $"{DepricationDeduction * 0.2m:0.00}"; break;
-                            }
-                            AC -= DepricationDeduction;
-                            if (i < Years - 2)
-                            {
-                                DepricationDeduction = AC * DDeduction;
-                                comulSum += DepricationDeduction;
-                            }
-                        }
-                        else if (i == Years - 1 || i == Years)
-                        {
-                            DepricationDeduction = AC * 1 / ((i == Years - 1) ? 2 : 1);
-                            comulSum += DepricationDeduction;
-                            AC -= DepricationDeduction;
+                {
+                    DepricationDeduction = i > 0 && i <= Years - 2 ? AC * DDeduction : AC * 1 / ((i == Years - 1) ? 2 : 1);         // Last two years are deducted with 50%                      
+                    comulSum += DepricationDeduction;
+                    AC -= DepricationDeduction;
 
-                            switch (k)
-                            {
-                                case 0:
-                                    output.Modify(i, k) = $"{i}"; break;
-                                case 1:
-                                    output.Modify(i, k) = $"{ 50.0:0.00}"; break;
-                                case 2:
-                                    output.Modify(i, k) = $"{DepricationDeduction:0.00}"; break;
-                                case 3:
-                                    output.Modify(i, k) = $"{comulSum:0.00}"; break;
-                                case 4:
-                                    output.Modify(i, k) = $"{DepricationDeduction * 0.2m:0.00}"; break;
-                            }
+                    for (int k = 0; k < 5; k++)
+                        switch (k)
+                        {
+                            case 0:
+                                output.Modify(i, k) = $"{i}"; break;
+                            case 1:
+                                output.Modify(i, k) = $"{(i <= Years - 2 ? DDeduction * 100 : 50):0.00}"; break;
+                            case 2:
+                                output.Modify(i, k) = $"{DepricationDeduction:0.00}"; break;
+                            case 3:
+                                output.Modify(i, k) = $"{comulSum:0.00}"; break;
+                            case 4:
+                                output.Modify(i, k) = $"{DepricationDeduction * TaxRate:0.00}"; break;
                         }
-                    }
+                }
                 #endregion
 
                 #region Legs
@@ -770,16 +748,17 @@ namespace Finance
 
         public static class ComulativeMethod
         {
-            public static readonly string[] Attributes = { "Аcquisition cost", "Years" };
+            public static readonly string[] Attributes = { "Аcquisition cost", "Tax Rate", "Years" };
 
-            public static string Calculate(decimal AC, int Years) => CreateTable(AC, Years);
+            public static string Calculate(decimal AC, decimal TaxRate, int Years) => CreateTable(AC, Years, TaxRate);
 
-            private static string CreateTable(decimal AC, int Years)
+            private static string CreateTable(decimal AC, int Years, decimal TaxRate)
             {
                 try
                 {
                     var output = Table.Create(Years + 2, 6, true, true);
                     decimal comulativeSum = 0;
+                    TaxRate = TaxRate > 0.99m || TaxRate < -0.99m ? TaxRate / 100 : TaxRate;
 
                     int yearSum = 0;
                     for (int i = Years; i > 0; i--)
@@ -816,7 +795,7 @@ namespace Finance
                                 case 4:
                                     output.Modify(i, k) = $"{comulativeSum:0.00}"; break;
                                 case 5:
-                                    output.Modify(i, k) = $"{DepricationDeduction * 0.2m:0.00}"; break;
+                                    output.Modify(i, k) = $"{DepricationDeduction * TaxRate:0.00}"; break;
 
                             }
                         }
@@ -848,6 +827,76 @@ namespace Finance
                            "Please check your input.\n" +
                            "If your input is correct and you get this error, then your calculation is impossible.";
                 }
+            }
+        }
+
+        public static class EqualDegression
+        {
+            public static readonly string[] Attributes = { "Аcquisition cost", "Tax Rate", "Years" };
+
+            static int Years = 0;
+            static decimal CoE                                  // Coefficient of equality. used to calculate the deprication norm each year.
+            {
+                get
+                {
+                    int eqC = 2;
+                    for (int i = 1, j = 2; i < Years; i++)
+                        eqC += j + i;
+                    return Round(100m / eqC, 2);
+                }
+            }
+
+            public static string Calculate(decimal AC, decimal TaxRate, int years) => CreateTable(AC, years, TaxRate);
+
+            static string CreateTable(decimal AC, int years, decimal TaxRate)
+            {
+                TaxRate = TaxRate > 0.99m || TaxRate < -0.99m ? TaxRate / 100 : TaxRate;
+                Years = years;
+                decimal DDeduction = CoE / 100;
+                decimal comulSum = 0;
+
+                var output = Table.Create(Years + 2, 5, true, true);
+
+                #region Head
+                output.Modify(0, 0) = $"Year";
+                output.Modify(0, 1) = $"Depr. Norm";
+                output.Modify(0, 2) = $"{(char)8721}{"Depr. Deduct."}";
+                output.Modify(0, 3) = $"{"Comulative Sum"}";
+                output.Modify(0, 4) = "Tax Savings";
+                #endregion
+
+                #region Body
+                for (int i = 1, j = years + 1; i <= Years; i++, j--)
+                {
+                    comulSum += AC * DDeduction * j;
+                    for (int k = 0; k < 5; k++)
+                    {
+                        switch (k)
+                        {
+                            case 0:
+                                output.Modify(i, k) = $"{i}"; break;
+                            case 1:
+                                output.Modify(i, k) = $"{j * CoE:0.00}"; break;
+                            case 2:
+                                output.Modify(i, k) = $"{Round(AC * DDeduction * j, 2):0.00}"; break;
+                            case 3:
+                                output.Modify(i, k) = $"{Round(comulSum, 2):0.00}"; break;
+                            case 4:
+                                output.Modify(i, k) = $"{Round(AC * DDeduction * j * TaxRate, 2):0.00}"; break;
+                        }
+                    }
+                }
+                #endregion
+
+                #region Legs
+                output.Modify(Years + 1, 0) = $"Total";
+                output.Modify(Years + 1, 1) = $"100";
+                output.Modify(Years + 1, 2) = $"{AC:0.00}";
+                output.Modify(Years + 1, 3) = $"-";
+                output.Modify(Years + 1, 4) = $"{AC * TaxRate:0.00}";
+                #endregion
+
+                return output.ToString();
             }
         }
     }

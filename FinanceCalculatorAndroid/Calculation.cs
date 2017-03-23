@@ -110,15 +110,15 @@ namespace FinanceCalculator
                 switch (spinner[1])
                 {
                     case (int)Deprication.DepricationType.Linear:
-                        CalculationButton.Enabled = spaces == 1 || spaces == 2;
+                        CalculationButton.Enabled = spaces == 2 || spaces == 3;
                         return FlipperFeeder(Deprication.LinearDeprication.Attributes);
 
                     case (int)Deprication.DepricationType.DecreasingDeduction:
-                        CalculationButton.Enabled = spaces == 2;
+                        CalculationButton.Enabled = spaces == 3;
                         return FlipperFeeder(Deprication.DecreasingDeduction.Attributes);
 
                     case (int)Deprication.DepricationType.ComulativeMethod:
-                        CalculationButton.Enabled = spaces == 1;
+                        CalculationButton.Enabled = spaces == 2;
                         return FlipperFeeder(Deprication.ComulativeMethod.Attributes);
                 }
             }
@@ -136,22 +136,21 @@ namespace FinanceCalculator
             {
                 switch (spinner[1])
                 {
-                    case (int)Interest.IntrestType.Simple:
-                        return Interest.FutureValue.SimpleInterest(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]));
-
-                    case (int)Interest.IntrestType.Discursive:
+                    case (int)Deprication.DepricationType.Linear:
                         if (spaces == 2)
-                            return Interest.FutureValue.CDiscursiveInterest(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]));
-                        if (spaces == 4)
-                            return Interest.FutureValue.CDiscursiveInterest(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]), ExtractValue<double>(attribute[3]), (Interest.InterestPeriods)ExtractValue<int>(attribute[4]));
+                            return Deprication.LinearDeprication.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<int>(attribute[2]));
+                        if (spaces == 3)
+                            return Deprication.LinearDeprication.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<int>(attribute[2]), ExtractValue<decimal>(attribute[3]));
                         break;
 
-                    case (int)Interest.IntrestType.Anticipative:
-                        if (spaces == 2)
-                            return Interest.FutureValue.CAnticipativeInterest(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]));
-                        if (spaces == 4)
-                            return Interest.FutureValue.CAnticipativeInterest(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]), ExtractValue<double>(attribute[3]), (Interest.InterestPeriods)ExtractValue<int>(attribute[4]));
-                        break;
+                    case (int)Deprication.DepricationType.DecreasingDeduction:
+                        return Deprication.DecreasingDeduction.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<int>(attribute[2]), ExtractValue<decimal>(attribute[3]));
+
+                    case (int)Deprication.DepricationType.ComulativeMethod:
+                        return Deprication.ComulativeMethod.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<int>(attribute[2]));
+
+                    case (int)Deprication.DepricationType.EqualDegression:
+                        return Deprication.EqualDegression.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<int>(attribute[2]));
                 }
             }
             #endregion
@@ -225,17 +224,20 @@ namespace FinanceCalculator
                 switch (spinner[1])
                 {
                     case (int)Deprication.DepricationType.Linear:
-                        if (spaces == 1)
-                            return Deprication.LinearDeprication.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<int>(attribute[1]));
-                        else if (spaces == 2)
-                            return Deprication.LinearDeprication.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<int>(attribute[1]), ExtractValue<decimal>(attribute[2]));
+                        if (spaces == 2)
+                            return Deprication.LinearDeprication.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<int>(attribute[2]));
+                        if (spaces == 3)
+                            return Deprication.LinearDeprication.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<int>(attribute[2]), ExtractValue<decimal>(attribute[3]));
                         break;
 
                     case (int)Deprication.DepricationType.DecreasingDeduction:
-                        return Deprication.DecreasingDeduction.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<int>(attribute[1]), ExtractValue<decimal>(attribute[2]));
+                        return Deprication.DecreasingDeduction.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<int>(attribute[2]), ExtractValue<decimal>(attribute[3]));
 
                     case (int)Deprication.DepricationType.ComulativeMethod:
-                        return Deprication.ComulativeMethod.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<int>(attribute[1]));
+                        return Deprication.ComulativeMethod.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<int>(attribute[2]));
+
+                    case (int)Deprication.DepricationType.EqualDegression:
+                        return Deprication.ComulativeMethod.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<int>(attribute[2]));
                 }
             #endregion
 
