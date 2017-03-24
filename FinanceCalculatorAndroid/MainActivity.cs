@@ -121,7 +121,7 @@ namespace FinanceCalculator
                     #region Risk
                     case (int)Calculate.Risk:
                         CSpinnerVisibility<Risk.CalcType>("Choose a risk operation:");
-                        ZeroAlert();
+                        ShowDialog("Notice:\nIf you have previously calculated something, enter 0 to directly use it.");
 
                         Risk.ExpectedReturns.ER.Clear();
                         Risk.StandardDeviation.sD.Clear();

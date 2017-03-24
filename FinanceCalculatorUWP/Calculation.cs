@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Windows.UI.Popups;
+
 using Finance;
 
 namespace FinanceCalculatorUWP
@@ -246,6 +248,13 @@ namespace FinanceCalculatorUWP
             foreach (char a in text)               // measuring spaces in order to define which attribute to display
                 if (a == ' ')
                     spaces++;
+        }
+
+        private async static void ShowDialog(string text)               //  http://stackoverflow.com/questions/22909329/universal-apps-messagebox-the-name-messagebox-does-not-exist-in-the-current
+        {
+            var dialog = new MessageDialog(text);
+            dialog.Commands.Add(new UICommand { Label = "Ok", Id = 0 });
+            var res = await dialog.ShowAsync();
         }
     }
 }

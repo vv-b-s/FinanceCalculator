@@ -244,10 +244,10 @@ namespace FinanceCalculator
             return "";
         }
 
-        private void ZeroAlert()                    // When 0 is entered in some formulas, DoCalculation uses stored values depending on the argument required
+        private void ShowDialog(string text)             // When 0 is entered in some formulas, DoCalculation uses stored values depending on the argument required
         {
             var msgPop = new AlertDialog.Builder(this);
-            msgPop.SetMessage("Notice:\nIf you have previously calculated something, enter 0 to directly use it.");
+            msgPop.SetMessage(text);
             msgPop.SetNeutralButton("Ok", delegate { });
 
             msgPop.Show();

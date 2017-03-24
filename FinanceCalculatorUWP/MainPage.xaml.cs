@@ -116,6 +116,7 @@ namespace FinanceCalculatorUWP
 
                     #region Risk
                     case (int)Calculate.Risk:
+                        ShowDialog("\aNotice:\nIf you have previously calculated something, enter 0 to directly use it.");
                         CSpinnerVisibility<Risk.CalcType>("Choose a risk operation:");
 
                         Risk.ExpectedReturns.ER.Clear();
