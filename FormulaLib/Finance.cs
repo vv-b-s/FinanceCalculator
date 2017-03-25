@@ -10,7 +10,7 @@ using TextTable;
 
 namespace Finance
 {
-    public enum Calculate { None, FutureValue, PresentValue, EffectiveIR, RateOfReturn, Risk, Deprication }
+    public enum Calculate { None, FutureValue, PresentValue, EffectiveIR, RateOfReturn, Risk, Deprication, Annuity }
 
     public static class Interest
     {
@@ -897,6 +897,26 @@ namespace Finance
                 #endregion
 
                 return output.ToString();
+            }
+        }
+    }
+
+    public static class Annuity
+    {
+        public enum PresentOrFuture {Future, Present }
+
+        public static class FutureValue
+        {
+            public static readonly string[] Attributes = Interest.FutureValue.Attributes;
+
+            public static string Calculate(decimal presentValue, decimal interestRate, double period)
+            {
+                decimal futureValue = presentValue * ((decimal)(Pow((double)(1 + interestRate), period) - 1) / interestRate);
+                futureValue = Round(futureValue, 2);
+
+                return $"Future value: {futureValue}\n" +
+                    $"Used formula: FV = A[ ((1+r)^n -1)/r ]\n" +
+                    $"Solution: {presentValue} × [ ((1+{interestRate})^{period} - 1)/{interestRate} ] = {futureValue}";
             }
         }
     }

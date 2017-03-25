@@ -131,7 +131,13 @@ namespace FinanceCalculatorUWP
                     case (int)Calculate.Deprication:
                         CSpinnerVisibility<Deprication.DepricationType>("Choose deprication type:");
                         break;
-                        #endregion
+                    #endregion
+
+                    #region Annuity
+                    case (int)Calculate.Annuity:
+                        CSpinnerVisibility<Annuity.PresentOrFuture>("Present or future value?");
+                        break;
+                    #endregion
                 }
                 #endregion Second Spinner Condition
             }

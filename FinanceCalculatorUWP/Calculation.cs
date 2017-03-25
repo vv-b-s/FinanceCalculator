@@ -14,23 +14,13 @@ namespace FinanceCalculatorUWP
         private string ModifyFlipper(string InputBox)
         {
 
-            #region Future Value
-            if (spinner[0] == (int)Calculate.FutureValue)
+            #region Interest
+            if (spinner[0] == (int)Calculate.FutureValue || spinner[0] == (int)Calculate.PresentValue)
             {
                 spaces = 0;
                 CountSpaces(InputBox);
                 CalculationButton.IsEnabled = spaces == 2 || spaces == 4;
-                return FlipperFeeder(Interest.FutureValue.Attributes);
-            }
-            #endregion
-
-            #region Present Value
-            else if (spinner[0] == (int)Calculate.PresentValue)
-            {
-                spaces = 0;
-                CountSpaces(InputBox);
-                CalculationButton.IsEnabled = spaces == 2 || spaces == 4;
-                return FlipperFeeder(Interest.PresentValue.Attributes);
+                return FlipperFeeder(spinner[0] == (int)Calculate.FutureValue ? Interest.FutureValue.Attributes : Interest.PresentValue.Attributes);
             }
             #endregion
 
@@ -122,7 +112,15 @@ namespace FinanceCalculatorUWP
             }
             #endregion
 
-
+            #region Annuity
+            else if (spinner[0] == (int)Calculate.Annuity)
+            {
+                spaces = 0;
+                CountSpaces(InputBox);
+                CalculationButton.IsEnabled = spaces == 2 || spaces == 4;
+                return FlipperFeeder(spinner[1] == (int)Annuity.PresentOrFuture.Future? Annuity.FutureValue.Attributes: Annuity.FutureValue.Attributes);
+            }
+            #endregion
             return "";
         }
 
@@ -239,6 +237,17 @@ namespace FinanceCalculatorUWP
                     case (int)Deprication.DepricationType.EqualDegression:
                         return Deprication.EqualDegression.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<int>(attribute[2]));
                 }
+            #endregion
+
+            #region Annuity
+            else if (spinner[0] == (int)Calculate.Annuity)
+            {
+                switch (spinner[1])
+                {
+                    case (int)Annuity.PresentOrFuture.Future:
+                        return Annuity.FutureValue.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]));
+                } 
+            }
             #endregion
 
             return "";
