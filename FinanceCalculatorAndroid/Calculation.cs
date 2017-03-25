@@ -120,6 +120,10 @@ namespace FinanceCalculator
                     case (int)Deprication.DepricationType.ComulativeMethod:
                         CalculationButton.Enabled = spaces == 2;
                         return FlipperFeeder(Deprication.ComulativeMethod.Attributes);
+
+                    case (int)Deprication.DepricationType.EqualDegression:
+                        CalculationButton.Enabled = spaces == 2;
+                        return FlipperFeeder(Deprication.EqualDegression.Attributes);
                 }
             }
             #endregion

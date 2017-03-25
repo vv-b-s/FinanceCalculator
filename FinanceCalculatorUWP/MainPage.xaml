@@ -13,7 +13,8 @@
         <ComboBox x:Name="OperationSpinner" HorizontalAlignment="Left" Margin="10,56,0,0" VerticalAlignment="Top" Width="154" SelectionChanged="OperationSpinner_SelectionChanged" SelectedIndex="-1"/>
         <ComboBox x:Name="CalculationSpinner" HorizontalAlignment="Left" Margin="196,56,0,0" VerticalAlignment="Top" Width="154" SelectedIndex="-1" SelectionChanged="CalculationSpinner_SelectionChanged"/>
         <TextBlock x:Name="DataFlipper" HorizontalAlignment="Left" Margin="0,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="Auto" Width="{Binding ElementName=*ParentElement*, Path=ActualWidth}" RenderTransformOrigin="0.082,0.856" FontSize="16" Text="Enter data:"/>
-        <TextBox x:Name="InputBox" HorizontalAlignment="Left" Margin="0,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="360" TextChanged="InputBox_TextChanged"/>
+        <TextBox x:Name="InputBox" HorizontalAlignment="Left" Margin="0,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="360" TextChanged="InputBox_TextChanged" PlaceholderText="Please separate input with spaces."/>
+        <!-- Idea for PlaceholderText: http://stackoverflow.com/questions/19092178/how-to-apply-text-watermark-to-text-box-in-xaml-windows-8-metrro-app -->
         <Button x:Name="CalculationButton" Content="Calculate" HorizontalAlignment="Left" Margin="0,180,0,0" VerticalAlignment="Top" Width="360" Click="CalculationButton_Click"/>
         <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="0,216,0,0" TextWrapping="Wrap" Text="Result:" VerticalAlignment="Top" Height="25" Width="360" RenderTransformOrigin="0.082,0.856" FontSize="16"/>
         <ScrollViewer HorizontalAlignment="Left" Margin="0,245,0,0" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">

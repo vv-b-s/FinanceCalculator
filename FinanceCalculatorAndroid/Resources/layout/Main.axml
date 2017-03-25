@@ -53,7 +53,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/InputBox"
-        android:layout_marginTop="4.0dp" />
+        android:layout_marginTop="4.0dp"
+        android:hint="Please separate input with spaces." />
+  <!-- Idea to add hint: http://stackoverflow.com/questions/5962872/how-to-add-watermark-in-android-widget-edittext -->
     <Button
         android:text="Calculate"
         android:layout_width="match_parent"
