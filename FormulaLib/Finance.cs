@@ -5,6 +5,7 @@
 using System;
 using System.Text;
 using static System.Math;
+using System.Linq;
 
 using TextTable;
 
@@ -17,7 +18,7 @@ namespace Finance
         public enum IntrestType { Simple, Discursive, Anticipative }
         public enum InterestPeriods { Daily, Weekly, Monthly }
 
-        private static double IntTimesPeriod(double intTimes, InterestPeriods iPeriods) // if interest is not accounted Annually.
+        internal static double IntTimesPeriod(double intTimes, InterestPeriods iPeriods) // if interest is not accounted Annually.
         {
             switch (iPeriods)
             {
@@ -903,20 +904,98 @@ namespace Finance
 
     public static class Annuity
     {
-        public enum PresentOrFuture {Future, Present }
+        public enum PresentOrFuture { Future, Present }
+        private enum PayPeriod { StartYear, EndYear }
 
         public static class FutureValue
         {
-            public static readonly string[] Attributes = Interest.FutureValue.Attributes;
+            public static readonly string[] Attributes = { "When is the annuity paid? (0 - at the start of the year, 1 - at the end of the year)",
+                "Present Value", "Interest Rate", "Period", "Interest periods", "Type of periods (Daily - 0, Weekly - 1, Monthly - 2)" };
 
-            public static string Calculate(decimal presentValue, decimal interestRate, double period)
+            public static string Calculate(int payPeriod, decimal presentValue, decimal interestRate, double period)
             {
-                decimal futureValue = presentValue * ((decimal)(Pow((double)(1 + interestRate), period) - 1) / interestRate);
-                futureValue = Round(futureValue, 2);
+                try
+                {
+                    decimal futureValue;
+                    interestRate /= 100;
 
-                return $"Future value: {futureValue}\n" +
-                    $"Used formula: FV = A[ ((1+r)^n -1)/r ]\n" +
-                    $"Solution: {presentValue} × [ ((1+{interestRate})^{period} - 1)/{interestRate} ] = {futureValue}";
+                    switch (payPeriod)
+                    {
+                        case (int)PayPeriod.StartYear:
+                            futureValue = presentValue * ((decimal)(Pow((double)(1 + interestRate), period) - 1) / interestRate) * (1 + interestRate);
+                            futureValue = Round(futureValue, 2);
+
+                            return $"Future value: {futureValue}\n" +
+                                   $"Used formula: FV = A[ ((1+r)^n -1)/r ] × (1 + r)\n" +
+                                   $"Solution: {presentValue} × [ ((1+{interestRate})^{period} - 1)/{interestRate} ] * (1 + {interestRate}) = {futureValue}";
+
+                        case (int)PayPeriod.EndYear:
+                            futureValue = presentValue * ((decimal)(Pow((double)(1 + interestRate), period) - 1) / interestRate);
+                            futureValue = Round(futureValue, 2);
+
+                            return $"Future value: {futureValue}\n" +
+                                   $"Used formula: FV = A[ ((1+r)^n -1)/r ]\n" +
+                                   $"Solution: {presentValue} × [ ((1+{interestRate})^{period} - 1)/{interestRate} ] = {futureValue}";
+                        default: return "";
+                    }
+                }
+                catch (OverflowException)
+                {
+                    return "Impossible Calculation!";
+                }
+                catch (DivideByZeroException)
+                {
+                    return "Dividing by zero error!\n" +
+                        "Please check your input.\n" +
+                        "If your input is correct and you get this error, then your calculation is impossible.";
+                }
+            }
+            public static string Calculate(int payPeriod, decimal presentValue, decimal interestRate, double period, double intTimes, Interest.InterestPeriods iPeriods)
+            {
+                try
+                {
+
+                    decimal futureValue;
+                    interestRate /= 100;
+
+                    switch (payPeriod)
+                    {
+                        case (int)PayPeriod.StartYear:
+                            futureValue = presentValue * (((decimal)(Pow((double)(1 + (interestRate) /
+                                (decimal)Interest.IntTimesPeriod(intTimes, iPeriods)),
+                                (period * Interest.IntTimesPeriod(intTimes, iPeriods)))) - 1) /
+                                ((interestRate) / (decimal)Interest.IntTimesPeriod(intTimes, iPeriods)));
+                            futureValue = Round(futureValue, 2);
+
+                            return $"Future Value: {futureValue:0.00}\n" +
+                                  "Used formula: FV = PV × [ (1 + r%/m)^(m × n) / (r / m) - 1]\n" +
+                                   $"Solution: {presentValue} × [ (1 + {interestRate}/{Interest.IntTimesPeriod(intTimes, iPeriods)})^({period} × {Interest.IntTimesPeriod(intTimes, iPeriods)}) / ({interestRate} / {Interest.IntTimesPeriod(intTimes, iPeriods)})  ] = {futureValue:0.00}";
+
+                        case (int)PayPeriod.EndYear:
+                            futureValue = presentValue * (((decimal)(Pow((double)(1 + (interestRate) /
+                                (decimal)Interest.IntTimesPeriod(intTimes, iPeriods)),
+                                (period * Interest.IntTimesPeriod(intTimes, iPeriods)))) - 1) /
+                                (interestRate / (decimal)Interest.IntTimesPeriod(intTimes, iPeriods))) *
+                                (1 + interestRate / (decimal)Interest.IntTimesPeriod(intTimes, iPeriods));
+                            futureValue = Round(futureValue, 2);
+
+                            return $"Future Value: {futureValue:0.00}\n" +
+                                  "Used formula: FV = PV × [ (1 + r%/m)^(m × n) / (r / m) - 1] × (1 + r/m)\n" +
+                                   $"Solution: {presentValue} × [ (1 + {interestRate}/{Interest.IntTimesPeriod(intTimes, iPeriods)})^({period} × {Interest.IntTimesPeriod(intTimes, iPeriods)}) / ({interestRate} / {Interest.IntTimesPeriod(intTimes, iPeriods)})  ] × (1 + {interestRate}/{Interest.IntTimesPeriod(intTimes, iPeriods)} = {futureValue:0.00}";
+
+                        default: return "";
+                    }
+                }
+                catch (OverflowException)
+                {
+                    return "Impossible Calculation!";
+                }
+                catch (DivideByZeroException)
+                {
+                    return "Dividing by zero error!\n" +
+                        "Please check your input.\n" +
+                        "If your input is correct and you get this error, then your calculation is impossible.";
+                }
             }
         }
     }

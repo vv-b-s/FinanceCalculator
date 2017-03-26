@@ -123,8 +123,8 @@ namespace FinanceCalculator
             {
                 spaces = 0;
                 CountSpaces(InputBox);
-                CalculationButton.Enabled = spaces == 2 || spaces == 4;
-                return FlipperFeeder(Annuity.FutureValue.Attributes);
+                CalculationButton.Enabled = spaces == 3 || spaces == 5;
+                return FlipperFeeder(spinner[1] == (int)Annuity.PresentOrFuture.Future ? Annuity.FutureValue.Attributes : Annuity.FutureValue.Attributes);
             }
             #endregion
             return "";
@@ -251,7 +251,9 @@ namespace FinanceCalculator
                 switch (spinner[1])
                 {
                     case (int)Annuity.PresentOrFuture.Future:
-                        return Annuity.FutureValue.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<double>(attribute[2]));
+                        return spaces == 3 ?
+                            Annuity.FutureValue.Calculate(ExtractValue<int>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<double>(attribute[3])) :
+                            Annuity.FutureValue.Calculate(ExtractValue<int>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<double>(attribute[3]), ExtractValue<double>(attribute[4]), (Interest.InterestPeriods)ExtractValue<int>(attribute[5]));
                 } 
             }
             #endregion
