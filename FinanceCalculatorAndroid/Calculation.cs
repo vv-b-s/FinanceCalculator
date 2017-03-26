@@ -124,7 +124,7 @@ namespace FinanceCalculator
                 spaces = 0;
                 CountSpaces(InputBox);
                 CalculationButton.Enabled = spaces == 3 || spaces == 5;
-                return FlipperFeeder(spinner[1] == (int)Annuity.PresentOrFuture.Future ? Annuity.FutureValue.Attributes : Annuity.FutureValue.Attributes);
+                return FlipperFeeder(spinner[1] == (int)Annuity.PresentOrFuture.Future ? Annuity.FutureValue.Attributes : Annuity.PresentValue.Attributes);
             }
             #endregion
             return "";
@@ -254,6 +254,10 @@ namespace FinanceCalculator
                         return spaces == 3 ?
                             Annuity.FutureValue.Calculate(ExtractValue<int>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<double>(attribute[3])) :
                             Annuity.FutureValue.Calculate(ExtractValue<int>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<double>(attribute[3]), ExtractValue<double>(attribute[4]), (Interest.InterestPeriods)ExtractValue<int>(attribute[5]));
+                    case (int)Annuity.PresentOrFuture.Present:
+                        return spaces == 3 ?
+                            Annuity.PresentValue.Calculate(ExtractValue<int>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<double>(attribute[3])) :
+                            Annuity.PresentValue.Calculate(ExtractValue<int>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<double>(attribute[3]), ExtractValue<double>(attribute[4]), (Interest.InterestPeriods)ExtractValue<int>(attribute[5]));
                 } 
             }
             #endregion
