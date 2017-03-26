@@ -37,7 +37,9 @@ namespace Finance
                             return $"Future value: {futureValue}\n" +
                                    $"Used formula: FV = A[ ((1+r)^n -1)/r ]\n" +
                                    $"Solution: {presentValue} × [ ((1+{interestRate})^{period} - 1)/{interestRate} ] = {futureValue}";
-                        default: return "";
+                        default:
+                            return $"{payPeriod} is not available option!\n" +
+                                $"Please enter 0 or 1 for the pay period!";
                     }
                 }
                 catch (OverflowException)
@@ -84,7 +86,9 @@ namespace Finance
                                   "Used formula: FV = A × [ (1 + r%/m)^(m × n) / (r / m) - 1]\n" +
                                    $"Solution: {presentValue} × [ (1 + {interestRate}/{Interest.IntTimesPeriod(intTimes, iPeriods)})^({period} × {Interest.IntTimesPeriod(intTimes, iPeriods)}) / ({interestRate} / {Interest.IntTimesPeriod(intTimes, iPeriods)})  ] = {futureValue:0.00}";
 
-                        default: return "";
+                        default:
+                            return $"{payPeriod} is not available option!\n" +
+                                $"Please enter 0 or 1 for the pay period!";
                     }
                 }
                 catch (OverflowException)
@@ -129,7 +133,9 @@ namespace Finance
                             return $"Future value: {presentValue}\n" +
                                    $"Used formula: PV = [ 1/r - 1/r × ((1+r)^n -1) ]\n" +
                                    $"Solution: {futureValue} × [ (1/{interestRate} - 1/{interestRate} × (1+{interestRate})^{period}) ] = {presentValue}";
-                        default: return "";
+                        default:
+                            return $"{payPeriod} is not available option!\n" +
+                                $"Please enter 0 or 1 for the pay period!";
                     }
                 }
                 catch (OverflowException)
@@ -173,7 +179,9 @@ namespace Finance
                                   "Used formula: PV = A × [ 1/(r/m) - 1/(r/m) × (1 + r%/m)^(m × n) ]\n" +
                                   $"Solution: {futureValue} × [ (1/{rm:0.00} - 1/{rm:0.00} × (1+{rm:0.00})^({period} × {Interest.IntTimesPeriod(intTimes, iPeriods)}) ] = {presentValue}";
 
-                        default: return "";
+                        default:
+                            return $"{payPeriod} is not available option!\n" +
+                                $"Please enter 0 or 1 for the pay period!";
                     }
                 }
                 catch (OverflowException)
