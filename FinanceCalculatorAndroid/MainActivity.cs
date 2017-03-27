@@ -142,6 +142,12 @@ namespace FinanceCalculator
                         CSpinnerVisibility<Annuity.PresentOrFuture>("Present or future value?");
                         break;
                     #endregion
+
+                    #region Stock and Bond price
+                    case (int)Calculate.StockAndBondPrices:
+                        CSpinnerVisibility<StockAndBondPrices.CalcType>("Choose what you want to calculate:");
+                        break;
+                    #endregion
                 }
                 #endregion Second Spinner Condition
             }

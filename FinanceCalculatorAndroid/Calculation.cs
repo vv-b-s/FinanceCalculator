@@ -127,6 +127,16 @@ namespace FinanceCalculator
                 return FlipperFeeder(spinner[1] == (int)Annuity.PresentOrFuture.Future ? Annuity.FutureValue.Attributes : Annuity.PresentValue.Attributes);
             }
             #endregion
+
+            #region Stock and Bond price
+            else if (spinner[0] == (int)Calculate.StockAndBondPrices)
+            {
+                spaces = 0;
+                CountSpaces(InputBox);
+                CalculationButton.Enabled = spaces == 3;
+                return FlipperFeeder(StockAndBondPrices.PresentDiscountBondPrice.Attributes);
+            }
+            #endregion
             return "";
         }
 
@@ -259,6 +269,14 @@ namespace FinanceCalculator
                             Annuity.PresentValue.Calculate(ExtractValue<int>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<double>(attribute[3])) :
                             Annuity.PresentValue.Calculate(ExtractValue<int>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<double>(attribute[3]), ExtractValue<double>(attribute[4]), (Interest.InterestPeriods)ExtractValue<int>(attribute[5]));
                 } 
+            }
+            #endregion
+
+            #region Stock and Bond price
+            switch (spinner[1])
+            {
+                case (int)StockAndBondPrices.CalcType.PresentDiscountBondPrice:
+                    return StockAndBondPrices.PresentDiscountBondPrice.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<int>(attribute[3]));
             }
             #endregion
 
