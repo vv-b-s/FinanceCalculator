@@ -168,7 +168,7 @@ namespace Finance
 
                             return $"Future Value: {presentValue:0.00}\n" +
                                   "Used formula: PV = A × [ 1/(r/m) - 1/(r/m) × (1 + r%/m)^(m × n) ] × (1 + r/m)\n" +
-                                   $"Solution: {annualReceipts} × [ (1/{rm:0.00} - 1/{rm:0.00} × (1+{rm:0.00})^({period} × {Interest.IntTimesPeriod(intTimes, iPeriods)}) ] × (1 + {interestRate}/{Interest.IntTimesPeriod(intTimes, iPeriods)} = {presentValue:0.00}";
+                                   $"Solution: {annualReceipts} × [ (1/{rm:F3} - 1/{rm:F3} × (1+{rm:F3})^({period} × {Interest.IntTimesPeriod(intTimes, iPeriods)}) ] × (1 + {interestRate}/{Interest.IntTimesPeriod(intTimes, iPeriods)} = {presentValue:0.00}";
 
                         case (int)PayPeriod.EndYear:
                             presentValue = annualReceipts * (1 / rm - 1 / (rm * (decimal)Pow((double)(1 + rm),
@@ -177,7 +177,7 @@ namespace Finance
 
                             return $"Future Value: {presentValue:0.00}\n" +
                                   "Used formula: PV = A × [ 1/(r/m) - 1/(r/m) × (1 + r%/m)^(m × n) ]\n" +
-                                  $"Solution: {annualReceipts} × [ (1/{rm:0.00} - 1/{rm:0.00} × (1+{rm:0.00})^({period} × {Interest.IntTimesPeriod(intTimes, iPeriods)}) ] = {presentValue}";
+                                  $"Solution: {annualReceipts} × [ (1/{rm:F3} - 1/{rm:F3} × (1+{rm:F3})^({period} × {Interest.IntTimesPeriod(intTimes, iPeriods)}) ] = {presentValue}";
 
                         default:
                             return $"{payPeriod} is not available option!\n" +
