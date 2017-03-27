@@ -1,3 +1,5 @@
+0. Create a class file in FormulaLib and name the namespace Finance.
+
 1. Add public readonly string[] Attributes (string array of the required arguments for the Calculate() method) to the new class.
 
 2. The class which will do the calcualtions must be named Calculate and it must take only the arguments declared in Attributes[].

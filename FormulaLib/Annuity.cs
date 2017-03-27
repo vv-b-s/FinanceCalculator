@@ -107,9 +107,9 @@ namespace Finance
         public static class PresentValue
         {
             public static readonly string[] Attributes = { "When is the annuity paid? (0 - at the start of the year, 1 - at the end of the year)",
-                "Future Value", "Interest Rate", "Period", "Interest periods", "Type of periods (Daily - 0, Weekly - 1, Monthly - 2)" };
+                "Annual Receipts", "Interest Rate", "Period", "Interest periods", "Type of periods (Daily - 0, Weekly - 1, Monthly - 2)" };
 
-            public static string Calculate(int payPeriod, decimal futureValue, decimal interestRate, double period)
+            public static string Calculate(int payPeriod, decimal annualReceipts, decimal interestRate, double period)
             {
                 try
                 {
@@ -119,20 +119,20 @@ namespace Finance
                     switch (payPeriod)
                     {
                         case (int)PayPeriod.StartYear:
-                            presentValue = futureValue * (1 / interestRate - 1 / (interestRate * (decimal)Pow((double)(1 + interestRate), period))) * (1 + interestRate);
+                            presentValue = annualReceipts * (1 / interestRate - 1 / (interestRate * (decimal)Pow((double)(1 + interestRate), period))) * (1 + interestRate);
                             presentValue = Round(presentValue, 2);
 
                             return $"Future value: {presentValue}\n" +
-                                   $"Used formula: PV = A[ 1/r - 1/r × ((1+r)^n -1) ] × (1 + r)\n" +
-                                   $"Solution: {futureValue} × [ (1/{interestRate} - 1/{interestRate} × (1+{interestRate})^{period}) ] * (1 + {interestRate}) = {presentValue}";
+                                   $"Used formula: PV = A[ 1/r - 1/(r × (1+r)^n ) ] × (1 + r)\n" +
+                                   $"Solution: {annualReceipts} × [ (1/{interestRate} - 1/({interestRate} × (1+{interestRate})^{period})) ] * (1 + {interestRate}) = {presentValue}";
 
                         case (int)PayPeriod.EndYear:
-                            presentValue = futureValue * (1 / interestRate - 1 / (interestRate * (decimal)Pow((double)(1 + interestRate), period)));
+                            presentValue = annualReceipts * (1 / interestRate - 1 / (interestRate * (decimal)Pow((double)(1 + interestRate), period)));
                             presentValue = Round(presentValue, 2);
 
                             return $"Future value: {presentValue}\n" +
-                                   $"Used formula: PV = [ 1/r - 1/r × ((1+r)^n -1) ]\n" +
-                                   $"Solution: {futureValue} × [ (1/{interestRate} - 1/{interestRate} × (1+{interestRate})^{period}) ] = {presentValue}";
+                                   $"Used formula: PV = [ 1/r - 1/(r × (1+r)^n) ]\n" +
+                                   $"Solution: {annualReceipts} × [ (1/{interestRate} - 1/({interestRate} × (1+{interestRate})^{period})) ] = {presentValue}";
                         default:
                             return $"{payPeriod} is not available option!\n" +
                                 $"Please enter 0 or 1 for the pay period!";
@@ -149,7 +149,7 @@ namespace Finance
                         "If your input is correct and you get this error, then your calculation is impossible.";
                 }
             }
-            public static string Calculate(int payPeriod, decimal futureValue, decimal interestRate, double period, double intTimes, Interest.InterestPeriods iPeriods)
+            public static string Calculate(int payPeriod, decimal annualReceipts, decimal interestRate, double period, double intTimes, Interest.InterestPeriods iPeriods)
             {
                 try
                 {
@@ -161,23 +161,23 @@ namespace Finance
                     switch (payPeriod)
                     {
                         case (int)PayPeriod.StartYear:
-                            presentValue = futureValue * (1 / rm - 1 / (rm * (decimal)Pow((double)(1 + rm),
+                            presentValue = annualReceipts * (1 / rm - 1 / (rm * (decimal)Pow((double)(1 + rm),
                                 (period * Interest.IntTimesPeriod(intTimes, iPeriods))))) *
                                 (1 + rm);
                             presentValue = Round(presentValue, 2);
 
                             return $"Future Value: {presentValue:0.00}\n" +
                                   "Used formula: PV = A × [ 1/(r/m) - 1/(r/m) × (1 + r%/m)^(m × n) ] × (1 + r/m)\n" +
-                                   $"Solution: {futureValue} × [ (1/{rm:0.00} - 1/{rm:0.00} × (1+{rm:0.00})^({period} × {Interest.IntTimesPeriod(intTimes, iPeriods)}) ] × (1 + {interestRate}/{Interest.IntTimesPeriod(intTimes, iPeriods)} = {presentValue:0.00}";
+                                   $"Solution: {annualReceipts} × [ (1/{rm:0.00} - 1/{rm:0.00} × (1+{rm:0.00})^({period} × {Interest.IntTimesPeriod(intTimes, iPeriods)}) ] × (1 + {interestRate}/{Interest.IntTimesPeriod(intTimes, iPeriods)} = {presentValue:0.00}";
 
                         case (int)PayPeriod.EndYear:
-                            presentValue = futureValue * (1 / rm - 1 / (rm * (decimal)Pow((double)(1 + rm),
+                            presentValue = annualReceipts * (1 / rm - 1 / (rm * (decimal)Pow((double)(1 + rm),
                                 (period * Interest.IntTimesPeriod(intTimes, iPeriods)))));
                             presentValue = Round(presentValue, 2);
 
                             return $"Future Value: {presentValue:0.00}\n" +
                                   "Used formula: PV = A × [ 1/(r/m) - 1/(r/m) × (1 + r%/m)^(m × n) ]\n" +
-                                  $"Solution: {futureValue} × [ (1/{rm:0.00} - 1/{rm:0.00} × (1+{rm:0.00})^({period} × {Interest.IntTimesPeriod(intTimes, iPeriods)}) ] = {presentValue}";
+                                  $"Solution: {annualReceipts} × [ (1/{rm:0.00} - 1/{rm:0.00} × (1+{rm:0.00})^({period} × {Interest.IntTimesPeriod(intTimes, iPeriods)}) ] = {presentValue}";
 
                         default:
                             return $"{payPeriod} is not available option!\n" +
