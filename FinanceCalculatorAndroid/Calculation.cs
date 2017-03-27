@@ -133,8 +133,15 @@ namespace FinanceCalculator
             {
                 spaces = 0;
                 CountSpaces(InputBox);
-                CalculationButton.Enabled = spaces == 3;
-                return FlipperFeeder(StockAndBondPrices.PresentDiscountBondPrice.Attributes);
+                switch (spinner[1])
+                {
+                    case (int)StockAndBondPrices.CalcType.PresentDiscountBondPrice:
+                        CalculationButton.Enabled = spaces == 3;
+                        return FlipperFeeder(StockAndBondPrices.PresentDiscountBondPrice.Attributes);
+                    case (int)StockAndBondPrices.CalcType.CuponBondPrice:
+                        CalculationButton.Enabled = spaces == 3;
+                        return FlipperFeeder(StockAndBondPrices.CuponBondPrice.Attributes);
+                }
             }
             #endregion
             return "";

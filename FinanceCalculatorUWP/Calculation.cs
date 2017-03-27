@@ -127,8 +127,15 @@ namespace FinanceCalculatorUWP
             {
                 spaces = 0;
                 CountSpaces(InputBox);
-                CalculationButton.IsEnabled = spaces == 3;
-                return FlipperFeeder(StockAndBondPrices.PresentDiscountBondPrice.Attributes);
+                switch (spinner[1])
+                {
+                    case (int)StockAndBondPrices.CalcType.PresentDiscountBondPrice:                        
+                        CalculationButton.IsEnabled = spaces == 3;
+                        return FlipperFeeder(StockAndBondPrices.PresentDiscountBondPrice.Attributes);
+                    case (int)StockAndBondPrices.CalcType.CuponBondPrice:
+                        CalculationButton.IsEnabled = spaces == 3;
+                        return FlipperFeeder(StockAndBondPrices.CuponBondPrice.Attributes);
+                }
             }
             #endregion
             return "";
@@ -271,6 +278,8 @@ namespace FinanceCalculatorUWP
             {
                 case (int)StockAndBondPrices.CalcType.PresentDiscountBondPrice:
                     return StockAndBondPrices.PresentDiscountBondPrice.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<int>(attribute[3]));
+                case (int)StockAndBondPrices.CalcType.CuponBondPrice:
+                    return StockAndBondPrices.CuponBondPrice.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<int>(attribute[3]));
             }
             #endregion
 
