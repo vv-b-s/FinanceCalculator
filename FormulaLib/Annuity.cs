@@ -72,8 +72,8 @@ namespace Finance
                             futureValue = Round(futureValue, 2);
 
                             return $"Future Value: {futureValue:0.00}\n" +
-                                  "Used formula: FV = A × [ (1 + r%/m)^(m × n) / (r / m) - 1] × (1 + r/m)\n" +
-                                   $"Solution: {presentValue} × [ (1 + {interestRate}/{Interest.IntTimesPeriod(intTimes, iPeriods)})^({period} × {Interest.IntTimesPeriod(intTimes, iPeriods)}) / ({interestRate} / {Interest.IntTimesPeriod(intTimes, iPeriods)}) - 1 ] × (1 + {interestRate}/{Interest.IntTimesPeriod(intTimes, iPeriods)} = {futureValue:0.00}";
+                                  "Used formula: FV = A × [ (1 + r%/m)^(m × n)  - 1/ (r / m)] × (1 + r/m)\n" +
+                                   $"Solution: {presentValue} × [ (1 + {interestRate}/{Interest.IntTimesPeriod(intTimes, iPeriods)})^({period} × {Interest.IntTimesPeriod(intTimes, iPeriods)}) - 1/ ({interestRate} / {Interest.IntTimesPeriod(intTimes, iPeriods)}) ] × (1 + {interestRate}/{Interest.IntTimesPeriod(intTimes, iPeriods)} = {futureValue:0.00}";
 
                         case (int)PayPeriod.EndYear:
                             futureValue = presentValue * (((decimal)(Pow((double)(1 + (interestRate) /
@@ -83,8 +83,8 @@ namespace Finance
                             futureValue = Round(futureValue, 2);
 
                             return $"Future Value: {futureValue:0.00}\n" +
-                                  "Used formula: FV = A × [ (1 + r%/m)^(m × n) / (r / m) - 1]\n" +
-                                   $"Solution: {presentValue} × [ (1 + {interestRate}/{Interest.IntTimesPeriod(intTimes, iPeriods)})^({period} × {Interest.IntTimesPeriod(intTimes, iPeriods)}) / ({interestRate} / {Interest.IntTimesPeriod(intTimes, iPeriods)})  ] = {futureValue:0.00}";
+                                  "Used formula: FV = A × [ (1 + r%/m)^(m × n) - 1/ (r / m) ]\n" +
+                                   $"Solution: {presentValue} × [ (1 + {interestRate}/{Interest.IntTimesPeriod(intTimes, iPeriods)})^({period} × {Interest.IntTimesPeriod(intTimes, iPeriods)}) - 1/ ({interestRate} / {Interest.IntTimesPeriod(intTimes, iPeriods)}) ] = {futureValue:0.00}";
 
                         default:
                             return $"{payPeriod} is not available option!\n" +

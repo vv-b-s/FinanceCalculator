@@ -156,8 +156,8 @@ namespace Finance
                     decimal PerpPrice = Round(recPayments / (disocuntRate - infl), 2);
 
                     return $"PerpetuityPrice: {PerpPrice}\n" +
-                        $"Used formula: Po = C/{(disocuntRate == 0 ? "r" : "(r-g)")}\n" +
-                        $"Solution: {recPayments}/{(disocuntRate == 0 ? $"{disocuntRate}" : $"({disocuntRate} - {infl})")} = {PerpPrice}";
+                        $"Used formula: Po = C/{(infl == 0 ? "r" : "(r-g)")}\n" +
+                        $"Solution: {recPayments}/{(infl == 0 ? $"{disocuntRate}" : $"({disocuntRate} - {infl})")} = {PerpPrice}";
                 }
                 catch (OverflowException)
                 {
