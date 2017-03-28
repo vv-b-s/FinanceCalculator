@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceCalculatorAndroid", "FinanceCalculatorAndroid\FinanceCalculatorAndroid.csproj", "{5CF86563-A453-4A63-B104-BDF838EB00D3}"
 EndProject
@@ -46,6 +46,8 @@ Global
 		{5CF86563-A453-4A63-B104-BDF838EB00D3}.Release|x86.Build.0 = Release|Any CPU
 		{5CF86563-A453-4A63-B104-BDF838EB00D3}.Release|x86.Deploy.0 = Release|Any CPU
 		{637FD567-F1A1-4830-AAE4-6A2DB2660275}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{637FD567-F1A1-4830-AAE4-6A2DB2660275}.Debug|Any CPU.Build.0 = Debug|x86
+		{637FD567-F1A1-4830-AAE4-6A2DB2660275}.Debug|Any CPU.Deploy.0 = Debug|x86
 		{637FD567-F1A1-4830-AAE4-6A2DB2660275}.Debug|ARM.ActiveCfg = Debug|ARM
 		{637FD567-F1A1-4830-AAE4-6A2DB2660275}.Debug|ARM.Build.0 = Debug|ARM
 		{637FD567-F1A1-4830-AAE4-6A2DB2660275}.Debug|ARM.Deploy.0 = Debug|ARM

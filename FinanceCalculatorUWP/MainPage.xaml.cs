@@ -143,7 +143,7 @@ namespace FinanceCalculatorUWP
                     case (int)Calculate.StockAndBondPrices:
                         CSpinnerVisibility<StockAndBondPrices.CalcType>("Choose what you want to calculate:");
                         break;
-                    #endregion
+                        #endregion
                 }
                 #endregion Second Spinner Condition
             }

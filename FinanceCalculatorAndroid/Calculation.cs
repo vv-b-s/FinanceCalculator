@@ -135,12 +135,33 @@ namespace FinanceCalculator
                 CountSpaces(InputBox);
                 switch (spinner[1])
                 {
+                    case (int)StockAndBondPrices.CalcType.BondYield:
+                        CalculationButton.Enabled = spaces == 2;
+                        return FlipperFeeder(StockAndBondPrices.BondYield.Attributes);
+
                     case (int)StockAndBondPrices.CalcType.PresentDiscountBondPrice:
                         CalculationButton.Enabled = spaces == 3;
                         return FlipperFeeder(StockAndBondPrices.PresentDiscountBondPrice.Attributes);
+
                     case (int)StockAndBondPrices.CalcType.CuponBondPrice:
                         CalculationButton.Enabled = spaces == 3;
                         return FlipperFeeder(StockAndBondPrices.CuponBondPrice.Attributes);
+
+                    case (int)StockAndBondPrices.CalcType.PerpetuityPrice:
+                        CalculationButton.Enabled = spaces >= 1 && spaces <= 2;
+                        return FlipperFeeder(StockAndBondPrices.PerpetuityPrice.Attributes);
+
+                    case (int)StockAndBondPrices.CalcType.PreferredStockPrice:
+                        CalculationButton.Enabled = spaces == 1;
+                        return FlipperFeeder(StockAndBondPrices.PreferredStockPrice.Attributes);
+
+                    case (int)StockAndBondPrices.CalcType.CommonSharePrice:
+                        CalculationButton.Enabled = spaces == 2;
+                        return FlipperFeeder(StockAndBondPrices.CommonSharePrice.Attributes);
+
+                    case (int)StockAndBondPrices.CalcType.RateOfIncreasing:
+                        CalculationButton.Enabled = spaces == 2;
+                        return FlipperFeeder(StockAndBondPrices.RateOfIncreasing.Attributes);
                 }
             }
             #endregion
@@ -280,10 +301,33 @@ namespace FinanceCalculator
             #endregion
 
             #region Stock and Bond price
-            switch (spinner[1])
+            else if (spinner[0] == (int)Calculate.StockAndBondPrices)
             {
-                case (int)StockAndBondPrices.CalcType.PresentDiscountBondPrice:
-                    return StockAndBondPrices.PresentDiscountBondPrice.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<int>(attribute[3]));
+                switch (spinner[1])
+                {
+                    case (int)StockAndBondPrices.CalcType.BondYield:
+                        return attribute[2] == "1" ?
+                            StockAndBondPrices.BondYield.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1])) :
+                            StockAndBondPrices.BondYield.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<int>(attribute[2]));
+
+                    case (int)StockAndBondPrices.CalcType.PresentDiscountBondPrice:
+                        return StockAndBondPrices.PresentDiscountBondPrice.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<int>(attribute[3]));
+
+                    case (int)StockAndBondPrices.CalcType.CuponBondPrice:
+                        return StockAndBondPrices.CuponBondPrice.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<int>(attribute[3]));
+
+                    case (int)StockAndBondPrices.CalcType.PerpetuityPrice:
+                        return StockAndBondPrices.PerpetuityPrice.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), attribute.Length < 3 ? 0 : ExtractValue<decimal>(attribute[2]));
+
+                    case (int)StockAndBondPrices.CalcType.PreferredStockPrice:
+                        return StockAndBondPrices.PreferredStockPrice.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]));
+
+                    case (int)StockAndBondPrices.CalcType.CommonSharePrice:
+                        return StockAndBondPrices.CommonSharePrice.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]));
+
+                    case (int)StockAndBondPrices.CalcType.RateOfIncreasing:
+                        return StockAndBondPrices.RateOfIncreasing.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]));
+                }
             }
             #endregion
 

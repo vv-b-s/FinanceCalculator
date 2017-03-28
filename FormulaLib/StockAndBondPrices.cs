@@ -10,7 +10,58 @@ namespace Finance
 {
     public static class StockAndBondPrices
     {
-        public enum CalcType { PresentDiscountBondPrice, CuponBondPrice}
+        public enum CalcType { BondYield, PresentDiscountBondPrice, CuponBondPrice, PerpetuityPrice, PreferredStockPrice, CommonSharePrice, RateOfIncreasing }
+
+        #region Bonds
+        public static class BondYield
+        {
+            public static readonly string[] Attributes = { "Nominal Value", "Acquisition price", "Holding period" };
+
+            public static string Calculate(decimal nominalValue, decimal acqPrice)
+            {
+                try
+                {
+                    decimal BMY = Round((nominalValue - acqPrice) / acqPrice, 2) * 100;
+
+                    return $"Bond Maturity Yield: {BMY}%\n" +
+                        $"Used formula: r = (N-Po)/Po\n" +
+                        $"Solution: ({nominalValue} - {acqPrice})/{acqPrice} = {BMY / 100}";
+                }
+                catch (OverflowException)
+                {
+                    return "Impossible Calculation!";
+                }
+                catch (DivideByZeroException)
+                {
+                    return "Dividing by zero error!\n" +
+                        "Please check your input.\n" +
+                        "If your input is correct and you get this error, then your calculation is impossible.";
+                }
+            }
+
+            public static string Calculate(decimal nominalValue, decimal acqPrice, int holdingPeriod)
+            {
+                try
+                {
+                    decimal BMY = (decimal)Pow((double)(nominalValue / acqPrice), 1d / holdingPeriod);
+                    BMY = Round(BMY, 2) * 100;
+
+                    return $"Bond Maturity Yield: {BMY}%\n" +
+                        $"Used formula: r = Root[n](N/Po)\n" +
+                        $"Solution: Root[{holdingPeriod}]({nominalValue}/{acqPrice}) = {BMY / 100}";
+                }
+                catch (OverflowException)
+                {
+                    return "Impossible Calculation!";
+                }
+                catch (DivideByZeroException)
+                {
+                    return "Dividing by zero error!\n" +
+                        "Please check your input.\n" +
+                        "If your input is correct and you get this error, then your calculation is impossible.";
+                }
+            }
+        }
 
         public static class PresentDiscountBondPrice
         {
@@ -29,7 +80,7 @@ namespace Finance
                         $"Net present value: {presentValue} - {sellingPrice} = {presentValue - sellingPrice}\n" +
                         $"Used Formula: Po = N/(1+r)^n\n" +
                         $"Solution: {nominalValue}/(1 + {RoR})^{holdingPeriod}) = {presentValue}" +
-                        $"\n\nThe bond {(presentValue - sellingPrice>0?"can be acquired!":"shouldn't be acqired!")}";
+                        $"\n\nThe bond {(presentValue - sellingPrice > 0 ? "can be acquired!" : "shouldn't be acqired!")}";
                 }
                 catch (OverflowException)
                 {
@@ -88,5 +139,125 @@ namespace Finance
                 }
             }
         }
+
+        #endregion
+
+        public static class PerpetuityPrice
+        {
+            public static readonly string[] Attributes = { "Recurring payments", "Discount rate", "Inflation (Optional. Don't fill in if not available)" };
+
+            public static string Calculate(decimal recPayments, decimal disocuntRate, decimal infl = 0)
+            {
+                try
+                {
+                    infl /= infl == 0 ? 1 : 100;
+                    disocuntRate /= 100;
+
+                    decimal PerpPrice = Round(recPayments / (disocuntRate - infl), 2);
+
+                    return $"PerpetuityPrice: {PerpPrice}\n" +
+                        $"Used formula: Po = C/{(disocuntRate == 0 ? "r" : "(r-g)")}\n" +
+                        $"Solution: {recPayments}/{(disocuntRate == 0 ? $"{disocuntRate}" : $"({disocuntRate} - {infl})")} = {PerpPrice}";
+                }
+                catch (OverflowException)
+                {
+                    return "Impossible Calculation!";
+                }
+                catch (DivideByZeroException)
+                {
+                    return "Dividing by zero error!\n" +
+                        "Please check your input.\n" +
+                        "If your input is correct and you get this error, then your calculation is impossible.";
+                }
+            }
+        }
+
+        #region Stock
+        public static class PreferredStockPrice
+        {
+            public static readonly string[] Attributes = { "Fixed annual divident", "Discount rate" };
+
+            public static string Calculate(decimal div, decimal discRate)
+            {
+                try
+                {
+                    discRate /= 100;
+                    decimal StockPrice = Round(div / discRate, 2);
+
+                    return $"Preferred Stock Price: {StockPrice}\n" +
+                        $"Used formula: Po = Div/r\n" +
+                        $"Solution: {div}/{discRate} = {StockPrice}";
+                }
+                catch (OverflowException)
+                {
+                    return "Impossible Calculation!";
+                }
+                catch (DivideByZeroException)
+                {
+                    return "Dividing by zero error!\n" +
+                        "Please check your input.\n" +
+                        "If your input is correct and you get this error, then your calculation is impossible.";
+                }
+            }
+        }
+
+        public static class CommonSharePrice
+        {
+            public static readonly string[] Attributes = { "Divident in the first year", "Rate of return", "Divident increasing norm" };
+
+            public static string Calculate(decimal div, decimal RoR, decimal DIN)
+            {
+                try
+                {
+                    RoR /= 100;
+                    DIN /= 100;
+
+                    decimal CSP = Round(div * (1 + DIN) / (RoR - DIN), 2);
+
+                    return $"Common share price: {CSP}\n" +
+                        $"Used formula: Po = Div/(r-g) = D(1+g)/(r-g)\n" +
+                        $"Solution: {div} × (1+{DIN})/({RoR} - {DIN}) = {div * (1 + DIN)}/{RoR - DIN} = {CSP}";
+                }
+                catch (OverflowException)
+                {
+                    return "Impossible Calculation!";
+                }
+                catch (DivideByZeroException)
+                {
+                    return "Dividing by zero error!\n" +
+                        "Please check your input.\n" +
+                        "If your input is correct and you get this error, then your calculation is impossible.";
+                }
+            }
+        }
+
+        public static class RateOfIncreasing
+        {
+            public static readonly string[] Attributes = { "Net Profit", "Equity", "Divident repayment factor" };
+
+            public static string Calculate(decimal netProfit, decimal equity, decimal DRF)
+            {
+                try
+                {
+                    DRF /= DRF > 0.99m || DRF < -0.99m ? 100 : 1;
+                    decimal ROI = Round((netProfit / equity) * (1 - DRF), 2);
+
+                    return $"Rate of increasing: {ROI * 100}%\n" +
+                        $"Used formula: g = (NP/E)*(1 - Kp)\n" +
+                        $"Solution: ({netProfit}/{equity}) × (1 - {DRF}) = {ROI}";
+                }
+                catch (OverflowException)
+                {
+                    return "Impossible Calculation!";
+                }
+                catch (DivideByZeroException)
+                {
+                    return "Dividing by zero error!\n" +
+                        "Please check your input.\n" +
+                        "If your input is correct and you get this error, then your calculation is impossible.";
+                }
+            }
+        }
+        #endregion
     }
 }
