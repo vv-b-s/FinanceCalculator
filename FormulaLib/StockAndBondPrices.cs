@@ -203,20 +203,20 @@ namespace Finance
 
         public static class CommonSharePrice
         {
-            public static readonly string[] Attributes = { "Divident in the first year", "Rate of return", "Divident increasing norm" };
+            public static readonly string[] Attributes = { "Divident in the first year", "Rate of return", "Divident increasing norm", "Years - if not available, leave empty." };
 
-            public static string Calculate(decimal div, decimal RoR, decimal DIN)
+            public static string Calculate(decimal div, decimal RoR, decimal DIN, int years=0)
             {
                 try
                 {
                     RoR /= 100;
                     DIN /= 100;
 
-                    decimal CSP = Round(div * (1 + DIN) / (RoR - DIN), 2);
+                    decimal CSP = Round(div * (years==0? (1 + DIN):(decimal)Pow((double)(1 + DIN),years)) / (RoR - DIN), 2);
 
                     return $"Common share price: {CSP}\n" +
-                        $"Used formula: Po = Div/(r-g) = D(1+g)/(r-g)\n" +
-                        $"Solution: {div} × (1+{DIN})/({RoR} - {DIN}) = {div * (1 + DIN)}/{RoR - DIN} = {CSP}";
+                        $"Used formula: Po = Div/(r-g) = {(years == 0 ? "D(1+g)" : "D(1+g)^n")}/(r-g)\n" +
+                        $"Solution: {div} × {(years == 0 ? $"(1+{DIN})" : $"(1 +{ DIN})^{years}")}/({RoR} - {DIN}) = {div * (1 + DIN)}/{RoR - DIN} = {CSP}";
                 }
                 catch (OverflowException)
                 {

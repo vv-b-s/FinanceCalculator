@@ -156,7 +156,7 @@ namespace FinanceCalculator
                         return FlipperFeeder(StockAndBondPrices.PreferredStockPrice.Attributes);
 
                     case (int)StockAndBondPrices.CalcType.CommonSharePrice:
-                        CalculationButton.Enabled = spaces == 2;
+                        CalculationButton.Enabled = spaces >= 2 && spaces <= 3;
                         return FlipperFeeder(StockAndBondPrices.CommonSharePrice.Attributes);
 
                     case (int)StockAndBondPrices.CalcType.RateOfIncreasing:
@@ -323,7 +323,7 @@ namespace FinanceCalculator
                         return StockAndBondPrices.PreferredStockPrice.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]));
 
                     case (int)StockAndBondPrices.CalcType.CommonSharePrice:
-                        return StockAndBondPrices.CommonSharePrice.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]));
+                        return StockAndBondPrices.CommonSharePrice.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), attribute.Length == 4 ? ExtractValue<int>(attribute[3]) : 0);
 
                     case (int)StockAndBondPrices.CalcType.RateOfIncreasing:
                         return StockAndBondPrices.RateOfIncreasing.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]));
