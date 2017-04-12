@@ -165,6 +165,20 @@ namespace FinanceCalculator
                 }
             }
             #endregion
+
+            #region Asset Investment
+            else if (spinner[0] == (int)Calculate.AssetInvestment)
+            {
+                spaces = 0;
+                CountSpaces(InputBox);
+                switch (spinner[1])
+                {
+                    case (int)AssetInvestment.AssetValues.NetCashFlows:
+                        CalculationButton.Enabled = spaces == 4;
+                        return FlipperFeeder(AssetInvestment.NetCashFlows.Attributes);
+                }
+            }
+            #endregion
             return "";
         }
 
@@ -331,6 +345,16 @@ namespace FinanceCalculator
             }
             #endregion
 
+            #region Asset Investment
+            else if (spinner[0] == (int)Calculate.AssetInvestment)
+            {
+                switch (spinner[1])
+                {
+                    case (int)AssetInvestment.AssetValues.NetCashFlows:
+                        return AssetInvestment.NetCashFlows.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<decimal>(attribute[3]), ExtractValue<decimal>(attribute[4]));
+                }
+            }
+            #endregion
             return "";
         }
 

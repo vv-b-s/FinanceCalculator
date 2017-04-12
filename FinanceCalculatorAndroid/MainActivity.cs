@@ -148,6 +148,12 @@ namespace FinanceCalculator
                         CSpinnerVisibility<StockAndBondPrices.CalcType>("Choose what you want to calculate:");
                         break;
                     #endregion
+
+                    #region Asset Investment
+                    case (int)Calculate.AssetInvestment:
+                        CSpinnerVisibility<AssetInvestment.AssetValues>("Choose whay you'll calculate:");
+                        break;
+                    #endregion
                 }
                 #endregion Second Spinner Condition
             }
