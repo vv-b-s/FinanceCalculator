@@ -14,3 +14,16 @@
 7. Clear any singleton type. If the class uses singleton type, it must contain a Clear method, to delete the old data so it can be reusable.
 
 8. Copy out all the modifications between the two platforms. Though the Android and UWP app use the same formula library, the contents in their Main classes differs, because it is platform specific. A copy-paste and some littele modifications will get the job done.
+
+Notice: To handle most common exceptions use the following catch operations...
+
+catch (OverflowException)
+{
+	return "Impossible Calculation!";
+}
+catch (DivideByZeroException)
+{
+	return "Dividing by zero error!\n" +
+       	       "Please check your input.\n" +
+               "If your input is correct and you get this error, then your calculation is impossible.";
+}

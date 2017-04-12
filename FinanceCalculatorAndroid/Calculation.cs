@@ -176,6 +176,12 @@ namespace FinanceCalculator
                     case (int)AssetInvestment.AssetValues.NetCashFlows:
                         CalculationButton.Enabled = spaces == 4;
                         return FlipperFeeder(AssetInvestment.NetCashFlows.Attributes);
+
+                    case (int)AssetInvestment.AssetValues.AverageIncomeNorm:
+                        int neededSpaces = spaces < 2 ? 3 : 1 + ExtractValue<int>(InputBox.Split()[1]);
+                        CalculationButton.Enabled = spaces == neededSpaces;
+                        return spaces >= 2 && spaces <= neededSpaces ? AssetInvestment.AverageIncomeNorm.Attributes[2] :
+                            FlipperFeeder(AssetInvestment.AverageIncomeNorm.Attributes);
                 }
             }
             #endregion
@@ -352,6 +358,12 @@ namespace FinanceCalculator
                 {
                     case (int)AssetInvestment.AssetValues.NetCashFlows:
                         return AssetInvestment.NetCashFlows.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<decimal>(attribute[1]), ExtractValue<decimal>(attribute[2]), ExtractValue<decimal>(attribute[3]), ExtractValue<decimal>(attribute[4]));
+
+                    case (int)AssetInvestment.AssetValues.AverageIncomeNorm:
+                        decimal[] netIncomeEA = new decimal[ExtractValue<int>(attribute[1])];
+                        for (int i = 0; i < ExtractValue<int>(attribute[1]); i++)
+                            netIncomeEA[i] = ExtractValue<decimal>(attribute[i + 2]);
+                        return AssetInvestment.AverageIncomeNorm.Calculate(ExtractValue<decimal>(attribute[0]), ExtractValue<int>(attribute[1]), netIncomeEA);
                 }
             }
             #endregion
