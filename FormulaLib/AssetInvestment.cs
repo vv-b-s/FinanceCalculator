@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Math;
+using TextTable;
 
 namespace Finance
 {
     public class AssetInvestment
     {
-        public enum AssetValues { NetCashFlows, AverageIncomeNorm }
+        public enum AssetValues { NetCashFlows, AverageIncomeNorm, NetPresentValue }
 
         public static class NetCashFlows
         {
@@ -73,7 +74,8 @@ namespace Finance
                         $"1) Calculating the AFNI:\n" +
                         $"\t({sB.ToString()})/{years} = {averageFutureNI}\n" +
                         $"2) Calculating AIN:\n" +
-                        $"\t{averageFutureNI}/({initInvCost} × 0.5) = {AIN}";
+                        $"\t{averageFutureNI}/({initInvCost} × 0.5) = {AIN}\n\n" +
+                        $"Notice: The project with the highest AIN is the one which should be accepted.";
                 }
                 catch (OverflowException)
                 {
@@ -85,6 +87,65 @@ namespace Finance
                         "Please check your input.\n" +
                         "If your input is correct and you get this error, then your calculation is impossible.";
                 }
+            }
+        }
+
+        public static class NetPresentValue
+        {
+            public static string[] Attributes = { "Comulative investitional costs", "Discount norm", "Years", "Cash flows for each year" };
+
+            public static string Calculate(decimal comulInvCosts, decimal discountNorm, int years, decimal[] cashFlowsEA)
+            {
+                try
+                {
+                    discountNorm /= discountNorm <= 0.99m && discountNorm >= -0.99m ? 1 : 100;
+                    decimal cashFlowsSum = 0;
+                    for (int i = 0; i < years; i++)
+                        cashFlowsSum += cashFlowsEA[i] / (decimal)Pow((double)(1 + discountNorm), i + 1);
+                    Round(cashFlowsSum, 2);
+
+                    decimal NPV = cashFlowsSum - comulInvCosts;
+
+                    return $"Net Present Value: {Round(NPV, 2)}\n" +
+                        $"Used formula: {(char)931} Fn/(1+r)^n - {(char)931}In/(1+r)^n\n" +
+                        $"Solution:\n" +
+                        $"{CreateTable(years, discountNorm, cashFlowsEA, comulInvCosts)}\n\n" +
+                        $"NPV = {Round(cashFlowsSum, 2)} - {Round(comulInvCosts, 2)} = {Round(NPV, 2)}";
+                }
+                catch (OverflowException)
+                {
+                    return "Impossible Calculation!";
+                }
+                catch (DivideByZeroException)
+                {
+                    return "Dividing by zero error!\n" +
+                                  "Please check your input.\n" +
+                               "If your input is correct and you get this error, then your calculation is impossible.";
+                }
+            }
+
+            private static string CreateTable(int years, decimal discountNorm, decimal[] cashFlowsEA, decimal comulInvCosts)
+            {
+                var outputTable = Table.Create(years + 2, 4, true, true);
+
+                outputTable.Modify(0, 0) = "Year"; outputTable.Modify(0, 1) = "NCF"; outputTable.Modify(0, 2) = $"PV of 1 unit with {discountNorm * 100}% discount"; outputTable.Modify(0, 3) = "PV each year";
+
+                for(int i=0;i<years;i++)
+                {
+                    outputTable.Modify(i + 1, 0) = (i + 1).ToString();
+                    outputTable.Modify(i + 1, 1) = cashFlowsEA[i].ToString();
+                    outputTable.Modify(i + 1, 2) = Round(1 / Pow((double)(1 + discountNorm), i+1), 3).ToString();
+                    outputTable.Modify(i + 1, 3) = Round(cashFlowsEA[i] / (decimal)Pow((double)(1 + discountNorm), i + 1), 2).ToString();
+                }
+
+                decimal sumAll = 0;
+                for (int i = 0; i < years; i++)
+                    sumAll += decimal.Parse(outputTable.Modify(i+1,3));
+
+                outputTable.Modify(years + 1, 0) = "Sum";
+                outputTable.Modify(years + 1, 3) = sumAll.ToString();
+
+                return outputTable.ToString();
             }
         }
     }
