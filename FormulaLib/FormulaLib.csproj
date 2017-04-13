@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Annuity.cs" />
     <Compile Include="AssetInvestment.cs" />
+    <Compile Include="Factors.cs" />
     <Compile Include="Deprication.cs" />
     <Compile Include="Finance.cs" />
     <Compile Include="Interest.cs" />
