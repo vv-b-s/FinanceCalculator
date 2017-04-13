@@ -10,7 +10,7 @@ namespace Finance
 {
     public class AssetInvestment
     {
-        public enum AssetValues { NetCashFlows, AverageIncomeNorm, NetPresentValue }
+        public enum AssetValues { NetCashFlows, AverageIncomeNorm, NetPresentValue, ProfitabilityIndex }
 
         public static class NetCashFlows
         {
@@ -102,7 +102,7 @@ namespace Finance
                     decimal cashFlowsSum = 0;
                     for (int i = 0; i < years; i++)
                         cashFlowsSum += cashFlowsEA[i] / (decimal)Pow((double)(1 + discountNorm), i + 1);
-                    Round(cashFlowsSum, 2);
+                    cashFlowsSum = Round(cashFlowsSum, 2);
 
                     decimal NPV = cashFlowsSum - comulInvCosts;
 
@@ -146,6 +146,39 @@ namespace Finance
                 outputTable.Modify(years + 1, 3) = sumAll.ToString();
 
                 return outputTable.ToString();
+            }
+        }
+
+        public static class ProfitabilityIndex
+        {
+            public static readonly string[] Attributes = NetPresentValue.Attributes;
+
+            public static string Calculate(decimal comulInvCosts, decimal discountNorm, int years, decimal[] cashFlowsEA)
+            {
+                try
+                {
+                    discountNorm /= discountNorm <= 0.99m && discountNorm >= -0.99m ? 1 : 100;
+                    decimal cashFlowsSum = 0;
+                    for (int i = 0; i < years; i++)
+                        cashFlowsSum += cashFlowsEA[i] / (decimal)Pow((double)(1 + discountNorm), i + 1);
+                    cashFlowsSum = Round(cashFlowsSum, 2);
+
+                    decimal PI = Round(cashFlowsSum / comulInvCosts, 3);
+
+                    return $"Profitability Index: {PI}\n" +
+                        $"Used formula: {(char)931} Fn/(1+r)^n / {(char)931}In/(1+r)^n\n" +
+                        $"Solution: {cashFlowsSum} / {comulInvCosts} = {PI}";
+                }
+                catch (OverflowException)
+                {
+                    return "Impossible Calculation!";
+                }
+                catch (DivideByZeroException)
+                {
+                    return "Dividing by zero error!\n" +
+                                  "Please check your input.\n" +
+                               "If your input is correct and you get this error, then your calculation is impossible.";
+                }
             }
         }
     }
