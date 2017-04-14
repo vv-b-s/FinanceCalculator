@@ -33,6 +33,7 @@ namespace FinanceCalculator
             SetContentView(Resource.Layout.Main);
 
             //Controlls
+            var ChooseOpLabel = FindViewById<TextView>(Resource.Id.textView3);
             var CSpinnerLabel = FindViewById<TextView>(Resource.Id.CSpinnerLabel);
             var OperationSpinner = FindViewById<Spinner>(Resource.Id.OperationSpinner);
             var CalculationSpinner = FindViewById<Spinner>(Resource.Id.CalculationSpinner);
@@ -41,6 +42,7 @@ namespace FinanceCalculator
             var CalculationButton = FindViewById<Button>(Resource.Id.CalculationButton);
             var ResultBox = FindViewById<CheckedTextView>(Resource.Id.ResultBox);
 
+            ChooseOpLabel.Text = "Choose an operation:";
             CSpinnerVisibility(false);
             InputBox.Enabled = false;
             CalculationButton.Enabled = false;

@@ -3,48 +3,49 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <GridLayout
+    <LinearLayout
+        android:orientation="horizontal"
         android:minWidth="25px"
         android:minHeight="25px"
-        android:layout_width="fill_parent"
-        android:layout_height="35.0dp"
-        android:id="@+id/gridLayout1">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout1">
         <TextView
-            android:text="Choose an operation:"
+            android:text="L1"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
-            android:layout_marginLeft="8.5dp"
+            android:layout_height="wrap_content"
             android:textSize="8pt" />
         <TextView
-            android:text="Medium Text"
+            android:text="L2"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/CSpinnerLabel"
             android:layout_width="wrap_content"
-            android:textSize="8pt"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="11.5dp" />
-    </GridLayout>
-    <GridLayout
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
         android:minWidth="25px"
         android:minHeight="25px"
-        android:layout_width="fill_parent"
-        android:layout_height="39.0dp"
-        android:id="@+id/gridLayout1">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout1">
         <Spinner
             android:id="@+id/OperationSpinner"
             android:layout_width="wrap_content"
-            android:layout_height="41.5dp"
+            android:layout_height="wrap_content"
             android:textSize="8pt"
-            android:prompt="@string/operation_type"
-            android:layout_marginLeft="10.0dp" />
+            android:prompt="@string/operation_type" />
         <Spinner
             android:id="@+id/CalculationSpinner"
             android:layout_width="wrap_content"
-            android:layout_height="41.5dp"
+            android:layout_height="wrap_content"
             android:textSize="8pt"
             android:prompt="@string/calc_type"
-            android:layout_marginLeft="20.0dp" />
-    </GridLayout>
+            android:layout_marginLeft="11.5dp" />
+    </LinearLayout>
     <TextView
         android:text="Enter data:"
         android:textAppearance="?android:attr/textAppearanceMedium"

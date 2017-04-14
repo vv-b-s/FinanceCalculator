@@ -82,7 +82,7 @@ namespace FinanceCalculator
 			public const int ResultBox = 2131034121;
 			
 			// aapt resource value: 0x7f050000
-			public const int gridLayout1 = 2131034112;
+			public const int linearLayout1 = 2131034112;
 			
 			// aapt resource value: 0x7f050008
 			public const int textView2 = 2131034120;
