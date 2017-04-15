@@ -89,6 +89,12 @@ namespace FinanceCalculatorUWP
                 #region Second Spinner Condition
                 switch (spinner[0])
                 {
+                    #region Factors
+                    case (int)Calculate.Factors:
+                        CSpinnerVisibility(false);
+                        break;
+                    #endregion
+
                     #region Future Value
                     case (int)Calculate.FutureValue:
                         CSpinnerVisibility<Interest.IntrestType>("Choose Interest type:");

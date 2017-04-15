@@ -19,8 +19,8 @@ namespace FinanceCalculator
     [Activity(Label = "Finance Calculator", MainLauncher = true, Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
     public partial class MainActivity : Activity
     {
-        internal static int[] spinner = new int[2];                             // Getting the position of the spinners.
-        internal static int spaces = 0;                                        // Used to measure words in the InputBox
+        internal static int[] spinner = new int[2];                                // Getting the position of the spinners.
+        internal static int   spaces  = 0;                                        // Used to measure words in the InputBox
 
         Typeface courierNew = Typeface.CreateFromAsset(Application.Context.Assets, "fonts/courier-new.ttf");            // Used in the ResultBox to make the font suitable for the table  https://forums.xamarin.com/discussion/3875/typeface-in-monodroid
 
@@ -33,16 +33,16 @@ namespace FinanceCalculator
             SetContentView(Resource.Layout.Main);
 
             //Controlls
-            var CSpinnerLabel = FindViewById<TextView>(Resource.Id.CSpinnerLabel);
-            var OperationSpinner = FindViewById<Spinner>(Resource.Id.OperationSpinner);
-            var CalculationSpinner = FindViewById<Spinner>(Resource.Id.CalculationSpinner);
-            var DataFlipper = FindViewById<TextView>(Resource.Id.DataFlipper);
-            var InputBox = FindViewById<EditText>(Resource.Id.InputBox);
-            var CalculationButton = FindViewById<Button>(Resource.Id.CalculationButton);
-            var ResultBox = FindViewById<CheckedTextView>(Resource.Id.ResultBox);
+            var CSpinnerLabel      = FindViewById <TextView>        (Resource.Id.CSpinnerLabel);
+            var OperationSpinner   = FindViewById <Spinner>         (Resource.Id.OperationSpinner);
+            var CalculationSpinner = FindViewById <Spinner>         (Resource.Id.CalculationSpinner);
+            var DataFlipper        = FindViewById <TextView>        (Resource.Id.DataFlipper);
+            var InputBox           = FindViewById <EditText>        (Resource.Id.InputBox);
+            var CalculationButton  = FindViewById <Button>          (Resource.Id.CalculationButton);
+            var ResultBox          = FindViewById <CheckedTextView> (Resource.Id.ResultBox);
 
             CSpinnerVisibility(false);
-            InputBox.Enabled = false;
+            InputBox.Enabled          = false;
             CalculationButton.Enabled = false;
             ResultBox.SetTypeface(courierNew, TypefaceStyle.Normal);
 
@@ -50,10 +50,10 @@ namespace FinanceCalculator
             #region SpinnerConnection
 
             OperationSpinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(OperationSpinner_ItemSelected);
-            var enumValuesOS = Enum.GetValues(typeof(Calculate));
-            var arrayForAdapterOS = enumValuesOS.Cast<Calculate>().Select(e => e.ToString()).ToArray();
-            var adapterOS = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, arrayForAdapterOS);
-            OperationSpinner.Adapter = adapterOS;
+            var enumValuesOS               = Enum.GetValues(typeof(Calculate));
+            var arrayForAdapterOS          = enumValuesOS.Cast<Calculate>().Select(e => e.ToString()).ToArray();
+            var adapterOS                  = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, arrayForAdapterOS);
+            OperationSpinner.Adapter       = adapterOS;
 
             #endregion
 
@@ -67,22 +67,22 @@ namespace FinanceCalculator
               {
                   string[] attribute = InputBox.Text.Split();
 
-                  if (CheckInput(ref attribute, (Calculate)spinner[0]))
-                      ResultBox.Text = DoCalculation(attribute);
+                  if (CheckInput(attribute, (Calculate)spinner[0]))
+                      ResultBox.Text  = DoCalculation(attribute);
                   else ResultBox.Text = "Wrong input.";
               };
         }
 
         private void OperationSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            var DataFlipper = FindViewById<TextView>(Resource.Id.DataFlipper);
-            var InputBox = FindViewById<EditText>(Resource.Id.InputBox);
-            var CalculationButton = FindViewById<Button>(Resource.Id.CalculationButton);
+            var DataFlipper       = FindViewById <TextView> (Resource.Id.DataFlipper);
+            var InputBox          = FindViewById <EditText> (Resource.Id.InputBox);
+            var CalculationButton = FindViewById <Button>   (Resource.Id.CalculationButton);
 
             ClearData();
 
             Spinner OperationSpinner = (Spinner)sender;
-            spinner[0] = e.Position;
+            spinner[0]               = e.Position;
 
             #region Spinner 2 activation
             if (spinner[0] != (int)Calculate.None)
@@ -93,15 +93,21 @@ namespace FinanceCalculator
                 #region Second Spinner Condition
                 switch (spinner[0])
                 {
+                    #region Factors
+                    case (int)Calculate.Factors:
+                        CSpinnerVisibility(false);
+                        break;
+                    #endregion
+
                     #region Future Value
                     case (int)Calculate.FutureValue:
-                        CSpinnerVisibility<Interest.IntrestType>("Choose Interest type:");
+                        CSpinnerVisibility <Interest.IntrestType> ("Choose Interest type:");
                         break;
                     #endregion
 
                     #region Present Value
                     case (int)Calculate.PresentValue:
-                        CSpinnerVisibility<Interest.IntrestType>("Choose Interest type:");
+                        CSpinnerVisibility <Interest.IntrestType> ("Choose Interest type:");
                         break;
 
                     #endregion
@@ -120,38 +126,38 @@ namespace FinanceCalculator
 
                     #region Risk
                     case (int)Calculate.Risk:
-                        CSpinnerVisibility<Risk.CalcType>("Choose a risk operation:");
+                        CSpinnerVisibility <Risk.CalcType> ("Choose a risk operation:");
                         ShowDialog("Notice:\nIf you have previously calculated something, enter 0 to directly use it.");
 
-                        Risk.ExpectedReturns.ER.Clear();
-                        Risk.StandardDeviation.sD.Clear();
-                        Risk.PortfolioCovariation.PC.Clear();
-                        Risk.CorelationCoefficient.CC.Clear();
+                        Risk. ExpectedReturns.       ER.Clear();
+                        Risk. StandardDeviation.     sD.Clear();
+                        Risk. PortfolioCovariation.  PC.Clear();
+                        Risk. CorelationCoefficient. CC.Clear();
 
                         break;
                     #endregion
 
                     #region Deprication
                     case (int)Calculate.Deprication:
-                        CSpinnerVisibility<Deprication.DepricationType>("Choose deprication type:");
+                        CSpinnerVisibility <Deprication.DepricationType> ("Choose deprication type:");
                         break;
                     #endregion
 
                     #region Annuity
                     case (int)Calculate.Annuity:
-                        CSpinnerVisibility<Annuity.PresentOrFuture>("Present or future value?");
+                        CSpinnerVisibility <Annuity.PresentOrFuture> ("Present or future value?");
                         break;
                     #endregion
 
                     #region Stock and Bond price
                     case (int)Calculate.StockAndBondPrices:
-                        CSpinnerVisibility<StockAndBondPrices.CalcType>("Choose what you want to calculate:");
+                        CSpinnerVisibility <StockAndBondPrices.CalcType> ("Choose what you want to calculate:");
                         break;
                     #endregion
 
                     #region Asset Investment
                     case (int)Calculate.AssetInvestment:
-                        CSpinnerVisibility<AssetInvestment.AssetValues>("Choose whay you'll calculate:");
+                        CSpinnerVisibility <AssetInvestment.AssetValues> ("Choose whay you'll calculate:");
                         break;
                     #endregion
                 }
@@ -160,9 +166,9 @@ namespace FinanceCalculator
             else
             {
                 CSpinnerVisibility(false);
-                InputBox.Enabled = false;
+                InputBox.Enabled          = false;
                 CalculationButton.Enabled = false;
-                DataFlipper.Text = "Enter data:";
+                DataFlipper.Text          = "Enter data:";
             }
             #endregion
         }
@@ -170,7 +176,7 @@ namespace FinanceCalculator
         private void CalculationSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             Spinner OperationSpinner = (Spinner)sender;
-            spinner[1] = e.Position;
+            spinner[1]               = e.Position;
             ClearData();
         }
 
@@ -182,48 +188,48 @@ namespace FinanceCalculator
             switch (state)
             {
                 case true:
-                    CSpinnerLabel.Visibility = ViewStates.Visible;
+                    CSpinnerLabel.Visibility      = ViewStates.Visible;
                     CalculationSpinner.Visibility = ViewStates.Visible;
                     break;
                 case false:
-                    CSpinnerLabel.Visibility = ViewStates.Invisible;
+                    CSpinnerLabel.Visibility      = ViewStates.Invisible;
                     CalculationSpinner.Visibility = ViewStates.Invisible;
                     break;
             }
         }
 
-        private void CSpinnerVisibility<TFormulaTypesEnum>(string labelText)                                   // Easily creates the data for the secons spinner
+        private void CSpinnerVisibility <TFormulaTypesEnum> (string labelText)                                   // Easily creates the data for the secons spinner
         {
-            var CSpinnerLabel = FindViewById<TextView>(Resource.Id.CSpinnerLabel);
+            var CSpinnerLabel      = FindViewById<TextView>(Resource.Id.CSpinnerLabel);
             var CalculationSpinner = FindViewById<Spinner>(Resource.Id.CalculationSpinner);
             CSpinnerVisibility(true);
 
-            var enumValuesCS = Enum.GetValues(typeof(TFormulaTypesEnum));
+            var enumValuesCS      = Enum.GetValues(typeof(TFormulaTypesEnum));
             var arrayForAdapterCS = enumValuesCS.Cast<TFormulaTypesEnum>().Select(f => f.ToString()).ToArray();
 
             CalculationSpinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(CalculationSpinner_ItemSelected);
-            var adapterCS = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, arrayForAdapterCS);
-            CalculationSpinner.Adapter = adapterCS;
-            CSpinnerLabel.Text = labelText;
+            var adapterCS                    = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, arrayForAdapterCS);
+            CalculationSpinner.Adapter       = adapterCS;
+            CSpinnerLabel.Text               = labelText;
         }
         #endregion
 
         #region Input Control
         private void ClearData()
         {
-            var DataFlipper = FindViewById<TextView>(Resource.Id.DataFlipper);
-            var InputBox = FindViewById<EditText>(Resource.Id.InputBox);
-            var ResultBox = FindViewById<CheckedTextView>(Resource.Id.ResultBox);
+            var DataFlipper       = FindViewById<TextView>(Resource.Id.DataFlipper);
+            var InputBox          = FindViewById<EditText>(Resource.Id.InputBox);
+            var ResultBox         = FindViewById<CheckedTextView>(Resource.Id.ResultBox);
             var CalculationButton = FindViewById<Button>(Resource.Id.CalculationButton);
 
-            DataFlipper.Text = "Enter data:";
-            InputBox.Text = "";
-            ResultBox.Text = "";
+            DataFlipper.Text          = "Enter data:";
+            InputBox.Text             = "";
+            ResultBox.Text            = "";
             CalculationButton.Enabled = false;
-            spaces = 0;
+            spaces                    = 0;
         }
 
-        private bool CheckInput(ref string[] input, Calculate type)
+        private bool CheckInput(string[] input, Calculate type)
         {
             for (int i = 0; i < input.Length; i++)
             {
@@ -239,7 +245,7 @@ namespace FinanceCalculator
             return true;
         }
 
-        private T ExtractValue<T>(string input) where T : struct
+        private T ExtractValue <T> (string input) where T : struct
         {
             var culture = new CultureInfo("bg-BG");
 
