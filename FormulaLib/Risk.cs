@@ -31,7 +31,7 @@ namespace Finance
                     Value = currentER = anticipatedR * (probability / 100);
                     _ER = Round(_ER, 3);
 
-                    return $"Expected Returns: {Value}\n" +
+                    return $"Expected Returns: {Value:C2}\n" +
                            $"Used formula: ER = {(char)8721}Ri × Pi\n" +
                            $"Current Expected Returns: {Round(currentER, 3)}";
                 }

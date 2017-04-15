@@ -25,7 +25,7 @@ namespace Finance
                     decimal NP = Round(CTP * (1 - corpTaxes), 2);                                 // Net Profit
                     decimal NetCashFlows = NP + deprication;
 
-                    return $"Net Cash Flows: {NetCashFlows}\n" +
+                    return $"Net Cash Flows: {NetCashFlows:C2}\n" +
                         $"Used formula: NCF = Net Profit + Deprication\n" +
                         "Solution:\n" +
                         "1) Defining conditional taxable profit:\n" +
@@ -106,7 +106,7 @@ namespace Finance
 
                     decimal NPV = cashFlowsSum - comulInvCosts;
 
-                    return $"Net Present Value: {Round(NPV, 2)}\n" +
+                    return $"Net Present Value: {Round(NPV, 2):C2}\n" +
                         $"Used formula: {(char)931} Fn/(1+r)^n - {(char)931}In/(1+r)^n\n" +
                         $"Solution:\n" +
                         $"{CreateTable(years, discountNorm, cashFlowsEA, comulInvCosts)}\n\n" +

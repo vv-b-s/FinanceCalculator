@@ -26,7 +26,7 @@ namespace Finance
                             futureValue = presentValue * ((decimal)(Pow((double)(1 + interestRate), period) - 1) / interestRate) * (1 + interestRate);
                             futureValue = Round(futureValue, 2);
 
-                            return $"Future value: {futureValue}\n" +
+                            return $"Future value: {futureValue:C2}\n" +
                                    $"Used formula: FV = A[ ((1+r)^n -1)/r ] × (1 + r)\n" +
                                    $"Solution: {presentValue} × [ ((1+{interestRate})^{period} - 1)/{interestRate}) - 1 ] * (1 + {interestRate}) = {futureValue}";
 
@@ -34,7 +34,7 @@ namespace Finance
                             futureValue = presentValue * ((decimal)(Pow((double)(1 + interestRate), period) - 1) / interestRate);
                             futureValue = Round(futureValue, 2);
 
-                            return $"Future value: {futureValue}\n" +
+                            return $"Future value: {futureValue:C2}\n" +
                                    $"Used formula: FV = A[ ((1+r)^n -1)/r ]\n" +
                                    $"Solution: {presentValue} × [ ((1+{interestRate})^{period} - 1)/{interestRate} ] = {futureValue}";
                         default:
@@ -53,6 +53,7 @@ namespace Finance
                         "If your input is correct and you get this error, then your calculation is impossible.";
                 }
             }
+
             public static string Calculate(int payPeriod, decimal presentValue, decimal interestRate, double period, double intTimes, Interest.InterestPeriods iPeriods)
             {
                 try
@@ -71,7 +72,7 @@ namespace Finance
                                 (1 + interestRate / (decimal)Interest.IntTimesPeriod(intTimes, iPeriods));
                             futureValue = Round(futureValue, 2);
 
-                            return $"Future Value: {futureValue:0.00}\n" +
+                            return $"Future Value: {futureValue:C2}\n" +
                                   "Used formula: FV = A × [ (1 + r%/m)^(m × n)  - 1/ (r / m)] × (1 + r/m)\n" +
                                    $"Solution: {presentValue} × [ (1 + {interestRate}/{Interest.IntTimesPeriod(intTimes, iPeriods)})^({period} × {Interest.IntTimesPeriod(intTimes, iPeriods)}) - 1/ ({interestRate} / {Interest.IntTimesPeriod(intTimes, iPeriods)}) ] × (1 + {interestRate}/{Interest.IntTimesPeriod(intTimes, iPeriods)} = {futureValue:0.00}";
 
@@ -82,7 +83,7 @@ namespace Finance
                                 ((interestRate) / (decimal)Interest.IntTimesPeriod(intTimes, iPeriods)));
                             futureValue = Round(futureValue, 2);
 
-                            return $"Future Value: {futureValue:0.00}\n" +
+                            return $"Future Value: {futureValue:C2}\n" +
                                   "Used formula: FV = A × [ (1 + r%/m)^(m × n) - 1/ (r / m) ]\n" +
                                    $"Solution: {presentValue} × [ (1 + {interestRate}/{Interest.IntTimesPeriod(intTimes, iPeriods)})^({period} × {Interest.IntTimesPeriod(intTimes, iPeriods)}) - 1/ ({interestRate} / {Interest.IntTimesPeriod(intTimes, iPeriods)}) ] = {futureValue:0.00}";
 
@@ -122,7 +123,7 @@ namespace Finance
                             presentValue = annualReceipts * (1 / interestRate - 1 / (interestRate * (decimal)Pow((double)(1 + interestRate), period))) * (1 + interestRate);
                             presentValue = Round(presentValue, 2);
 
-                            return $"Future value: {presentValue}\n" +
+                            return $"Future value: {presentValue:C2}\n" +
                                    $"Used formula: PV = A[ 1/r - 1/(r × (1+r)^n ) ] × (1 + r)\n" +
                                    $"Solution: {annualReceipts} × [ (1/{interestRate} - 1/({interestRate} × (1+{interestRate})^{period})) ] * (1 + {interestRate}) = {presentValue}";
 
@@ -130,7 +131,7 @@ namespace Finance
                             presentValue = annualReceipts * (1 / interestRate - 1 / (interestRate * (decimal)Pow((double)(1 + interestRate), period)));
                             presentValue = Round(presentValue, 2);
 
-                            return $"Future value: {presentValue}\n" +
+                            return $"Future value: {presentValue:C2}\n" +
                                    $"Used formula: PV = [ 1/r - 1/(r × (1+r)^n) ]\n" +
                                    $"Solution: {annualReceipts} × [ (1/{interestRate} - 1/({interestRate} × (1+{interestRate})^{period})) ] = {presentValue}";
                         default:
@@ -149,6 +150,7 @@ namespace Finance
                         "If your input is correct and you get this error, then your calculation is impossible.";
                 }
             }
+
             public static string Calculate(int payPeriod, decimal annualReceipts, decimal interestRate, double period, double intTimes, Interest.InterestPeriods iPeriods)
             {
                 try
@@ -166,7 +168,7 @@ namespace Finance
                                 (1 + rm);
                             presentValue = Round(presentValue, 2);
 
-                            return $"Future Value: {presentValue:0.00}\n" +
+                            return $"Future Value: {presentValue:C2}\n" +
                                   "Used formula: PV = A × [ 1/(r/m) - 1/(r/m) × (1 + r%/m)^(m × n) ] × (1 + r/m)\n" +
                                    $"Solution: {annualReceipts} × [ (1/{rm:F3} - 1/{rm:F3} × (1+{rm:F3})^({period} × {Interest.IntTimesPeriod(intTimes, iPeriods)}) ] × (1 + {interestRate}/{Interest.IntTimesPeriod(intTimes, iPeriods)} = {presentValue:0.00}";
 
@@ -175,7 +177,7 @@ namespace Finance
                                 (period * Interest.IntTimesPeriod(intTimes, iPeriods)))));
                             presentValue = Round(presentValue, 2);
 
-                            return $"Future Value: {presentValue:0.00}\n" +
+                            return $"Future Value: {presentValue:C2}\n" +
                                   "Used formula: PV = A × [ 1/(r/m) - 1/(r/m) × (1 + r%/m)^(m × n) ]\n" +
                                   $"Solution: {annualReceipts} × [ (1/{rm:F3} - 1/{rm:F3} × (1+{rm:F3})^({period} × {Interest.IntTimesPeriod(intTimes, iPeriods)}) ] = {presentValue}";
 

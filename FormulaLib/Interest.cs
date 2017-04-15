@@ -34,7 +34,7 @@ namespace Finance
                 {
                     decimal futureValue = presentValue * (1 + (interestRate / 100) * (decimal)period);
                     futureValue = Round(futureValue, 2);
-                    return $"Future Value: {futureValue:0.00}\n" +
+                    return $"Future Value: {futureValue:C2}\n" +
                            "Used formula: FV = PV × (1 + n × r%)\n" +
                            $"Solution: {presentValue} × (1 + {period} × {interestRate / 100}) = {futureValue:0.00}";
                 }
@@ -57,7 +57,7 @@ namespace Finance
                     decimal futureValue = presentValue * (decimal)Pow((double)(1 + interestRate / 100), period);
                     futureValue = Round(futureValue, 2);
 
-                    return $"Future Value: {futureValue:0.00}\n" +
+                    return $"Future Value: {futureValue:C2}\n" +
                            "Used formula: FV = PV × (1 + r%)^n\n" +
                            $"Solution: {presentValue} × (1 + {interestRate / 100})^{period} = {futureValue:0.00}";
                 }
@@ -80,7 +80,7 @@ namespace Finance
                     decimal futureValue = presentValue * (decimal)Pow((double)(1 + ((interestRate / 100) / (decimal)IntTimesPeriod(intTimes, iPeriods))), period * IntTimesPeriod(intTimes, iPeriods));
                     futureValue = Round(futureValue, 2);
 
-                    return $"Future Value: {futureValue:0.00}\n" +
+                    return $"Future Value: {futureValue:C2}\n" +
                            "Used formula: FV = PV × (1 + r%/m)^(m × n)\n" +
                            $"Solution: {presentValue} × (1 + {interestRate / 100}/{IntTimesPeriod(intTimes, iPeriods)})^({period} × {IntTimesPeriod(intTimes, iPeriods)}) = {futureValue:0.00}";
                 }
@@ -103,7 +103,7 @@ namespace Finance
                     decimal futureValue = presentValue / (decimal)Pow((double)(1 - interestRate / 100), period);
                     futureValue = Round(futureValue, 2);
 
-                    return $"Future Value: {futureValue:0.00}\n" +
+                    return $"Future Value: {futureValue:C2}\n" +
                            "Used formula: FV = PV/(1-r%)^n\n" +
                            $"Solution: {presentValue}/(1 + {interestRate / 100})^{period} = {futureValue:0.00}";
                 }
@@ -126,7 +126,7 @@ namespace Finance
                     decimal futureValue = presentValue / (decimal)Pow((double)(1 - ((interestRate / 100) / (decimal)(IntTimesPeriod(intTimes, iPeriods)))), period * IntTimesPeriod(intTimes, iPeriods));
                     futureValue = Round(futureValue, 2);
 
-                    return $"Future Value: {futureValue:0.00}\n" +
+                    return $"Future Value: {futureValue:C2}\n" +
                            "Used formula: FV = PV / (1 - r%/m)^(m × n)\n" +
                            $"Solution: {presentValue} / (1 - {interestRate / 100}/{IntTimesPeriod(intTimes, iPeriods)})^({period} × {IntTimesPeriod(intTimes, iPeriods)}) = {futureValue:0.00}";
                 }
@@ -153,7 +153,7 @@ namespace Finance
                 {
                     decimal presentValue = futureValue / (1 + (interestRate / 100) * (decimal)period);
                     presentValue = Round(presentValue, 2);
-                    return $"Present Value: {presentValue:0.00}\n" +
+                    return $"Present Value: {presentValue:C2}\n" +
                            $"Used formula: PV = FV / (1 + n × r%)\n" +
                            $"Solution: {futureValue} / (1 + {period} × {interestRate / 100}) = {presentValue:0.00}";
                 }
@@ -176,7 +176,7 @@ namespace Finance
                     decimal presentValue = futureValue / (decimal)Pow((double)(1 + interestRate / 100), period);
                     presentValue = Round(presentValue, 2);
 
-                    return $"Present Value: {presentValue:0.00}\n" +
+                    return $"Present Value: {presentValue:C2}\n" +
                            "Used formula: PV = FV / (1 + r%)^n\n" +
                            $"Solution: {futureValue} / (1 + {interestRate / 100})^{period} = {presentValue:0.00}";
                 }
@@ -199,7 +199,7 @@ namespace Finance
                     decimal presentValue = futureValue / (decimal)Pow((double)(1 + ((interestRate / 100) / (decimal)IntTimesPeriod(intTimes, iPeriods))), period * IntTimesPeriod(intTimes, iPeriods));
                     presentValue = Round(presentValue, 2);
 
-                    return $"Present Value: {presentValue:0.00}\n" +
+                    return $"Present Value: {presentValue:C2}\n" +
                            $"Used formula: PV = FV / (1 + r%/m)^(m × n)\n" +
                            $"Solution: {futureValue} / (1 + {interestRate / 100}/{IntTimesPeriod(intTimes, iPeriods)})^({period} × {IntTimesPeriod(intTimes, iPeriods)}) = {presentValue:0.00}";
                 }
@@ -222,7 +222,7 @@ namespace Finance
                     decimal presentValue = futureValue * (decimal)Pow((double)(1 - interestRate / 100), period);
                     presentValue = Round(presentValue, 2);
 
-                    return $"Present Value: {presentValue:0.00}\n" +
+                    return $"Present Value: {presentValue:C2}\n" +
                            "Used formula: FV = PV × (1-r%)^n\n" +
                            $"Solution: {futureValue} × (1 + {interestRate / 100})^{period} = {presentValue:0.00}";
                 }
@@ -245,7 +245,7 @@ namespace Finance
                     decimal presentValue = futureValue * (decimal)Pow((double)(1 - ((interestRate / 100) / (decimal)IntTimesPeriod(intTimes, iPeriods))), period * IntTimesPeriod(intTimes, iPeriods));
                     presentValue = Round(presentValue, 2);
 
-                    return $"Present Value: {presentValue:0.00}\n" +
+                    return $"Present Value: {presentValue:C2}\n" +
                            $"Used formula: PV = FV × (1 - r%/m)^(m × n)\n" +
                            $"Solution: {futureValue} × (1 - {interestRate / 100}/{IntTimesPeriod(intTimes, iPeriods)})^({period} × {IntTimesPeriod(intTimes, iPeriods)}) = {presentValue:0.00}";
                 }

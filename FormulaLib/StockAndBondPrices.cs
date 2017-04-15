@@ -76,7 +76,7 @@ namespace Finance
                     decimal presentValue = nominalValue / (decimal)Pow((double)(1 + RoR), holdingPeriod);
                     presentValue = Round(presentValue, 2);
 
-                    return $"Present value: {presentValue}\n" +
+                    return $"Present value: {presentValue:C2}\n" +
                         $"Net present value: {presentValue} - {sellingPrice} = {presentValue - sellingPrice}\n" +
                         $"Used Formula: Po = N/(1+r)^n\n" +
                         $"Solution: {nominalValue}/(1 + {RoR})^{holdingPeriod}) = {presentValue}" +
@@ -122,7 +122,7 @@ namespace Finance
 
                     sB.Append($"({annualYearInt}+{nominalValue})/(1 + {discountRate})^{holdingPeriod} = {CBP}");
 
-                    return $"Cupon bound price: {CBP}\n" +
+                    return $"Cupon bound price: {CBP:C2}\n" +
                         $"Annual year interest: {nominalValue} × {interestRate} = {annualYearInt}\n" +
                         $"Used formula: L/(1+r)^1+L/(1+r)^2+...+L/(1+r)^n\n" +
                         $"Solution: {sB.ToString()}";
@@ -155,7 +155,7 @@ namespace Finance
 
                     decimal PerpPrice = Round(recPayments / (disocuntRate - infl), 2);
 
-                    return $"PerpetuityPrice: {PerpPrice}\n" +
+                    return $"PerpetuityPrice: {PerpPrice:C2}\n" +
                         $"Used formula: Po = C/{(infl == 0 ? "r" : "(r-g)")}\n" +
                         $"Solution: {recPayments}/{(infl == 0 ? $"{disocuntRate}" : $"({disocuntRate} - {infl})")} = {PerpPrice}";
                 }
@@ -184,7 +184,7 @@ namespace Finance
                     discRate /= 100;
                     decimal StockPrice = Round(div / discRate, 2);
 
-                    return $"Preferred Stock Price: {StockPrice}\n" +
+                    return $"Preferred Stock Price: {StockPrice:C2}\n" +
                         $"Used formula: Po = Div/r\n" +
                         $"Solution: {div}/{discRate} = {StockPrice}";
                 }
@@ -214,7 +214,7 @@ namespace Finance
 
                     decimal CSP = Round(div * (years==0? (1 + DIN):(decimal)Pow((double)(1 + DIN),years)) / (RoR - DIN), 2);
 
-                    return $"Common share price: {CSP}\n" +
+                    return $"Common share price: {CSP:C2}\n" +
                         $"Used formula: Po = Div/(r-g) = {(years == 0 ? "D(1+g)" : "D(1+g)^n")}/(r-g)\n" +
                         $"Solution: {div} × {(years == 0 ? $"(1+{DIN})" : $"(1 +{ DIN})^{years}")}/({RoR} - {DIN}) = {div * (1 + DIN)}/{RoR - DIN} = {CSP}";
                 }
