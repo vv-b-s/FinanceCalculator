@@ -204,6 +204,12 @@ namespace FinanceCalculator
                         CalculationButton.Enabled = (spaces == neededSpaces);
                         return                      (spaces >= 3 && spaces <= neededSpaces)     ? AssetInvestment.ProfitabilityIndex.Attributes[3] :
                             FlipperFeeder(AssetInvestment.ProfitabilityIndex.Attributes);
+
+                    case (int)AssetInvestment.AssetValues.PaybackPeriod:
+                        neededSpaces              = (spaces < 3)                                ? 4 : 2 + ExtractValue<int>(InputBox.Split()[2]);
+                        CalculationButton.Enabled = (spaces == neededSpaces);
+                        return                      (spaces >= 3 && spaces <= neededSpaces)     ? AssetInvestment.PaybackPeriod.Attributes[3] :
+                            FlipperFeeder(AssetInvestment.PaybackPeriod.Attributes);
                 }
             }
             #endregion
@@ -489,6 +495,16 @@ namespace FinanceCalculator
                         return AssetInvestment.ProfitabilityIndex.Calculate(ExtractValue <decimal> (attribute[0]),
                                                                             ExtractValue <decimal> (attribute[1]),
                                                                             ExtractValue <int>     (attribute[2]),
+                                                                            cashFlowsEA);
+
+                    case (int)AssetInvestment.AssetValues.PaybackPeriod:
+                        cashFlowsEA = new decimal[ExtractValue<int>(attribute[2])];
+
+                        for (int i = 0; i < ExtractValue<int>(attribute[2]); i++)
+                            cashFlowsEA[i] = ExtractValue<decimal>(attribute[i + 3]);
+                        return AssetInvestment.PaybackPeriod.Calculate(ExtractValue<decimal>(attribute[0]),
+                                                                            ExtractValue<decimal>(attribute[1]),
+                                                                            ExtractValue<int>(attribute[2]),
                                                                             cashFlowsEA);
                 }
             }

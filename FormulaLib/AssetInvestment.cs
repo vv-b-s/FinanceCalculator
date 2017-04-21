@@ -10,7 +10,7 @@ namespace Finance
 {
     public class AssetInvestment
     {
-        public enum AssetValues { NetCashFlows, AverageIncomeNorm, NetPresentValue, ProfitabilityIndex }
+        public enum AssetValues { NetCashFlows, AverageIncomeNorm, NetPresentValue, ProfitabilityIndex, PaybackPeriod }
 
         public static class NetCashFlows
         {
@@ -168,6 +168,70 @@ namespace Finance
                     return $"Profitability Index: {PI}\n" +
                         $"Used formula: {(char)931} Fn/(1+r)^n / {(char)931}In/(1+r)^n\n" +
                         $"Solution: {cashFlowsSum} / {comulInvCosts} = {PI}";
+                }
+                catch (OverflowException)
+                {
+                    return "Impossible Calculation!";
+                }
+                catch (DivideByZeroException)
+                {
+                    return "Dividing by zero error!\n" +
+                                  "Please check your input.\n" +
+                               "If your input is correct and you get this error, then your calculation is impossible.";
+                }
+            }
+        }
+
+        public static class PaybackPeriod
+        {
+            public static string[] Attributes = NetPresentValue.Attributes;
+
+            public static string Calculate(decimal comulInvCosts, decimal discountNorm, int years, decimal[] cashFlowsEA)
+            {
+                try
+                {
+                    discountNorm /= discountNorm > 0.99m || discountNorm < -0.99m ? 100 : 1;
+
+                    #region Calculations
+                    decimal[,] calculations = new decimal[years, 4];
+                    int fullPayback = 0;
+
+                    for (int i = 0; i < years; i++)
+                    {
+                        for (int j = 0; j < 4; j++)
+                        {
+                            switch (j)
+                            {
+                                case 0: calculations[i, j] = i + 1; break;
+                                case 1: calculations[i, j] = cashFlowsEA[i]; break;
+                                case 2: calculations[i, j] = cashFlowsEA[i] / (decimal)Factors.CompInterestFactor(i + 1, (double)discountNorm); break;
+                                case 3: calculations[i, j] = i == 0 ? calculations[i, j - 1] : calculations[i - 1, j] + calculations[i, j - 1]; break;
+                            }
+                        }
+
+                        if (calculations[i, 3] > comulInvCosts && fullPayback == 0)
+                            fullPayback = i;
+                    }
+
+                    int paybackYears = fullPayback;
+                    decimal paybackMonths = (comulInvCosts - calculations[fullPayback - 1, 3]) / calculations[fullPayback, 2];
+                    paybackMonths = Round(paybackMonths * 12);
+                    #endregion
+
+                    #region Output
+                    Table oTable = Table.Create(years + 1, 4, true, false);
+                    oTable.Modify(0, 0) = "Period";
+                    oTable.Modify(0, 1) = "NCF";
+                    oTable.Modify(0, 2) = "Discounted NCF";
+                    oTable.Modify(0, 3) = "Comul.";
+
+                    for (int i = 1; i <= years; i++)
+                        for (int j = 0; j < 4; j++)
+                            oTable.Modify(i, j) = j == 0 ? calculations[i - 1, j].ToString() : Round(calculations[i - 1, j]).ToString("C2");
+
+                    return $"For your payback it will take {(paybackMonths >= 12 ? paybackYears + 1 : paybackYears)} years and {(paybackMonths >= 12 ? 0 : paybackMonths)} months.\n\n" +
+                           $"{oTable.ToString()}";
+                    #endregion
                 }
                 catch (OverflowException)
                 {

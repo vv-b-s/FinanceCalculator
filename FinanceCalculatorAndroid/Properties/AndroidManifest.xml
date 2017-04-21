@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="FinanceCalculator.FinanceCalculator" android:versionCode="1" android:versionName="1.0">
-	<uses-sdk android:minSdkVersion="4" />
-	<application android:label="FinanceCalculator"></application>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="FinanceCalculator.FinanceCalculator" android:versionCode="1" android:versionName="1.0" android:installLocation="auto">
+	<uses-sdk android:minSdkVersion="19" />
+	<application android:label="Finance Calculator" android:icon="@drawable/Icon"></application>
 </manifest>
