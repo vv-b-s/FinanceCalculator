@@ -213,6 +213,9 @@ namespace Finance
                             fullPayback = i;
                     }
 
+                    if (fullPayback == 0)
+                        return ("Your investment either cannot be paid back \nor it will take less than a year to do so.");
+
                     int paybackYears = fullPayback;
                     decimal paybackMonths = (comulInvCosts - calculations[fullPayback - 1, 3]) / calculations[fullPayback, 2];
                     paybackMonths = Round(paybackMonths * 12);
