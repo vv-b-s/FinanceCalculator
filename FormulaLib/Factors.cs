@@ -1,5 +1,6 @@
 ﻿using System;
 using static System.Math;
+using TextTable;
 
 namespace Finance
 {
@@ -15,6 +16,13 @@ namespace Finance
 
         public static double DiscountFactor(int years, double interestRate) => Round(1 / CompInterestFactor(years, interestRate), 3);
 
+        public static double AnnuityFactor(int years, double interestRate)
+        {
+            interestRate /= interestRate <= 0.99 && interestRate >= -0.99 ? 1 : 100;
+
+            return Round(Pow((1 + interestRate), years) / interestRate, 3);
+        }
+
         public static double DiscountAnnuityFactor(int years, double interestRate)
         {
             interestRate /= interestRate <= 0.99 && interestRate >= -0.99 ? 1 : 100;
@@ -28,6 +36,7 @@ namespace Finance
             {
                 return $"Compound interest factor: {CompInterestFactor(years, interestRate)}\n" +
                         $"Discount interest factor: {DiscountFactor(years, interestRate)}\n" +
+                        $"Annuity factor: {AnnuityFactor(years, interestRate)}\n" +
                         $"Discount annuity factor: {DiscountAnnuityFactor(years, interestRate)}";
             }
             catch (OverflowException)
